@@ -1,0 +1,19 @@
+{
+  "name": "dimbot",
+  "version": "0.1.0",
+  "description": "A Lightbot clone designed to study extra features",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonrose121/dimbot.git"
+  },
+  "author": "Simon Rose",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simonrose121/dimbot/issues"
+  },
+  "homepage": "https://github.com/simonrose121/dimbot#readme"
+}
