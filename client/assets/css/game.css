@@ -1,3 +1,7 @@
+.standard-img-size {
+  width: 128px;
+  height: 128px;
+}
 #navigation .back {
   float: left;
   background: url('../img/back-button.png');
