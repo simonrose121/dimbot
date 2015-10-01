@@ -1,0 +1,26 @@
+#navigation .back {
+  float: left;
+  background: url('../img/back-button.png');
+  width: 128px;
+  height: 128px;
+}
+#navigation .reset {
+  float: left;
+  background: url('../img/reset-button.png');
+  width: 128px;
+  height: 128px;
+}
+#navigation .play {
+  float: right;
+  background: url('../img/play-button.png');
+  width: 128px;
+  height: 128px;
+}
+#instructions .up-instruction {
+  float: right;
+  clear: right;
+  background: url('../img/up-instruction.png');
+  width: 128px;
+  height: 128px;
+  margin-bottom: 10px;
+}
