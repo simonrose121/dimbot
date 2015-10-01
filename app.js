@@ -16,16 +16,24 @@ app.use(bodyParser.json());
 
 // page routes
 app.get('/', function(req,res) {
-    res.render(__dirname + '/client/views/index.jade');
+    res.render(__dirname + '/client/index.jade');
+});
+
+app.get('/client/components/:component/:name', function (req, res) {
+    var name = req.params.name;
+    var component = req.params.component;
+    if (req.params.name.indexOf("view") > -1) {
+        res.render(__dirname + '/client/components/' + component + '/' + name);
+    } else {
+        res.sendFile(__dirname + '/client/components/' + component + '/' + name);
+    }
 });
 
 // static files
-app.use('/js', express.static(__dirname + '/client/js'));
-app.use('/libs', express.static(__dirname + '/client/libs'));
-app.use('/css', express.static(__dirname + '/client/css'));
-app.use('/img', express.static(__dirname + '/client/img'));
-app.use('/font', express.static(__dirname + '/client/font'));
-app.use('/views', express.static(__dirname + '/client/views'));
+app.use('/libs', express.static(__dirname + '/client/assets/libs'));
+app.use('/css', express.static(__dirname + '/client/assets/css'));
+app.use('/img', express.static(__dirname + '/client/assets/img'));
+app.use('/client', express.static(__dirname + '/client/'));
 
 app.listen(port);
 
