@@ -10,15 +10,14 @@ describe('Game Controller', function() {
 	}));
 
 	// Get test specific controller
-	var $scope, controller;
+	var controller;
 
     beforeEach(function() {
-      $scope = {};
-      controller = $controller('dimbot.game', { $scope: $scope });
+      controller = $controller('dimbot.game');
     });
 
 	it('Instruction list is initialised on app start', function() {
-		expect($scope.instructionList).toBeDefined();
-		expect($scope.instructionList[0]).toEqual('fwd');
+		expect(controller.instructionList).toBeDefined();
+		expect(controller.instructionList[0]).toEqual('fwd');
 	});
 });

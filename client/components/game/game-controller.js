@@ -1,6 +1,8 @@
-app.controller('dimbot.game', ['$scope', '$http', function($scope, $http) {
-	$scope.instructionList = [];
+(function() {
+	app.controller('dimbot.game', ['$http', function($http) {
+		this.instructionList = [];
 
-	$scope.instructionList.push("fwd");
-	$scope.instructionList.push("light");
-}]);
+		this.instructionList.push("fwd");
+		this.instructionList.push("light");
+	}]);
+})();
