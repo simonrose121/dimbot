@@ -13,7 +13,7 @@ describe('Game Controller', function() {
 	var controller;
 
     beforeEach(function() {
-      controller = $controller('dimbot.game');
+      controller = $controller('Game');
     });
 
 	it('Instruction list is initialised on app start', function() {
