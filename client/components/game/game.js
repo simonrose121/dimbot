@@ -5,18 +5,18 @@
 
 	Game.$inject = ['$http', 'InstructionService'];
 
-	function Game($http, instructionService) {
+	function Game($http, InstructionService) {
 		var vm = this;
 
-		var Instruction = instructionService.Instruction;
+		var Instruction = InstructionService.Instruction;
 
 		// setup some default instructions using the service
 		// TODO: move this to a method
 		var up = new Instruction("up", "/");
 		var fwd = new Instruction("fwd", "/");
-		instructionService.addInstruction(up);
-		instructionService.addInstruction(fwd);
+		InstructionService.addInstruction(up);
+		InstructionService.addInstruction(fwd);
 
-		vm.ins = instructionService.getInstructionList();
+		vm.ins = InstructionService.getInstructionList();
 	};
 })();

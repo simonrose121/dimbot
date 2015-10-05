@@ -13,7 +13,7 @@ describe('Game Controller', function() {
 	var controller;
 
     beforeEach(function() {
-      controller = $controller('Game');
+      	controller = $controller('Game');
     });
 
 	it('Controller to be defined', function() {
