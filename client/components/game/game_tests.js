@@ -1,5 +1,5 @@
 describe('Game Controller', function() {
-	beforeEach(module('dimbot'));
+	beforeEach(module('dimbot.game'));
 
 	// Get app controller
 	var $controller;
@@ -16,7 +16,11 @@ describe('Game Controller', function() {
       controller = $controller('Game');
     });
 
-	it('Instruction list is initialised on app start', function() {
+	it('Controller to be defined', function() {
+		expect(controller).toBeDefined();
+	});
+
+	it('Instruction list is initialised', function() {
 		expect(controller.instructionList).toBeDefined();
 		expect(controller.instructionList[0]).toEqual('fwd');
 	});

@@ -12,7 +12,5 @@
 
 		vm.instructionList.push("fwd");
 		vm.instructionList.push("light");
-
-		vm.title = "Test";
 	};
 })();
