@@ -10,5 +10,7 @@
 
 		this.instructionList.push("fwd");
 		this.instructionList.push("light");
+
+		this.title = "Test";
 	};
 })();
