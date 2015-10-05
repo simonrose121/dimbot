@@ -6,9 +6,7 @@ div(ng-controller="Game as vm")
     #level.col-md-10
         .level-inner
     #instructions.col-md-2
-        // to be removed and replaced with angular list elements!
-        .up-instruction
-        .up-instruction
-        .up-instruction
+        ul
+          li(ng-repeat='ins in vm.ins') {{ ins }}
     #program.col-md-10
         .program-inner
