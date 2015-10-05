@@ -3,11 +3,20 @@
 	        .module('dimbot.game')
 	        .controller('Game', Game);
 
-	Game.$inject = ['$http', 'DataService'];
+	Game.$inject = ['$http', 'InstructionService'];
 
-	function Game($http, dataService) {
+	function Game($http, instructionService) {
 		var vm = this;
 
-		vm.ins = dataService.getInstructionList();
+		var Instruction = instructionService.Instruction;
+
+		// setup some default instructions using the service
+		// TODO: move this to a method
+		var up = new Instruction("up", "/");
+		var fwd = new Instruction("fwd", "/");
+		instructionService.addInstruction(up);
+		instructionService.addInstruction(fwd);
+
+		vm.ins = instructionService.getInstructionList();
 	};
 })();
