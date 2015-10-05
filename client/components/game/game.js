@@ -6,11 +6,13 @@
 	Game.$inject = ['$http'];
 
 	function Game($http) {
-		this.instructionList = [];
+		var vm = this;
 
-		this.instructionList.push("fwd");
-		this.instructionList.push("light");
+		vm.instructionList = [];
 
-		this.title = "Test";
+		vm.instructionList.push("fwd");
+		vm.instructionList.push("light");
+
+		vm.title = "Test";
 	};
 })();

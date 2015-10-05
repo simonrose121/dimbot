@@ -8,7 +8,7 @@
       $routeProvider.when("/", {
           templateUrl: "client/components/game/game-view",
           controller: "Game",
-          controllerAs: "dimbot"
+          controllerAs: "vm"
         }
       );
     });
