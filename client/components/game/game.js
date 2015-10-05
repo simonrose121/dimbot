@@ -18,5 +18,7 @@
 		InstructionService.addInstruction(fwd);
 
 		vm.ins = InstructionService.getInstructionList();
+
+		console.log(vm.ins);
 	};
 })();

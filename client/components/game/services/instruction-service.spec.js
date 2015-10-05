@@ -46,6 +46,7 @@ describe('Instruction Service', function() {
 		var instructions = service.getInstructionList();
 		expect(instructions).toBeDefined();
 		expect(instructions[0]).toEqual(newInstruction);
+		expect(instructions[1]).toBeUndefined();
 	});
 
 	it('Can remove instructions', function() {
@@ -59,6 +60,7 @@ describe('Instruction Service', function() {
 		// assert
 		var instructions = service.getInstructionList();
 		expect(instructions).toBeDefined();
-		expect(instructions[0]).toEqual(undefined);
+		expect(instructions[0]).toBeUndefined();
+		expect(instructions[1]).toBeUndefined();
 	});
 });
