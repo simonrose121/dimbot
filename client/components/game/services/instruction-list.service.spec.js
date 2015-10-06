@@ -22,7 +22,7 @@ describe('Instruction Service', function() {
 		expect(instructions).toBeDefined();
 	});
 
-	it('Can instantiate instructions', function() {
+	it('Can instantiate instructions using factory', function() {
 		// arrange
 		var newInstruction;
 
@@ -32,7 +32,7 @@ describe('Instruction Service', function() {
 		// assert
 		expect(newInstruction).toBeDefined();
 		expect(newInstruction.id).toEqual('up');
-		expect(newInstruction.img).toEqual('/');
+		expect(newInstruction.src).toEqual('/');
 	});
 
 	it('Can add instructions', function() {

@@ -10,15 +10,12 @@
 
 		// setup some default instructions using the service
 		// TODO: move this to a method
-		var up = new Instruction("up", "/");
-		var fwd = new Instruction("fwd", "/");
-
-		console.log("adding " + up);
-		console.log("adding " + fwd);
-
+		var up = new Instruction("up", "client/assets/img/up-instruction.png");
+		var fwd = new Instruction("fwd", "client/assets/img/up-instruction.png");
 		InstructionService.addInstruction(up);
 		InstructionService.addInstruction(fwd);
 
+		// Setup page
 		vm.ins = InstructionService.getInstructionList();
 	};
 })();

@@ -7,9 +7,9 @@
 
 	function InstructionFactory() {
 
-		var Instruction = function(id, img) {
+		var Instruction = function(id, src) {
 			this.id = id;
-			this.img = img;
+			this.src = src;
 		}
 
 		return Instruction;

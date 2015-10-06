@@ -20,7 +20,10 @@
   width: 128px;
   height: 128px;
 }
-#instructions .up-instruction {
+#instructions ul {
+  list-style: none;
+}
+#instructions li img {
   float: right;
   clear: right;
   background: url('../img/up-instruction.png');
