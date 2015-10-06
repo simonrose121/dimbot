@@ -3,7 +3,9 @@
 			.module('dimbot.game')
 			.factory('programService', programService);
 
-	function programService() {
+	programService.$inject = ['logger'];
+
+	function programService(logger) {
 		// capture "this"
 		var vm = this;
 
@@ -23,6 +25,7 @@
 		};
 
 		function addInstruction(ins) {
+			logger.info('pushing instruction to program', ins);
 			vm.program.push(ins);
 		};
 

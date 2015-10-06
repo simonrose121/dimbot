@@ -1,5 +1,5 @@
 describe('Game Controller', function() {
-	beforeEach(module('dimbot.game'));
+	beforeEach(module('dimbot'));
 
 	// Get app controller
 	var $controller;
