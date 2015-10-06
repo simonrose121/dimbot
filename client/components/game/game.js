@@ -3,9 +3,9 @@
 	        .module('dimbot.game')
 	        .controller('Game', Game);
 
-	Game.$inject = ['$http', 'ProgramService', 'InstructionFactory'];
+	Game.$inject = ['$http', 'programService', 'instructionFactory'];
 
-	function Game($http, ProgramService, Instruction) {
+	function Game($http, programService, Instruction) {
 		var vm = this;
 
 		// setup some default instructions using the service
@@ -15,16 +15,16 @@
 
 		// ensure that DOM always matches program in program service
 		vm.update = function() {
-			vm.program = ProgramService.getProgram();
+			vm.program = programService.getProgram();
 		};
 
 		vm.addToProgram = function(ins) {
-			ProgramService.addInstruction(ins);
+			programService.addInstruction(ins);
 			vm.update();
 		};
 
 		vm.removeFromProgram = function(index) {
-			ProgramService.removeInstruction(index);
+			programService.removeInstruction(index);
 			vm.update();
 		};
 

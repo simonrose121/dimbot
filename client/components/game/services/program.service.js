@@ -1,9 +1,9 @@
 (function() {
 	angular
 			.module('dimbot.game')
-			.factory('ProgramService', ProgramService);
+			.factory('programService', programService);
 
-	function ProgramService() {
+	function programService() {
 		// capture "this"
 		var vm = this;
 

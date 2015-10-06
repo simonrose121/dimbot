@@ -1,9 +1,9 @@
 (function() {
 	angular
 		.module('dimbot.game')
-		//.directive('GridDirective', GridDirective)
+		.directive('gridDirective', gridDirective)
 
-	function GridDirective() {
+	function gridDirective() {
 		var directive = {
 
 		};
