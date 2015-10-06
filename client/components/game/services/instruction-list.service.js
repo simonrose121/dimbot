@@ -6,24 +6,21 @@
 	//dependancy injection
 
 	function InstructionService() {
+		// capture "this"
 		var vm = this;
 
-		// exposed methods
+		// exposed methods using function hoisting
 		var service = {
 			getInstructionList: getInstructionList,
 			addInstruction: addInstruction,
-			removeInstruction: removeInstruction,
-			Instruction: Instruction
+			removeInstruction: removeInstruction
 		};
 
 		// private members
 		vm.instructionList = [];
 
 		// public methods
-		function Instruction(id, img) {
-			this.id = id;
-			this.img = img;
-		}
+
 
 		function getInstructionList() {
 			return vm.instructionList;

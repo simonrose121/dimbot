@@ -1,10 +1,11 @@
 describe('Instruction Service', function() {
 	beforeEach(module('dimbot.game'));
 
-	var service, instructions;
+	var service, Instruction, instructions;
 
 	beforeEach(inject(function($injector) {
 	    service = $injector.get('InstructionService');
+		Instruction = $injector.get('InstructionFactory');
 	}));
 
 	it('Instruction service is initialised', function() {
@@ -26,7 +27,7 @@ describe('Instruction Service', function() {
 		var newInstruction;
 
 		// act
-		newInstruction = new service.Instruction('up', '/');
+		newInstruction = new Instruction('up', '/');
 
 		// assert
 		expect(newInstruction).toBeDefined();
@@ -39,7 +40,7 @@ describe('Instruction Service', function() {
 		var newInstruction;
 
 		// act
-		newInstruction = new service.Instruction('up', '/');
+		newInstruction = new Instruction('up', '/');
 		service.addInstruction(newInstruction);
 
 		// assert
@@ -54,7 +55,7 @@ describe('Instruction Service', function() {
 		var newInstruction;
 
 		// act
-		newInstruction = new service.Instruction('up', '/');
+		newInstruction = new Instruction('up', '/');
 		service.removeInstruction(newInstruction);
 
 		// assert
