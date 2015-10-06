@@ -1,5 +1,5 @@
 describe('Program Service', function() {
-	beforeEach(module('dimbot.game'));
+	beforeEach(module('dimbot'));
 
 	var service, Instruction, program;
 

@@ -1,11 +1,11 @@
 (function() {
 	angular
 			.module('dimbot.game')
-			.factory('ProgramService', ProgramService);
+			.factory('ProgramService', programService);
 
-	//dependancy injection
+	programService.$inject = ['logger'];
 
-	function ProgramService() {
+	function programService(logger) {
 		// capture "this"
 		var vm = this;
 
@@ -25,6 +25,7 @@
 		};
 
 		function addInstruction(ins) {
+			logger.info('pushing instruction to program', ins);
 			vm.program.push(ins);
 		};
 
