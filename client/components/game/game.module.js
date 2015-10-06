@@ -6,7 +6,7 @@
 
 	game.config(function($routeProvider){
       $routeProvider.when("/", {
-          templateUrl: "client/components/game/game-view",
+          templateUrl: "client/components/game/gameview",
           controllerAs: "vm"
         }
       );

@@ -20,7 +20,13 @@ describe('Game Controller', function() {
 		expect(controller).toBeDefined();
 	});
 
-	it('Instruction list is initialised', function() {
-		expect(controller.ins).toBeDefined();
+	it('Program is initialised', function() {
+		expect(controller.program).toBeDefined();
+	});
+
+	it('Instructions are intialised and populated', function() {
+		expect(controller.instructions).toBeDefined();
+		expect(controller.instructions.length).toBeGreaterThan(0);
+		expect(controller.instructions[0].name).toBe('up');
 	});
 });

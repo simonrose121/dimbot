@@ -7,8 +7,8 @@
 
 	function InstructionFactory() {
 
-		var Instruction = function(id, src) {
-			this.id = id;
+		var Instruction = function(name, src) {
+			this.name = name;
 			this.src = src;
 		}
 

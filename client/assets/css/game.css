@@ -46,3 +46,13 @@
   height: 143px;
   width: 100%;
 }
+#program .program-inner ul {
+  list-style: none;
+}
+#program .program-inner li img {
+  float: left;
+  background: url('../img/up-instruction.png');
+  width: 128px;
+  height: 128px;
+  margin-right: 10px;
+}
