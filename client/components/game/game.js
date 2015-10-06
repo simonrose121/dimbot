@@ -11,7 +11,7 @@
 		// setup some default instructions using the service
 		// TODO: move this to a method
 		var up = new Instruction("up", "client/assets/img/up-instruction.png");
-		var fwd = new Instruction("fwd", "client/assets/img/up-instruction.png");
+		var right = new Instruction("right", "client/assets/img/right-instruction.png");
 
 		// ensure that DOM always matches program in program service
 		vm.update = function() {
@@ -25,6 +25,6 @@
 
 		// Setup page
 		vm.update();
-		vm.instructions = [up, fwd];
+		vm.instructions = [up, right];
 	};
 })();
