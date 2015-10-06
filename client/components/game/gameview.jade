@@ -1,0 +1,17 @@
+div(ng-controller="Game as vm")
+    #navigation.col-md-12
+        .back
+        .reset
+        .play
+    #level.col-md-10
+        .level-inner
+    #instructions.col-md-2
+        ul
+          li(ng-repeat='ins in vm.instructions') 
+            img(class='{{ins.name}}' ng-src='{{ins.src}}' ng-click='vm.addToProgram(ins)')
+    #program.col-md-10
+        .program-inner
+            ul
+                li(ng-repeat='ins in vm.program track by $index') 
+                    img(class='{{ins.name}}' ng-src='{{ins.src}}' ng-click='vm.removeFromProgram($index)')
+                
