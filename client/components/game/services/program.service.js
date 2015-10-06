@@ -3,8 +3,6 @@
 			.module('dimbot.game')
 			.factory('ProgramService', ProgramService);
 
-	//dependancy injection
-
 	function ProgramService() {
 		// capture "this"
 		var vm = this;
