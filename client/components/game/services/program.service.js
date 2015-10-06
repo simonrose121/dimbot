@@ -28,10 +28,9 @@
 			vm.program.push(ins);
 		};
 
-		function removeInstruction(ins) {
-			var index = vm.program.indexOf(ins);
+		function removeInstruction(index) {
 			if (index > -1) {
-				vm.program.splice(index);
+				vm.program.splice(index, 1);
 			}
 		};
 

@@ -13,5 +13,5 @@ div(ng-controller="Game as vm")
         .program-inner
             ul
                 li(ng-repeat='ins in vm.program track by $index') 
-                    img(class='{{ins.name}}' ng-src='{{ins.src}}')
+                    img(class='{{ins.name}}' ng-src='{{ins.src}}' ng-click='vm.removeFromProgram($index)')
                 

@@ -16,12 +16,17 @@
 		// ensure that DOM always matches program in program service
 		vm.update = function() {
 			vm.program = ProgramService.getProgram();
-		}
+		};
 
 		vm.addToProgram = function(ins) {
 			ProgramService.addInstruction(ins);
 			vm.update();
-		}
+		};
+
+		vm.removeFromProgram = function(index) {
+			ProgramService.removeInstruction(index);
+			vm.update();
+		};
 
 		// Setup page
 		vm.update();
