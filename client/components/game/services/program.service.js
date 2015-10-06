@@ -7,7 +7,7 @@
 		// capture "this"
 		var vm = this;
 
-		// exposed methods using function hosting
+		// exposed methods using function hoisting
 		var service = {
 			getProgram: getProgram,
 			addInstruction: addInstruction,
