@@ -1,39 +1,37 @@
 (function() {
 	angular
 			.module('dimbot.game')
-			.factory('InstructionService', InstructionService);
+			.factory('ProgramService', ProgramService);
 
 	//dependancy injection
 
-	function InstructionService() {
+	function ProgramService() {
 		// capture "this"
 		var vm = this;
 
-		// exposed methods using function hoisting
+		// exposed methods using function hosting
 		var service = {
-			getInstructionList: getInstructionList,
+			getProgram: getProgram,
 			addInstruction: addInstruction,
 			removeInstruction: removeInstruction
 		};
 
 		// private members
-		vm.instructionList = [];
+		vm.program = [];
 
 		// public methods
-
-
-		function getInstructionList() {
-			return vm.instructionList;
+		function getProgram() {
+			return vm.program;
 		};
 
 		function addInstruction(ins) {
-			vm.instructionList.push(ins);
+			vm.program.push(ins);
 		};
 
 		function removeInstruction(ins) {
-			var index = vm.instructionList.indexOf(ins);
+			var index = vm.program.indexOf(ins);
 			if (index > -1) {
-				vm.instructionList.splice(index);
+				vm.program.splice(index);
 			}
 		};
 

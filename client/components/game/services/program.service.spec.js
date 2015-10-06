@@ -1,25 +1,25 @@
-describe('Instruction Service', function() {
+describe('Program Service', function() {
 	beforeEach(module('dimbot.game'));
 
-	var service, Instruction, instructions;
+	var service, Instruction, program;
 
 	beforeEach(inject(function($injector) {
-	    service = $injector.get('InstructionService');
+	    service = $injector.get('ProgramService');
 		Instruction = $injector.get('InstructionFactory');
 	}));
 
-	it('Instruction service is initialised', function() {
+	it('Program service is initialised', function() {
 		expect(service).toBeDefined();
 	});
 
-	it('Instructions list array is initialised', function() {
+	it('Program array is initialised', function() {
 		// arrange
 
 		// act
-		instructions = service.getInstructionList();
+		program = service.getProgram();
 
 		// assert
-		expect(instructions).toBeDefined();
+		expect(program).toBeDefined();
 	});
 
 	it('Can instantiate instructions using factory', function() {
@@ -35,7 +35,7 @@ describe('Instruction Service', function() {
 		expect(newInstruction.src).toEqual('/');
 	});
 
-	it('Can add instructions', function() {
+	it('Can add instructions to program', function() {
 		// arrange
 		var newInstruction;
 
@@ -44,10 +44,10 @@ describe('Instruction Service', function() {
 		service.addInstruction(newInstruction);
 
 		// assert
-		var instructions = service.getInstructionList();
-		expect(instructions).toBeDefined();
-		expect(instructions[0]).toEqual(newInstruction);
-		expect(instructions[1]).toBeUndefined();
+		var program = service.getProgram();
+		expect(program).toBeDefined();
+		expect(program[0]).toEqual(newInstruction);
+		expect(program[1]).toBeUndefined();
 	});
 
 	it('Can remove instructions', function() {
@@ -59,9 +59,9 @@ describe('Instruction Service', function() {
 		service.removeInstruction(newInstruction);
 
 		// assert
-		var instructions = service.getInstructionList();
-		expect(instructions).toBeDefined();
-		expect(instructions[0]).toBeUndefined();
-		expect(instructions[1]).toBeUndefined();
+		var program = service.getProgram();
+		expect(program).toBeDefined();
+		expect(program[0]).toBeUndefined();
+		expect(program[1]).toBeUndefined();
 	});
 });

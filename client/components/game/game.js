@@ -3,19 +3,19 @@
 	        .module('dimbot.game')
 	        .controller('Game', Game);
 
-	Game.$inject = ['$http', 'InstructionService', 'InstructionFactory'];
+	Game.$inject = ['$http', 'ProgramService', 'InstructionFactory'];
 
-	function Game($http, InstructionService, Instruction) {
+	function Game($http, ProgramService, Instruction) {
 		var vm = this;
 
 		// setup some default instructions using the service
 		// TODO: move this to a method
 		var up = new Instruction("up", "client/assets/img/up-instruction.png");
 		var fwd = new Instruction("fwd", "client/assets/img/up-instruction.png");
-		InstructionService.addInstruction(up);
-		InstructionService.addInstruction(fwd);
+		ProgramService.addInstruction(up);
+		ProgramService.addInstruction(fwd);
 
 		// Setup page
-		vm.ins = InstructionService.getInstructionList();
+		vm.program = ProgramService.getProgram();
 	};
 })();
