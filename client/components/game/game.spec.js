@@ -27,6 +27,6 @@ describe('Game Controller', function() {
 	it('Instructions are intialised and populated', function() {
 		expect(controller.instructions).toBeDefined();
 		expect(controller.instructions.length).toBeGreaterThan(0);
-		expect(controller.instructions[0].id).toBe('up');
+		expect(controller.instructions[0].name).toBe('up');
 	});
 });

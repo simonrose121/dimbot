@@ -31,7 +31,7 @@ describe('Program Service', function() {
 
 		// assert
 		expect(newInstruction).toBeDefined();
-		expect(newInstruction.id).toEqual('up');
+		expect(newInstruction.name).toEqual('up');
 		expect(newInstruction.src).toEqual('/');
 	});
 

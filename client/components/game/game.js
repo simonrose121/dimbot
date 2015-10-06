@@ -13,6 +13,7 @@
 		var up = new Instruction("up", "client/assets/img/up-instruction.png");
 		var fwd = new Instruction("fwd", "client/assets/img/up-instruction.png");
 
+		// ensure that DOM always matches program in program service
 		vm.update = function() {
 			vm.program = ProgramService.getProgram();
 		}
@@ -23,6 +24,7 @@
 		}
 
 		// Setup page
+		vm.update();
 		vm.instructions = [up, fwd];
 	};
 })();
