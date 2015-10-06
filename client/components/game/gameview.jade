@@ -11,7 +11,7 @@ div(ng-controller="Game as vm")
             img(class='{{ins.name}}' ng-src='{{ins.src}}' ng-click='vm.addToProgram(ins)')
     #program.col-md-10
         .program-inner
-            ul(ng-repeat="ins in vm.program")
-                li(ng-repeat='ins in vm.instructions') 
+            ul
+                li(ng-repeat='ins in vm.program track by $index') 
                     img(class='{{ins.name}}' ng-src='{{ins.src}}')
                 
