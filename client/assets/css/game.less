@@ -5,32 +5,32 @@
     .back {
         float: left;
         .back-img('back-button');
-        width: 128px;
-        height: 128px;
+        .standard-img-size;
     }
 
     .reset {
         float: left;
         .back-img('reset-button');
-        width: 128px;
-        height: 128px;
+        .standard-img-size;
     }
 
     .play {
         float: right;
         .back-img('play-button');
-        width: 128px;
-        height: 128px;
+        .standard-img-size;
     }
 }
 
 #instructions {
-    .up-instruction {
+    ul {
+        list-style: none;
+    }
+
+    li img {
         float: right;
         clear: right;
         .back-img('up-instruction');
-        width: 128px;
-        height: 128px;
+        .standard-img-size;
         margin-bottom: 10px;
     }
 }
