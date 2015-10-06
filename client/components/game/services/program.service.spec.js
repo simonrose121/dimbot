@@ -56,7 +56,14 @@ describe('Program Service', function() {
 
 		// act
 		newInstruction = new Instruction('up', '/');
-		service.removeInstruction(newInstruction);
+		service.addInstruction(newInstruction);
+		var program = service.getProgram();
+
+		// check that instruction has been added
+		expect(program[0]).toBeDefined();
+
+		// mock an index for the instruction
+		service.removeInstruction(0);
 
 		// assert
 		var program = service.getProgram();
