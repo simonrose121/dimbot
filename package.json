@@ -18,9 +18,9 @@
   "homepage": "https://github.com/simonrose121/dimbot#readme",
   "dependencies": {
     "body-parser": "^1.14.0",
-    "express": "^4.13.3",
+    "express": "^4.13.3"
   },
-  "devDependancies": {
+  "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-watch": "^0.6.1",
@@ -30,6 +30,7 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-spec-reporter": "0.0.20",
     "karma-verbose-reporter": "0.0.3",
-    "phantomjs": "^1.9.18"
+    "phantomjs": "^1.9.18",
+    "gulp": "^3.9.0"
   }
 }
