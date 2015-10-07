@@ -14,7 +14,6 @@
 			moveDown: moveDown,
 			moveLeft: moveLeft,
 			moveRight: moveRight,
-			reset: reset,
 			run: run
 		};
 
@@ -63,13 +62,6 @@
 			animate(100, 0, 0, callback);
 		}
 
-		function reset() {
-			vm.mesh.position.x = 0;
-			vm.mesh.position.y = 0;
-			vm.mesh.position.z = 0;
-			logger.info('level reset', vm.mesh);
-		}
-
 		function run() {
 			var that = this;
 
@@ -80,8 +72,7 @@
 			var program = programService.getProgram();
 			that.loop(program);
 
-			// control loop execution to wait for callback from tween
-			// when complete
+			// control loop execution to wait for callback from tween when complete
 			function loop(arr) {
 				perform(arr[that.x], function() {
 					that.x++;

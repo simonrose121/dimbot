@@ -28,6 +28,7 @@
 			vm.bind = bind;
 			vm.init = init;
 			vm.render = render;
+			vm.reset = reset;
 
 			// run these when directive is loaded
 			vm.init();
@@ -96,6 +97,13 @@
 					vm.renderer.render(scene, camera);
 				}
 				renderloop();
+			}
+
+			function reset() {
+				vm.mesh.position.x = 0;
+				vm.mesh.position.y = 0;
+				vm.mesh.position.z = 0;
+				logger.info('level reset', vm.mesh);
 			}
 		}
 	};
