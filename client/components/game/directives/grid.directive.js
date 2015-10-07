@@ -7,12 +7,18 @@
 		var directive = {
 			restrict: 'E',
 			link: link,
-			template: "<div id='scene'></div>"
+			template: "<div id='scene'></div>",
 		};
 
 		return directive;
 
 		function link(element) {
+			var vm = this;
+
+			vm.moveUp = moveUp;
+			vm.update = update;
+			vm.bind = bind;
+
 			var camera, scene, renderer;
 
 			container = $('#level');
@@ -35,59 +41,47 @@
 			    NEAR,
 			    FAR);
 
+			// create scene
 			var scene = new THREE.Scene();
 
-			var radius = 50,
-			    segments = 16,
-			    rings = 16;
-
-			// create a new mesh with
-			// sphere geometry - we will cover
-			// the sphereMaterial next!
-			var sphereMaterial =
-			  new THREE.MeshLambertMaterial(
-			    {
-			      color: 0xCC0000
-			    });
-
-			var sphere = new THREE.Mesh(
-
-			  new THREE.SphereGeometry(
-			    radius,
-			    segments,
-			    rings),
-
-			  sphereMaterial);
-
-			// add the sphere to the scene
-			scene.add(sphere);
-
-			// create a point light
-			var pointLight =
-			  new THREE.PointLight(0xFFFFFF);
-
-			// set its position
-			pointLight.position.x = 10;
-			pointLight.position.y = 50;
-			pointLight.position.z = 130;
-
-			// add to the scene
-			scene.add(pointLight);
+			// add test object
+			var geometry = new THREE.BoxGeometry(20, 20, 20);
+			var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+			var mesh = new THREE.Mesh( geometry, material );
+			scene.add( mesh );
 
 			// add the camera to the scene
 			scene.add(camera);
 
 			// the camera starts at 0,0,0
 			// so pull it back
-			camera.position.z = 300;
+			camera.position.z = 200;
 
 			// start the renderer
 			renderer.setSize(WIDTH, HEIGHT);
 
-			renderer.render(scene, camera);
+			vm.update();
+			vm.bind();
 
 			// attach the render-supplied DOM element
 			$('#scene').append(renderer.domElement);
+
+			//vm.moveUp();
+
+			function moveUp() {
+				mesh.translateY(30);
+				vm.update();
+			}
+
+			function update() {
+				renderer.render(scene, camera);
+			}
+
+			function bind() {
+				$('.play').bind('click', function() {
+					vm.moveUp();
+				})
+			}
 		}
 	};
 })();
