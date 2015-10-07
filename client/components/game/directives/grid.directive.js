@@ -25,6 +25,7 @@
 
 			// methods
 			vm.addRobot = addRobot;
+			vm.animate = animate;
 			vm.bind = bind;
 			vm.init = init;
 			vm.moveUp = moveUp;
@@ -44,6 +45,26 @@
 
 			// start render loop
 			vm.render();
+
+			function animate(x, y, z) {
+				var position = {
+					x: mesh.position.x,
+					y: mesh.position.y,
+					z: mesh.position.z
+				};
+				var target = {
+					x: mesh.position.x + x,
+					y: mesh.position.y + y,
+					z: mesh.position.z + z
+				};
+
+				var tween = new TWEEN.Tween(position).to(target);
+				tween.onUpdate(function(){
+				    mesh.position.x = position.x;
+				    mesh.position.y = position.y;
+				});
+				tween.start();
+			}
 
 			function addRobot() {
 				// add test object
@@ -103,34 +124,19 @@
 
 			//TODO: figure out if movement methods should be here
 			function moveUp() {
-				var position = {
-								x: mesh.position.x,
-								y: mesh.position.y,
-								z: mesh.position.z
-							};
-				var target = {
-								x: mesh.position.x,
-								y: mesh.position.y + 30,
-								z: mesh.position.z
-							};
-				var tween = new TWEEN.Tween(position).to(target, 2000);
-				tween.onUpdate(function(){
-				    mesh.position.x = position.x;
-				    mesh.position.y = position.y;
-				});
-				tween.start();
+				vm.animate(0, 30, 0);
 			}
 
 			function moveDown() {
-				mesh.translateY(-30);
+				vm.animate(0, -30, 0);
 			}
 
 			function moveLeft() {
-				mesh.translateX(-30);
+				vm.animate(-30, 0, 0);
 			}
 
 			function moveRight() {
-				mesh.translateX(30);
+				vm.animate(30, 0, 0);
 			}
 
 			function reset() {
