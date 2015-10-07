@@ -33,6 +33,7 @@
 			vm.moveRight = moveRight;
 			// vm.rotateLeft = rotateLeft;
 			// vm.rotateRight = rotateRight;
+			vm.run = run;
 			vm.update = update;
 
 			// run these when directive is loaded
@@ -52,7 +53,7 @@
 			function bind() {
 				// used to bind play and reset buttons
 				$('.play').bind('click', function() {
-					vm.moveUp();
+					vm.run();
 				})
 			}
 
@@ -94,6 +95,7 @@
 				$('#scene').append(renderer.domElement);
 			}
 
+			//TODO: figure out if movement methods should be here
 			function moveUp() {
 				mesh.translateY(30);
 				vm.update();
@@ -112,6 +114,22 @@
 			function moveRight() {
 				mesh.translateX(30);
 				vm.update();
+			}
+
+			function run() {
+				var program = programService.getProgram();
+
+				for(var i = 0; i < program.length; i++) {
+					var ins = program[i];
+					switch(ins.name) {
+						case 'up':
+							vm.moveUp();
+							break;
+						case 'right':
+							vm.moveRight();
+							break;
+					}
+				}
 			}
 
 			function update() {
