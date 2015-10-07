@@ -1,7 +1,7 @@
 (function() {
 	angular
 			.module('dimbot.game')
-			.factory('programService', programService);
+			.service('programService', programService);
 
 	programService.$inject = ['logger'];
 
