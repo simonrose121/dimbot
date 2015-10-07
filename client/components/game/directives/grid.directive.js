@@ -103,7 +103,21 @@
 
 			//TODO: figure out if movement methods should be here
 			function moveUp() {
-				var tween = new TWEEN.Tween(mesh.position).to(mesh.translateY(30).position, 2000);
+				var position = {
+								x: mesh.position.x,
+								y: mesh.position.y,
+								z: mesh.position.z
+							};
+				var target = {
+								x: mesh.position.x,
+								y: mesh.position.y + 30,
+								z: mesh.position.z
+							};
+				var tween = new TWEEN.Tween(position).to(target, 2000);
+				tween.onUpdate(function(){
+				    mesh.position.x = position.x;
+				    mesh.position.y = position.y;
+				});
 				tween.start();
 			}
 
@@ -145,6 +159,7 @@
 			function render() {
 				function renderloop() {
 					requestAnimationFrame(render);
+					TWEEN.update();
 					vm.renderer.render(scene, camera);
 				}
 				renderloop();
