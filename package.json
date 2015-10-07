@@ -20,7 +20,8 @@
     "init": "npm install",
     "install": "bower install",
     "start": "nodemon app.js",
-    "test": "gulp test"
+    "test": "karma start",
+    "watch": "grunt watch"
   },
   "dependencies": {
     "body-parser": "^1.14.0",

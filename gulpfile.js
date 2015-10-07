@@ -1,7 +1,6 @@
 var gulp = require('gulp');
+var paths = require('gulp.config.json');
 
-gulp.task('annotate', function() {
-	return gulp.src('src/app.js')
-        .pipe(ngAnnotate())
-        .pipe(gulp.dest('dist'));
+gulp.task('js', function() {
+
 });
