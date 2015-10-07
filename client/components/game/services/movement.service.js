@@ -12,7 +12,7 @@
 
 		var service = {
 			animate: animate,
-			getMesh,
+			getMesh: getMesh,
 			moveUp: moveUp,
 			moveDown: moveDown,
 			moveLeft: moveLeft,
