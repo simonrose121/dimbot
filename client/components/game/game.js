@@ -21,7 +21,7 @@
 
 		function addToProgram(ins) {
 			programService.addInstruction(ins);
-			vm.update();
+			vm.refresh();
 		};
 
 		vm.instructions = [up, right];

@@ -3,9 +3,9 @@
 		.module('dimbot.game')
 		.directive('dimGridDirective', dimGridDirective)
 
-	dimGridDirective.$Inject = ['programService'];
+	dimGridDirective.$Inject = ['programService', 'logger'];
 
-	function dimGridDirective(programService) {
+	function dimGridDirective(programService, logger) {
 		var directive = {
 			restrict: 'E',
 			link: link,
@@ -31,6 +31,7 @@
 			vm.moveDown = moveDown;
 			vm.moveLeft = moveLeft;
 			vm.moveRight = moveRight;
+			vm.reset = reset;
 			// vm.rotateLeft = rotateLeft;
 			// vm.rotateRight = rotateRight;
 			vm.run = run;
@@ -54,7 +55,10 @@
 				// used to bind play and reset buttons
 				$('.play').bind('click', function() {
 					vm.run();
-				})
+				});
+				$('.reset').bind('click', function() {
+					vm.reset();
+				});
 			}
 
 			function init() {
@@ -113,6 +117,14 @@
 
 			function moveRight() {
 				mesh.translateX(30);
+				vm.update();
+			}
+
+			function reset() {
+				vm.mesh.position.x = 0;
+				vm.mesh.position.y = 0;
+				vm.mesh.position.z = 0;
+				logger.info('level reset', vm.mesh);
 				vm.update();
 			}
 
