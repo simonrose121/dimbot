@@ -10,13 +10,4 @@ describe('Movement Service', function() {
 	it('Movement service is initialised', function() {
 		expect(service).toBeDefined();
 	});
-
-	it('Can reset position of object', function() {
-		// arrange
-		service.mesh 
-
-		// act
-
-		// assert
-	});
 });
