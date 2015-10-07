@@ -35,13 +35,15 @@
 			// vm.rotateLeft = rotateLeft;
 			// vm.rotateRight = rotateRight;
 			vm.run = run;
-			vm.update = update;
+			vm.render = render;
 
 			// run these when directive is loaded
 			vm.init();
 			vm.addRobot();
-			vm.update();
 			vm.bind();
+
+			// start render loop
+			vm.render();
 
 			function addRobot() {
 				// add test object
@@ -101,23 +103,20 @@
 
 			//TODO: figure out if movement methods should be here
 			function moveUp() {
-				mesh.translateY(30);
-				vm.update();
+				var tween = new TWEEN.Tween(mesh.position).to(mesh.translateY(30).position, 2000);
+				tween.start();
 			}
 
 			function moveDown() {
 				mesh.translateY(-30);
-				vm.update();
 			}
 
 			function moveLeft() {
 				mesh.translateX(-30);
-				vm.update();
 			}
 
 			function moveRight() {
 				mesh.translateX(30);
-				vm.update();
 			}
 
 			function reset() {
@@ -125,7 +124,6 @@
 				vm.mesh.position.y = 0;
 				vm.mesh.position.z = 0;
 				logger.info('level reset', vm.mesh);
-				vm.update();
 			}
 
 			function run() {
@@ -144,8 +142,12 @@
 				}
 			}
 
-			function update() {
-				vm.renderer.render(scene, camera);
+			function render() {
+				function renderloop() {
+					requestAnimationFrame(render);
+					vm.renderer.render(scene, camera);
+				}
+				renderloop();
 			}
 		}
 	};

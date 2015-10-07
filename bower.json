@@ -27,6 +27,7 @@
     "jquery-ui": "~1.11.4",
     "normalize-css": "normalize.css#~3.0.3",
     "angular-dragdrop": "~1.0.12",
-    "three.js": "threejs#*"
+    "three.js": "threejs#*",
+    "tween.js": "tweenjs#~16.3.1"
   }
 }
