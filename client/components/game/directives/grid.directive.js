@@ -58,6 +58,9 @@
 					z: mesh.position.z + z
 				};
 
+				logger.info('moving mesh from', position);
+				logger.info('moving mesh to', target);
+
 				var tween = new TWEEN.Tween(position).to(target);
 				tween.onUpdate(function(){
 				    mesh.position.x = position.x;
@@ -68,7 +71,7 @@
 
 			function addRobot() {
 				// add test object
-				var geometry = new THREE.BoxGeometry(20, 20, 20);
+				var geometry = new THREE.BoxGeometry(100, 100, 100);
 				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 				vm.mesh = new THREE.Mesh( geometry, material );
 				vm.scene.add(vm.mesh);
@@ -92,28 +95,24 @@
 				  HEIGHT = container.height() - 10;
 
 				// set some camera attributes
-				var VIEW_ANGLE = 45,
-				  ASPECT = WIDTH / HEIGHT,
-				  NEAR = 0.1,
-				  FAR = 10000;
+				var NEAR = -1000, FAR = 1000;
 
 				vm.renderer = new THREE.WebGLRenderer();
 				vm.camera =
-				  new THREE.PerspectiveCamera(
-					VIEW_ANGLE,
-					ASPECT,
+				  new THREE.OrthographicCamera(
+					WIDTH/-2,
+					WIDTH/2,
+					HEIGHT/2,
+					HEIGHT/-2,
 					NEAR,
-					FAR);
+					FAR
+				);
 
 				// create scene
 				vm.scene = new THREE.Scene();
 
 				// add the camera to the scene
 				vm.scene.add(camera);
-
-				// the camera starts at 0,0,0
-				// so pull it back
-				vm.camera.position.z = 200;
 
 				// start the renderer
 				vm.renderer.setSize(WIDTH, HEIGHT);
@@ -124,19 +123,19 @@
 
 			//TODO: figure out if movement methods should be here
 			function moveUp() {
-				vm.animate(0, 30, 0);
+				vm.animate(0, 100, 0);
 			}
 
 			function moveDown() {
-				vm.animate(0, -30, 0);
+				vm.animate(0, -100, 0);
 			}
 
 			function moveLeft() {
-				vm.animate(-30, 0, 0);
+				vm.animate(-100, 0, 0);
 			}
 
 			function moveRight() {
-				vm.animate(30, 0, 0);
+				vm.animate(100, 0, 0);
 			}
 
 			function reset() {
