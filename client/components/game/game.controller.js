@@ -33,7 +33,7 @@
 
 		function removeFromProgram(index) {
 			programService.removeInstruction(index);
-			vm.update();
+			vm.refresh();
 		};
 
 		// ensure that DOM always matches program in program service
