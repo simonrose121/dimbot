@@ -46,7 +46,7 @@
 			// start render loop
 			vm.render();
 
-			function animate(x, y, z) {
+			function animate(x, y, z, callback) {
 				var position = {
 					x: mesh.position.x,
 					y: mesh.position.y,
@@ -65,6 +65,9 @@
 				tween.onUpdate(function() {
 				    mesh.position.x = position.x;
 				    mesh.position.y = position.y;
+				});
+				tween.onComplete(function() {
+					callback();
 				});
 
 				tween.start();
@@ -123,20 +126,20 @@
 			}
 
 			//TODO: figure out if movement methods should be here
-			function moveUp() {
-				vm.animate(0, 100, 0);
+			function moveUp(callback) {
+				vm.animate(0, 100, 0, callback);
 			}
 
-			function moveDown() {
-				vm.animate(0, -100, 0);
+			function moveDown(callback) {
+				vm.animate(0, -100, 0, callback);
 			}
 
-			function moveLeft() {
-				vm.animate(-100, 0, 0);
+			function moveLeft(callback) {
+				vm.animate(-100, 0, 0, callback);
 			}
 
-			function moveRight() {
-				vm.animate(100, 0, 0);
+			function moveRight(callback) {
+				vm.animate(100, 0, 0, callback);
 			}
 
 			function reset() {
@@ -147,22 +150,40 @@
 			}
 
 			function run() {
-				var program = programService.getProgram();
+				var that = this;
 
-				for (var i = 0; i < program.length; i++) {
-					var ins = program[i];
+				that.loop = loop;
+				that.perform = perform;
+				that.x = 0;
+
+				var program = programService.getProgram();
+				that.loop(program);
+
+				// control loop execution to wait for callback from tween
+				// when complete
+				function loop(arr) {
+					perform(arr[that.x], function() {
+						that.x++;
+
+						if(x < arr.length) {
+							loop(arr);
+						};
+					});
+				}
+
+				function perform(ins, callback) {
 					switch(ins.name) {
 						case 'up':
-							vm.moveUp();
+							vm.moveUp(callback);
 							break;
 						case 'down':
-							vm.moveDown();
+							vm.moveDown(callback);
 							break;
 						case 'left':
-							vm.moveLeft();
+							vm.moveLeft(callback);
 							break;
 						case 'right':
-							vm.moveRight();
+							vm.moveRight(callback);
 							break;
 					}
 				}
