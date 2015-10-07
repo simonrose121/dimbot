@@ -62,10 +62,11 @@
 				logger.info('moving mesh to', target);
 
 				var tween = new TWEEN.Tween(position).to(target);
-				tween.onUpdate(function(){
+				tween.onUpdate(function() {
 				    mesh.position.x = position.x;
 				    mesh.position.y = position.y;
 				});
+
 				tween.start();
 			}
 
@@ -148,11 +149,17 @@
 			function run() {
 				var program = programService.getProgram();
 
-				for(var i = 0; i < program.length; i++) {
+				for (var i = 0; i < program.length; i++) {
 					var ins = program[i];
 					switch(ins.name) {
 						case 'up':
 							vm.moveUp();
+							break;
+						case 'down':
+							vm.moveDown();
+							break;
+						case 'left':
+							vm.moveLeft();
 							break;
 						case 'right':
 							vm.moveRight();
