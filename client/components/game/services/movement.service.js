@@ -8,27 +8,32 @@
 	function movementService(programService, logger) {
 		var vm = this;
 
+		vm.mesh = null;
+
 		var service = {
 			animate: animate,
+			getMesh,
 			moveUp: moveUp,
 			moveDown: moveDown,
 			moveLeft: moveLeft,
 			moveRight: moveRight,
-			run: run
+			reset: reset,
+			run: run,
+			setMesh: setMesh
 		};
 
 		return service;
 
 		function animate(x, y, z, callback) {
 			var position = {
-				x: mesh.position.x,
-				y: mesh.position.y,
-				z: mesh.position.z
+				x: vm.mesh.position.x,
+				y: vm.mesh.position.y,
+				z: vm.mesh.position.z
 			};
 			var target = {
-				x: mesh.position.x + x,
-				y: mesh.position.y + y,
-				z: mesh.position.z + z
+				x: vm.mesh.position.x + x,
+				y: vm.mesh.position.y + y,
+				z: vm.mesh.position.z + z
 			};
 
 			logger.info('moving mesh from', position);
@@ -36,14 +41,18 @@
 
 			var tween = new TWEEN.Tween(position).to(target);
 			tween.onUpdate(function() {
-				mesh.position.x = position.x;
-				mesh.position.y = position.y;
+				vm.mesh.position.x = position.x;
+				vm.mesh.position.y = position.y;
 			});
 			tween.onComplete(function() {
 				callback();
 			});
 
 			tween.start();
+		}
+
+		function getMesh() {
+			return vm.mesh;
 		}
 
 		function moveUp(callback) {
@@ -60,6 +69,13 @@
 
 		function moveRight(callback) {
 			animate(100, 0, 0, callback);
+		}
+
+		function reset() {
+			vm.mesh.position.x = 0;
+			vm.mesh.position.y = 0;
+			vm.mesh.position.z = 0;
+			logger.info('level reset', vm.mesh);
 		}
 
 		function run() {
@@ -99,6 +115,10 @@
 						break;
 				}
 			}
+		}
+
+		function setMesh(mesh) {
+			vm.mesh = mesh;
 		}
 	};
 })();

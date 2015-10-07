@@ -21,14 +21,12 @@
 			vm.camera;
 			vm.scene;
 			vm.renderer;
-			vm.mesh;
 
 			// methods
 			vm.addRobot = addRobot;
 			vm.bind = bind;
 			vm.init = init;
 			vm.render = render;
-			vm.reset = reset;
 
 			// run these when directive is loaded
 			vm.init();
@@ -42,8 +40,9 @@
 				// add test object
 				var geometry = new THREE.BoxGeometry(100, 100, 100);
 				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-				vm.mesh = new THREE.Mesh( geometry, material );
-				vm.scene.add(vm.mesh);
+				var mesh = new THREE.Mesh( geometry, material );
+				movementService.setMesh(mesh);
+				vm.scene.add(mesh);
 			}
 
 			function bind() {
@@ -97,13 +96,6 @@
 					vm.renderer.render(scene, camera);
 				}
 				renderloop();
-			}
-
-			function reset() {
-				vm.mesh.position.x = 0;
-				vm.mesh.position.y = 0;
-				vm.mesh.position.z = 0;
-				logger.info('level reset', vm.mesh);
 			}
 		}
 	};
