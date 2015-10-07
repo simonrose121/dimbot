@@ -3,7 +3,9 @@
 		.module('dimbot.game')
 		.directive('dimGridDirective', dimGridDirective)
 
-	function dimGridDirective() {
+	dimGridDirective.$Inject = ['programService'];
+
+	function dimGridDirective(programService) {
 		var directive = {
 			restrict: 'E',
 			link: link,
@@ -15,72 +17,105 @@
 		function link(element) {
 			var vm = this;
 
-			vm.moveUp = moveUp;
-			vm.update = update;
+			// variables
+			vm.camera;
+			vm.scene;
+			vm.renderer;
+			vm.mesh;
+
+			// methods
+			vm.addRobot = addRobot;
 			vm.bind = bind;
+			vm.init = init;
+			vm.moveUp = moveUp;
+			vm.moveDown = moveDown;
+			vm.moveLeft = moveLeft;
+			vm.moveRight = moveRight;
+			// vm.rotateLeft = rotateLeft;
+			// vm.rotateRight = rotateRight;
+			vm.update = update;
 
-			var camera, scene, renderer;
-
-			container = $('#level');
-
-			// set the scene size
-			var WIDTH = container.width() - 10,
-			  HEIGHT = container.height() - 10;
-
-			// set some camera attributes
-			var VIEW_ANGLE = 45,
-			  ASPECT = WIDTH / HEIGHT,
-			  NEAR = 0.1,
-			  FAR = 10000;
-
-			var renderer = new THREE.WebGLRenderer();
-			var camera =
-			  new THREE.PerspectiveCamera(
-			    VIEW_ANGLE,
-			    ASPECT,
-			    NEAR,
-			    FAR);
-
-			// create scene
-			var scene = new THREE.Scene();
-
-			// add test object
-			var geometry = new THREE.BoxGeometry(20, 20, 20);
-			var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-			var mesh = new THREE.Mesh( geometry, material );
-			scene.add( mesh );
-
-			// add the camera to the scene
-			scene.add(camera);
-
-			// the camera starts at 0,0,0
-			// so pull it back
-			camera.position.z = 200;
-
-			// start the renderer
-			renderer.setSize(WIDTH, HEIGHT);
-
+			// run these when directive is loaded
+			vm.init();
+			vm.addRobot();
 			vm.update();
 			vm.bind();
 
-			// attach the render-supplied DOM element
-			$('#scene').append(renderer.domElement);
+			function addRobot() {
+				// add test object
+				var geometry = new THREE.BoxGeometry(20, 20, 20);
+				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+				vm.mesh = new THREE.Mesh( geometry, material );
+				vm.scene.add(vm.mesh);
+			}
 
-			//vm.moveUp();
+			function bind() {
+				// used to bind play and reset buttons
+				$('.play').bind('click', function() {
+					vm.moveUp();
+				})
+			}
+
+			function init() {
+				container = $('#level');
+
+				// set the scene size
+				var WIDTH = container.width() - 10,
+				  HEIGHT = container.height() - 10;
+
+				// set some camera attributes
+				var VIEW_ANGLE = 45,
+				  ASPECT = WIDTH / HEIGHT,
+				  NEAR = 0.1,
+				  FAR = 10000;
+
+				vm.renderer = new THREE.WebGLRenderer();
+				vm.camera =
+				  new THREE.PerspectiveCamera(
+					VIEW_ANGLE,
+					ASPECT,
+					NEAR,
+					FAR);
+
+				// create scene
+				vm.scene = new THREE.Scene();
+
+				// add the camera to the scene
+				vm.scene.add(camera);
+
+				// the camera starts at 0,0,0
+				// so pull it back
+				vm.camera.position.z = 200;
+
+				// start the renderer
+				vm.renderer.setSize(WIDTH, HEIGHT);
+
+				// attach the render-supplied DOM element
+				$('#scene').append(renderer.domElement);
+			}
 
 			function moveUp() {
 				mesh.translateY(30);
 				vm.update();
 			}
 
-			function update() {
-				renderer.render(scene, camera);
+			function moveDown() {
+				mesh.translateY(-30);
+				vm.update();
 			}
 
-			function bind() {
-				$('.play').bind('click', function() {
-					vm.moveUp();
-				})
+			function moveLeft() {
+				mesh.translateX(-30);
+				vm.update();
+			}
+
+			function moveRight() {
+				mesh.translateX(30);
+				vm.update();
+			}
+
+			function update() {
+				vm.renderer.render(scene, camera);
 			}
 		}
 	};
