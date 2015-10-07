@@ -1,0 +1,3 @@
+describe('Movement Service', function() {
+	
+});

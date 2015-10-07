@@ -3,9 +3,9 @@
 		.module('dimbot.game')
 		.directive('dimGridDirective', dimGridDirective)
 
-	dimGridDirective.$Inject = ['programService', 'logger'];
+	dimGridDirective.$Inject = ['movementService', 'logger'];
 
-	function dimGridDirective(programService, logger) {
+	function dimGridDirective(movementService, logger) {
 		var directive = {
 			restrict: 'E',
 			link: link,
@@ -25,17 +25,8 @@
 
 			// methods
 			vm.addRobot = addRobot;
-			vm.animate = animate;
 			vm.bind = bind;
 			vm.init = init;
-			vm.moveUp = moveUp;
-			vm.moveDown = moveDown;
-			vm.moveLeft = moveLeft;
-			vm.moveRight = moveRight;
-			vm.reset = reset;
-			// vm.rotateLeft = rotateLeft;
-			// vm.rotateRight = rotateRight;
-			vm.run = run;
 			vm.render = render;
 
 			// run these when directive is loaded
@@ -45,33 +36,6 @@
 
 			// start render loop
 			vm.render();
-
-			function animate(x, y, z, callback) {
-				var position = {
-					x: mesh.position.x,
-					y: mesh.position.y,
-					z: mesh.position.z
-				};
-				var target = {
-					x: mesh.position.x + x,
-					y: mesh.position.y + y,
-					z: mesh.position.z + z
-				};
-
-				logger.info('moving mesh from', position);
-				logger.info('moving mesh to', target);
-
-				var tween = new TWEEN.Tween(position).to(target);
-				tween.onUpdate(function() {
-				    mesh.position.x = position.x;
-				    mesh.position.y = position.y;
-				});
-				tween.onComplete(function() {
-					callback();
-				});
-
-				tween.start();
-			}
 
 			function addRobot() {
 				// add test object
@@ -84,10 +48,10 @@
 			function bind() {
 				// used to bind play and reset buttons
 				$('.play').bind('click', function() {
-					vm.run();
+					movementService.run();
 				});
 				$('.reset').bind('click', function() {
-					vm.reset();
+					movementService.reset();
 				});
 			}
 
@@ -123,70 +87,6 @@
 
 				// attach the render-supplied DOM element
 				$('#scene').append(renderer.domElement);
-			}
-
-			//TODO: figure out if movement methods should be here
-			function moveUp(callback) {
-				vm.animate(0, 100, 0, callback);
-			}
-
-			function moveDown(callback) {
-				vm.animate(0, -100, 0, callback);
-			}
-
-			function moveLeft(callback) {
-				vm.animate(-100, 0, 0, callback);
-			}
-
-			function moveRight(callback) {
-				vm.animate(100, 0, 0, callback);
-			}
-
-			function reset() {
-				vm.mesh.position.x = 0;
-				vm.mesh.position.y = 0;
-				vm.mesh.position.z = 0;
-				logger.info('level reset', vm.mesh);
-			}
-
-			function run() {
-				var that = this;
-
-				that.loop = loop;
-				that.perform = perform;
-				that.x = 0;
-
-				var program = programService.getProgram();
-				that.loop(program);
-
-				// control loop execution to wait for callback from tween
-				// when complete
-				function loop(arr) {
-					perform(arr[that.x], function() {
-						that.x++;
-
-						if(x < arr.length) {
-							loop(arr);
-						};
-					});
-				}
-
-				function perform(ins, callback) {
-					switch(ins.name) {
-						case 'up':
-							vm.moveUp(callback);
-							break;
-						case 'down':
-							vm.moveDown(callback);
-							break;
-						case 'left':
-							vm.moveLeft(callback);
-							break;
-						case 'right':
-							vm.moveRight(callback);
-							break;
-					}
-				}
 			}
 
 			function render() {
