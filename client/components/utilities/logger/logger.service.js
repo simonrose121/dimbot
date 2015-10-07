@@ -20,15 +20,15 @@
 		};
 
 		function info(message, data) {
-			$log.info('Info' + message, data)
+			$log.info('Info: ' + message, data)
 		};
 
 		function success(message, data) {
-			$log.success('Success' + message, data);
+			$log.success('Success: ' + message, data);
 		};
 
 		function warning(message, data) {
-			$log.warning('Warning' + message, data);
+			$log.warning('Warning: ' + message, data);
 		};
 	};
 })();

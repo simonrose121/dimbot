@@ -1,7 +1,7 @@
 (function() {
 	angular
 			.module('dimbot.game')
-			.factory('ProgramService', programService);
+			.service('programService', programService);
 
 	programService.$inject = ['logger'];
 
@@ -9,15 +9,16 @@
 		// capture "this"
 		var vm = this;
 
-		// exposed methods using function hosting
+		// private members
+		vm.program = [];
+		// exposed methods using function hoisting
 		var service = {
 			getProgram: getProgram,
 			addInstruction: addInstruction,
 			removeInstruction: removeInstruction
 		};
 
-		// private members
-		vm.program = [];
+		return service;
 
 		// public methods
 		function getProgram() {
@@ -34,7 +35,5 @@
 				vm.program.splice(index, 1);
 			}
 		};
-
-		return service;
 	};
 })();
