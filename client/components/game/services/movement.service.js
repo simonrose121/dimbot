@@ -11,10 +11,11 @@
 		vm.mesh = null;
 
 		var service = {
-			animate: animate,
-			getMesh: getMesh,
 			forward: forward,
+			getMesh: getMesh,
+			moveForward: moveForward,
 			reset: reset,
+			rotate: rotate,
 			rotateRight: rotateRight,
 			rotateLeft: rotateLeft,
 			run: run,
@@ -23,7 +24,12 @@
 
 		return service;
 
-		function animate(x, y, z, callback) {
+		function moveForward(callback) {
+			//TODO: figure out which way shape is facing and send in that direction
+			forward(0, 100, 0, callback);
+		}
+
+		function forward(x, y, z, callback) {
 			var position = {
 				x: vm.mesh.position.x,
 				y: vm.mesh.position.y,
@@ -54,11 +60,6 @@
 			return vm.mesh;
 		}
 
-		function forward(callback) {
-			//TODO: figure out how to do relative movement
-			animate(0, 100, 0, callback);
-		}
-
 		function reset() {
 			vm.mesh.position.x = 0;
 			vm.mesh.position.y = 0;
@@ -66,12 +67,24 @@
 			logger.info('level reset', vm.mesh);
 		}
 
-		function rotateRight() {
+		function rotate(deg, callback) {
+			var rad = deg * ( Math.PI / 180 );
 
+			var tween = new TWEEN.Tween(vm.mesh.rotation).to({ z: vm.mesh.rotation.z + rad });
+
+			tween.onComplete(function() {
+				callback();
+			});
+
+			tween.start();
 		}
 
-		function rotateLeft() {
-			
+		function rotateRight(callback) {
+			rotate(-90, callback);
+		}
+
+		function rotateLeft(callback) {
+			rotate(90, callback);
 		}
 
 		function run() {
@@ -97,17 +110,14 @@
 
 			function perform(ins, callback) {
 				switch(ins.name) {
-					case 'up':
-						moveUp(callback);
+					case 'fw':
+						moveForward(callback);
 						break;
-					case 'down':
-						moveDown(callback);
+					case 'rr':
+						rotateRight(callback);
 						break;
-					case 'left':
-						moveLeft(callback);
-						break;
-					case 'right':
-						moveRight(callback);
+					case 'rl':
+						rotateLeft(callback);
 						break;
 				}
 			}

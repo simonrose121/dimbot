@@ -17,10 +17,10 @@
 		// TODO: move this to out to a service to be populated in as a level
 		var fw = new Instruction("fw",
 			"client/assets/img/up-instruction.png");
-		var rr = new Instruction("rl",
-			"client/assets/img/rotate-right-instruction.png");
+		var rr = new Instruction("rr",
+			"client/assets/img/right-rotate-instruction.png");
 		var rl = new Instruction("rl",
-			"client/assets/img/rotate-left-instruction.png");
+			"client/assets/img/left-rotate-instruction.png");
 
 		function addToProgram(ins) {
 			programService.addInstruction(ins);
