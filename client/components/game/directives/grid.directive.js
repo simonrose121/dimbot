@@ -53,7 +53,7 @@
 					for (var y = -1; y < 2; y++) {
 						// add a box in the correct spot
 						var geometry = new THREE.BoxGeometry(100, 100, 100);
-						var material = new THREE.MeshBasicMaterial( { color: 0x0000FF } );
+						var material = new THREE.MeshBasicMaterial( { color: 0x0000FF, wireframe: true } );
 						var mesh = new THREE.Mesh( geometry, material );
 						mesh.position.set(100 * x, 100 * y, -100);
 						vm.scene.add(mesh);
