@@ -49,7 +49,6 @@
 		return service;
 
 		function moveForward(callback) {
-			//TODO: figure out which way shape is facing and send in that direction
 			forward(callback);
 		}
 
