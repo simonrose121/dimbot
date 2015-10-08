@@ -4,7 +4,11 @@
   "description": "A Lightbot clone designed to study extra features",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "init": "npm install",
+    "install": "bower install",
+    "start": "nodemon app.js",
+    "test": "karma start",
+    "watch": "grunt watch"
   },
   "repository": {
     "type": "git",
@@ -16,16 +20,10 @@
     "url": "https://github.com/simonrose121/dimbot/issues"
   },
   "homepage": "https://github.com/simonrose121/dimbot#readme",
-  "scripts": {
-    "init": "npm install",
-    "install": "bower install",
-    "start": "nodemon app.js",
-    "test": "karma start",
-    "watch": "grunt watch"
-  },
   "dependencies": {
     "body-parser": "^1.14.0",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "jade": "^1.11.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
