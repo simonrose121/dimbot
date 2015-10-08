@@ -15,21 +15,19 @@
 
 		// setup some default instructions using the service
 		// TODO: move this to out to a service to be populated in as a level
-		var up = new Instruction("up",
+		var fw = new Instruction("fw",
 			"client/assets/img/up-instruction.png");
-		var down = new Instruction("down",
-			"client/assets/img/down-instruction.png");
-		var right = new Instruction("right",
-			"client/assets/img/right-instruction.png");
-		var left = new Instruction("left",
-			"client/assets/img/left-instruction.png");
+		var rr = new Instruction("rl",
+			"client/assets/img/rotate-right-instruction.png");
+		var rl = new Instruction("rl",
+			"client/assets/img/rotate-left-instruction.png");
 
 		function addToProgram(ins) {
 			programService.addInstruction(ins);
 			vm.refresh();
 		};
 
-		vm.instructions = [up, down, right, left];
+		vm.instructions = [fw, rr, rl];
 
 		function removeFromProgram(index) {
 			programService.removeInstruction(index);

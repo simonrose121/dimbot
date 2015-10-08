@@ -13,11 +13,10 @@
 		var service = {
 			animate: animate,
 			getMesh: getMesh,
-			moveUp: moveUp,
-			moveDown: moveDown,
-			moveLeft: moveLeft,
-			moveRight: moveRight,
+			forward: forward,
 			reset: reset,
+			rotateRight: rotateRight,
+			rotateLeft: rotateLeft,
 			run: run,
 			setMesh: setMesh
 		};
@@ -55,20 +54,9 @@
 			return vm.mesh;
 		}
 
-		function moveUp(callback) {
+		function forward(callback) {
+			//TODO: figure out how to do relative movement
 			animate(0, 100, 0, callback);
-		}
-
-		function moveDown(callback) {
-			animate(0, -100, 0, callback);
-		}
-
-		function moveLeft(callback) {
-			animate(-100, 0, 0, callback);
-		}
-
-		function moveRight(callback) {
-			animate(100, 0, 0, callback);
 		}
 
 		function reset() {
@@ -76,6 +64,14 @@
 			vm.mesh.position.y = 0;
 			vm.mesh.position.z = 0;
 			logger.info('level reset', vm.mesh);
+		}
+
+		function rotateRight() {
+
+		}
+
+		function rotateLeft() {
+			
 		}
 
 		function run() {
