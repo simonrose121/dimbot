@@ -67,7 +67,7 @@
 					movementService.run();
 				});
 				$('.reset').bind('click', function() {
-					vm.reset();
+					movementService.reset();
 				});
 			}
 
