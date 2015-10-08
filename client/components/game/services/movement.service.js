@@ -9,6 +9,28 @@
 		var vm = this;
 
 		vm.mesh = null;
+		vm.index = 0;
+		vm.dir = [
+			n = {
+				x: 0,
+				y: 100
+			},
+			e = {
+				x: 100,
+				y: 0
+			},
+			s = {
+				x: 0,
+				y: -100
+			},
+			w = {
+				x: -100,
+				y: 0
+			}
+		];
+
+		// set starting direction
+		vm.direction = vm.dir[vm.index];
 
 		var service = {
 			forward: forward,
@@ -19,6 +41,8 @@
 			rotateRight: rotateRight,
 			rotateLeft: rotateLeft,
 			run: run,
+			setDirection: setDirection,
+			setIndex: setIndex,
 			setMesh: setMesh
 		};
 
@@ -26,19 +50,19 @@
 
 		function moveForward(callback) {
 			//TODO: figure out which way shape is facing and send in that direction
-			forward(0, 100, 0, callback);
+			forward(callback);
 		}
 
-		function forward(x, y, z, callback) {
+		function forward(callback) {
 			var position = {
 				x: vm.mesh.position.x,
 				y: vm.mesh.position.y,
 				z: vm.mesh.position.z
 			};
 			var target = {
-				x: vm.mesh.position.x + x,
-				y: vm.mesh.position.y + y,
-				z: vm.mesh.position.z + z
+				x: vm.mesh.position.x + vm.direction.x,
+				y: vm.mesh.position.y + vm.direction.y,
+				z: vm.mesh.position.z
 			};
 
 			logger.info('moving mesh from', position);
@@ -80,11 +104,42 @@
 		}
 
 		function rotateRight(callback) {
+			setDirection('rr');
 			rotate(-90, callback);
 		}
 
 		function rotateLeft(callback) {
+			setDirection('rl')
 			rotate(90, callback);
+		}
+
+		function setIndex(val) {
+			var index = vm.index + val;
+			// handle edge cases
+			if (index == -1) {
+				index = 3;
+			}
+			if (index == 4) {
+				index = 0;
+			}
+			return index;
+		}
+
+		function setDirection(dir) {
+			if (dir == 'rl') {
+				vm.index = setIndex(-1);
+				logger.info('index ', vm.index);
+
+				vm.direction = vm.dir[vm.index];
+				logger.info('direction', vm.direction);
+			}
+			if (dir == 'rr') {
+				vm.index = setIndex(1);
+				logger.info('index ', vm.index);
+
+				vm.direction = vm.dir[vm.index];
+				logger.info('direction', vm.direction);
+			}
 		}
 
 		function run() {
