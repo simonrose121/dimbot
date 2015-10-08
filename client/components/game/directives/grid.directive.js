@@ -24,12 +24,14 @@
 
 			// methods
 			vm.addRobot = addRobot;
+			vm.addGrid = addGrid;
 			vm.bind = bind;
 			vm.init = init;
 			vm.render = render;
 
 			// run these when directive is loaded
 			vm.init();
+			vm.addGrid();
 			vm.addRobot();
 			vm.bind();
 
@@ -43,6 +45,20 @@
 				var mesh = new THREE.Mesh( geometry, material );
 				movementService.setMesh(mesh);
 				vm.scene.add(mesh);
+			}
+
+			function addGrid() {
+				// for 9 spaces x and y
+				for (var x = -1; x < 2; x++) {
+					for (var y = -1; y < 2; y++) {
+						// add a box in the correct spot
+						var geometry = new THREE.BoxGeometry(100, 100, 100);
+						var material = new THREE.MeshBasicMaterial( { color: 0x0000FF } );
+						var mesh = new THREE.Mesh( geometry, material );
+						mesh.position.set(100 * x, 100 * y, -100);
+						vm.scene.add(mesh);
+					}
+				}
 			}
 
 			function bind() {
