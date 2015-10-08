@@ -1,11 +1,11 @@
 (function() {
 	angular
 		.module('dimbot.game')
-		.factory('InstructionFactory', InstructionFactory)
+		.factory('instructionFactory', instructionFactory)
 
 	// inject
 
-	function InstructionFactory() {
+	function instructionFactory() {
 
 		var Instruction = function(name, src) {
 			this.name = name;

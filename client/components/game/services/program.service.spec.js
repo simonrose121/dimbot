@@ -1,11 +1,11 @@
 describe('Program Service', function() {
-	beforeEach(module('dimbot.game'));
+	beforeEach(module('dimbot'));
 
 	var service, Instruction, program;
 
 	beforeEach(inject(function($injector) {
-	    service = $injector.get('ProgramService');
-		Instruction = $injector.get('InstructionFactory');
+	    service = $injector.get('programService');
+		Instruction = $injector.get('instructionFactory');
 	}));
 
 	it('Program service is initialised', function() {

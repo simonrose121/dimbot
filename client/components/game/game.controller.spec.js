@@ -1,5 +1,5 @@
 describe('Game Controller', function() {
-	beforeEach(module('dimbot.game'));
+	beforeEach(module('dimbot'));
 
 	// Get app controller
 	var $controller;
@@ -27,6 +27,6 @@ describe('Game Controller', function() {
 	it('Instructions are intialised and populated', function() {
 		expect(controller.instructions).toBeDefined();
 		expect(controller.instructions.length).toBeGreaterThan(0);
-		expect(controller.instructions[0].name).toBe('up');
+		expect(controller.instructions[0].name).toBe('fw');
 	});
 });

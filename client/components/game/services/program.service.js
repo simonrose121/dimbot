@@ -1,23 +1,24 @@
 (function() {
 	angular
 			.module('dimbot.game')
-			.factory('ProgramService', ProgramService);
+			.service('programService', programService);
 
-	//dependancy injection
+	programService.$inject = ['logger'];
 
-	function ProgramService() {
+	function programService(logger) {
 		// capture "this"
 		var vm = this;
 
-		// exposed methods using function hosting
+		// private members
+		vm.program = [];
+		// exposed methods using function hoisting
 		var service = {
 			getProgram: getProgram,
 			addInstruction: addInstruction,
 			removeInstruction: removeInstruction
 		};
 
-		// private members
-		vm.program = [];
+		return service;
 
 		// public methods
 		function getProgram() {
@@ -25,6 +26,7 @@
 		};
 
 		function addInstruction(ins) {
+			logger.info('pushing instruction to program', ins);
 			vm.program.push(ins);
 		};
 
@@ -33,7 +35,5 @@
 				vm.program.splice(index, 1);
 			}
 		};
-
-		return service;
 	};
 })();
