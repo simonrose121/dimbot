@@ -34,6 +34,7 @@
 
 		var service = {
 			forward: forward,
+			getDirection: getDirection,
 			getMesh: getMesh,
 			moveForward: moveForward,
 			reset: reset,
@@ -77,6 +78,10 @@
 			});
 
 			tween.start();
+		}
+
+		function getDirection() {
+			return vm.direction;
 		}
 
 		function getMesh() {

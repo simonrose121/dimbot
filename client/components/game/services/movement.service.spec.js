@@ -24,14 +24,21 @@ describe('Movement Service', function() {
 		expect(firstIndex).toEqual(0);
 	});
 
-	// it('setDirection chooses direction correctly', function() {
-	// 	// arrange
-	// 	var rl = 'rl';
-	//
-	// 	// act
-	// 	service.setDirection(rl);
-	//
-	// 	// assert
-	// 	expect(service.vm.direction).toBeDefined();
-	// });
+	it('setDirection chooses direction correctly', function() {
+		// arrange
+		var rl = 'rl';
+		var expectedDir = {
+			x: -100,
+			y: 0
+		}
+
+		// act
+		// rotate object left
+		service.setDirection(rl);
+		var direction = service.getDirection();
+
+		// assert
+		expect(direction).toBeDefined();
+		expect(direction).toEqual(expectedDir);
+	});
 });
