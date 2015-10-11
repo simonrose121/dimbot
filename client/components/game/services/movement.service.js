@@ -8,7 +8,7 @@
 	function movementService(programService, logger) {
 		var vm = this;
 
-		vm.mesh = null;
+		vm.mesh;
 		vm.index = 0;
 		vm.dir = [
 			n = {
