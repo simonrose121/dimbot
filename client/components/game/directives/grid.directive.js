@@ -32,19 +32,40 @@
 			// run these when directive is loaded
 			vm.init();
 			vm.addGrid();
-			vm.addRobot();
+			vm.addObjects();
 			vm.bind();
 
 			// start render loop
 			vm.render();
 
 			function addObjects() {
-				// add test object
-				var geometry = new THREE.BoxGeometry(100, 100, 100);
-				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-				var mesh = new THREE.Mesh( geometry, material );
-				movementService.setMesh(mesh);
-				vm.scene.add(mesh);
+				var level = levelService.readLevel();
+
+				var width = levelService.getWidth();
+				var height = levelService.getHeight();
+				var count = 0;
+
+				// for 9 spaces x and y
+				for (var y = -1; y < height-1; y++) {
+					for (var x = -1; x < width-1; x++) {
+						logger.info("count", count);
+						logger.info('level val', level[count]);
+						switch(level[count]) {
+							case 0:
+								break;
+							case 1:
+								// add test object
+								var geometry = new THREE.BoxGeometry(100, 100, 100);
+								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+								var mesh = new THREE.Mesh( geometry, material );
+								mesh.position.set(100 * x, 100 * y, -100);
+								movementService.setMesh(mesh);
+								vm.scene.add(mesh);
+								break;
+						}
+						count++;
+					}
+				}
 			}
 
 			function addGrid() {
