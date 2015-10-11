@@ -23,8 +23,9 @@
 			vm.renderer;
 
 			// methods
-			vm.addObjects = addObjects;
 			vm.addGrid = addGrid;
+			vm.addObjects = addObjects;
+			vm.addMesh = addMesh;
 			vm.bind = bind;
 			vm.init = init;
 			vm.render = render;
@@ -37,6 +38,19 @@
 
 			// start render loop
 			vm.render();
+
+			function addGrid() {
+				var width = levelService.getWidth();
+				var height = levelService.getHeight();
+
+				// for 9 spaces x and y
+				for (var x = -1; x < width-1; x++) {
+					for (var y = -1; y < height-1; y++) {
+						// add a box in the correct spot
+						vm.addMesh(100, 0x0000FF, x, y, -100, true);
+					}
+				}
+			}
 
 			function addObjects() {
 				var level = levelService.readLevel();
@@ -62,11 +76,7 @@
 								break;
 							case 2:
 								// add test object
-								var geometry = new THREE.BoxGeometry(100, 100, 100);
-								var material = new THREE.MeshBasicMaterial( { color: 0x0000FF } );
-								var mesh = new THREE.Mesh( geometry, material );
-								mesh.position.set(100 * x, 100 * y, -100);
-								vm.scene.add(mesh);
+								vm.addMesh(100, 0x0000FF, x, y, -100, false);
 								break;
 						}
 						count++;
@@ -74,21 +84,12 @@
 				}
 			}
 
-			function addGrid() {
-				var width = levelService.getWidth();
-				var height = levelService.getHeight();
-
-				// for 9 spaces x and y
-				for (var x = -1; x < width-1; x++) {
-					for (var y = -1; y < height-1; y++) {
-						// add a box in the correct spot
-						var geometry = new THREE.BoxGeometry(100, 100, 100);
-						var material = new THREE.MeshBasicMaterial( { color: 0x0000FF, wireframe: true } );
-						var mesh = new THREE.Mesh( geometry, material );
-						mesh.position.set(100 * x, 100 * y, -100);
-						vm.scene.add(mesh);
-					}
-				}
+			function addMesh(size, color, x, y, z, wireframe) {
+				var geometry = new THREE.BoxGeometry(size, size, size);
+				var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
+				var mesh = new THREE.Mesh( geometry, material );
+				mesh.position.set(size * x, size * y, z);
+				vm.scene.add(mesh);
 			}
 
 			function bind() {
