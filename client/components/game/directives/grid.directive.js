@@ -3,9 +3,9 @@
 		.module('dimbot.game')
 		.directive('dimGridDirective', dimGridDirective)
 
-	dimGridDirective.$Inject = ['movementService', 'logger'];
+	dimGridDirective.$Inject = ['movementService', 'levelService', 'logger'];
 
-	function dimGridDirective(movementService, logger) {
+	function dimGridDirective(movementService, levelService, logger) {
 		var directive = {
 			restrict: 'E',
 			link: link,
@@ -23,7 +23,7 @@
 			vm.renderer;
 
 			// methods
-			vm.addRobot = addRobot;
+			vm.addObjects = addObjects;
 			vm.addGrid = addGrid;
 			vm.bind = bind;
 			vm.init = init;
@@ -38,7 +38,7 @@
 			// start render loop
 			vm.render();
 
-			function addRobot() {
+			function addObjects() {
 				// add test object
 				var geometry = new THREE.BoxGeometry(100, 100, 100);
 				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
@@ -48,9 +48,12 @@
 			}
 
 			function addGrid() {
+				var width = levelService.getWidth();
+				var height = levelService.getHeight();
+
 				// for 9 spaces x and y
-				for (var x = -1; x < 2; x++) {
-					for (var y = -1; y < 2; y++) {
+				for (var x = -1; x < width-1; x++) {
+					for (var y = -1; y < height-1; y++) {
 						// add a box in the correct spot
 						var geometry = new THREE.BoxGeometry(100, 100, 100);
 						var material = new THREE.MeshBasicMaterial( { color: 0x0000FF, wireframe: true } );
