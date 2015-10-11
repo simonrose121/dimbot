@@ -60,8 +60,8 @@
 				var count = 0;
 
 				// for 9 spaces x and y
-				for (var x = -1; x < width-1; x++) {
-					for (var y = -1; y < height-1; y++) {
+				for (var y = -1; y < height-1; y++) {
+					for (var x = -1; x < width-1; x++) {		
 						switch(level[count]) {
 							case 0:
 								break;
