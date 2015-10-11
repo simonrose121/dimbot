@@ -46,10 +46,8 @@
 				var count = 0;
 
 				// for 9 spaces x and y
-				for (var y = -1; y < height-1; y++) {
-					for (var x = -1; x < width-1; x++) {
-						logger.info("count", count);
-						logger.info('level val', level[count]);
+				for (var x = -1; x < width-1; x++) {
+					for (var y = -1; y < height-1; y++) {
 						switch(level[count]) {
 							case 0:
 								break;
@@ -58,8 +56,16 @@
 								var geometry = new THREE.BoxGeometry(100, 100, 100);
 								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 								var mesh = new THREE.Mesh( geometry, material );
-								mesh.position.set(100 * x, 100 * y, -100);
+								mesh.position.set(100 * x, 100 * y, 0);
 								movementService.setMesh(mesh);
+								vm.scene.add(mesh);
+								break;
+							case 2:
+								// add test object
+								var geometry = new THREE.BoxGeometry(100, 100, 100);
+								var material = new THREE.MeshBasicMaterial( { color: 0x0000FF } );
+								var mesh = new THREE.Mesh( geometry, material );
+								mesh.position.set(100 * x, 100 * y, -100);
 								vm.scene.add(mesh);
 								break;
 						}
