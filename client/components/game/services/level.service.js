@@ -12,7 +12,7 @@
 		vm.height = 3;
 		vm.mapWidth = 5;
 		vm.mapHeight = 5;
-		vm.startingIndex;
+		vm.startingDirection = 'e';
 
 		vm.testLevel = [
 			3, 3, 3, 3, 3,
@@ -25,6 +25,7 @@
 		var service = {
 			checkMove: checkMove,
 			getHeight: getHeight,
+			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
 			readLevel: readLevel,
 			updateLevel: updateLevel
@@ -62,6 +63,10 @@
 
 		function getHeight() {
 			return vm.height;
+		}
+
+		function getStartingDirection() {
+			return vm.startingDirection;
 		}
 
 		function getWidth() {
