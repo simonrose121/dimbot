@@ -3,37 +3,20 @@
 		.module('dimbot.game')
 		.service('movementService', movementService);
 
-	movementService.$Inject = ['programService', 'logger'];
+	movementService.$Inject = ['programService', 'levelService', 'directionService', 'logger'];
 
-	function movementService(programService, logger) {
+	function movementService(programService, levelService, directionService, logger) {
 		var vm = this;
 
-		vm.mesh = null;
-		vm.index = 0;
-		vm.dir = [
-			n = {
-				x: 0,
-				y: 100
-			},
-			e = {
-				x: 100,
-				y: 0
-			},
-			s = {
-				x: 0,
-				y: -100
-			},
-			w = {
-				x: -100,
-				y: 0
-			}
-		];
+		vm.mesh;
+		vm.index = 1;
 
 		// set starting direction
-		vm.direction = vm.dir[vm.index];
+		vm.direction = directionService.getDirectionByIndex(vm.index);
 
 		var service = {
 			forward: forward,
+			getDirection: getDirection,
 			getMesh: getMesh,
 			moveForward: moveForward,
 			reset: reset,
@@ -49,8 +32,9 @@
 		return service;
 
 		function moveForward(callback) {
-			//TODO: figure out which way shape is facing and send in that direction
-			forward(callback);
+			if (levelService.checkMove(vm.direction)) {
+				forward(callback);
+			}
 		}
 
 		function forward(callback) {
@@ -78,6 +62,11 @@
 			});
 
 			tween.start();
+			levelService.updateLevel(vm.direction);
+		}
+
+		function getDirection() {
+			return vm.direction;
 		}
 
 		function getMesh() {
@@ -130,14 +119,14 @@
 				vm.index = setIndex(-1);
 				logger.info('index ', vm.index);
 
-				vm.direction = vm.dir[vm.index];
+				vm.direction = directionService.getDirectionByIndex(vm.index);
 				logger.info('direction', vm.direction);
 			}
 			if (dir == 'rr') {
 				vm.index = setIndex(1);
 				logger.info('index ', vm.index);
 
-				vm.direction = vm.dir[vm.index];
+				vm.direction = directionService.getDirectionByIndex(vm.index);
 				logger.info('direction', vm.direction);
 			}
 		}

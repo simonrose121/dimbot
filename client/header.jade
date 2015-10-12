@@ -1,7 +1,11 @@
 // External includes
+// Favicon
+link(rel="icon" href="img/favicon.png" type="image/png")
+
 // Stylesheets
 link(rel="stylesheet" href="libs/normalize-css/normalize.css")
 link(rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css")
+link(rel="stylesheet" href="css/styles.css")
 link(rel="stylesheet" href="css/game.css")
 
 // JavaScripts
@@ -24,8 +28,10 @@ script(src="client/components/utilities/logger/logger.service.js")
 // Game module
 script(src="client/components/game/game.module.js")
 script(src="client/components/game/factories/instruction.factory.js")
+script(src="client/components/game/services/direction.service.js")
 script(src="client/components/game/services/program.service.js")
 script(src="client/components/game/services/movement.service.js")
+script(src="client/components/game/services/level.service.js")
 script(src="client/components/game/route-config.js")
 script(src="client/components/game/game.controller.js")
 script(src="client/components/game/directives/grid.directive.js")
