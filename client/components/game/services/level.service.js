@@ -29,7 +29,7 @@
 			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
 			readLevel: readLevel,
-			setLevel: setLevel,
+			resetLevel: resetLevel,
 			updateLevel: updateLevel
 		};
 
@@ -79,7 +79,7 @@
 			return vm.testLevel;
 		}
 
-		function setLevel(level) {
+		function resetLevel(level) {
 			vm.level = vm.testLevel;
 		}
 

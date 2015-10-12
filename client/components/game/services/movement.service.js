@@ -77,16 +77,18 @@
 
 		function reset() {
 			// reset position
-			vm.mesh.position.x = vm.startingPos.x;
-			vm.mesh.position.y = vm.startingPos.y;
-			vm.mesh.position.z = 0;
+			if (vm.mesh) {
+				vm.mesh.position.x = vm.startingPos.x;
+				vm.mesh.position.y = vm.startingPos.y;
+				vm.mesh.position.z = 0;
+			}
 
 			// reset direction
-			var dir = levelService.getStartingDirection();
-			vm.direction = directionService.getDirectionByName(dir);
+			var name = levelService.getStartingDirection();
+			vm.direction = directionService.getDirectionByName(name);
 
 			// reset level array
-			levelService.setLevel();
+			levelService.resetLevel();
 
 			logger.info('level reset', vm.mesh);
 		}
@@ -186,6 +188,8 @@
 				y: y,
 				z: z
 			}
+
+			logger.info('starting pos', vm.startingPos);
 		}
 	};
 })();

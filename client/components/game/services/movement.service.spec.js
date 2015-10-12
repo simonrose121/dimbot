@@ -40,7 +40,20 @@ describe('Movement Service', function() {
 		expect(direction).toEqual(expectedDir);
 	});
 
-	it('Can reset level with position, direction and array', function() {
-		
+	it('Can reset level direction', function() {
+		// arrange
+		var expectedDir = directionService.getDirectionByName('e');
+		var direction;
+
+		// act
+		service.setDirection('rr');
+
+		// reset level
+		service.reset();
+		direction = service.getDirection();
+
+		// assert
+		expect(direction).toBeDefined();
+		expect(direction).toEqual(expectedDir);
 	});
 });
