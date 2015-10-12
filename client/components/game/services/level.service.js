@@ -13,6 +13,7 @@
 		vm.mapWidth = 5;
 		vm.mapHeight = 5;
 		vm.startingDirection = 'e';
+		vm.level;
 
 		vm.testLevel = [
 			3, 3, 3, 3, 3,
@@ -28,6 +29,7 @@
 			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
 			readLevel: readLevel,
+			setLevel: setLevel,
 			updateLevel: updateLevel
 		};
 
@@ -75,6 +77,10 @@
 
 		function readLevel() {
 			return vm.testLevel;
+		}
+
+		function setLevel(level) {
+			vm.level = vm.testLevel;
 		}
 
 		function updateLevel(dir) {

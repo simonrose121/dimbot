@@ -39,4 +39,8 @@ describe('Movement Service', function() {
 		expect(direction).toBeDefined();
 		expect(direction).toEqual(expectedDir);
 	});
+
+	it('Can reset level with position, direction and array', function() {
+		
+	});
 });

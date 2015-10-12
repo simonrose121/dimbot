@@ -14,6 +14,7 @@
 		// set starting direction
 		var dir = levelService.getStartingDirection();
 		vm.direction = directionService.getDirectionByName(dir);
+		vm.index = directionService.getIndexFromDirection(vm.direction);
 
 		var service = {
 			forward: forward,
@@ -81,9 +82,11 @@
 			vm.mesh.position.z = 0;
 
 			// reset direction
-
+			var dir = levelService.getStartingDirection();
+			vm.direction = directionService.getDirectionByName(dir);
 
 			// reset level array
+			levelService.setLevel();
 
 			logger.info('level reset', vm.mesh);
 		}

@@ -36,7 +36,8 @@
 
 		var service = {
 			getDirectionByIndex: getDirectionByIndex,
-			getDirectionByName: getDirectionByName
+			getDirectionByName: getDirectionByName,
+			getIndexFromDirection: getIndexFromDirection
 		}
 
 		return service;
@@ -55,6 +56,10 @@
 
 		function getDirectionByName(name) {
 			return lookup[name];
+		}
+
+		function getIndexFromDirection(dir) {
+			return vm.directions.indexOf(dir);
 		}
 	}
 })();
