@@ -4,6 +4,7 @@ describe('Level Service', function() {
 	var service;
 
 	beforeEach(inject(function($injector) {
+		directionService = $injector.get('directionService');
 		service = $injector.get('levelService');
 	}));
 
@@ -56,11 +57,7 @@ describe('Level Service', function() {
 			3, 0, 0, 0, 3,
 			3, 3, 3, 3, 3
 		];
-		var direction = {
-			name: 'e',
-			x: 100,
-			y: 0
-		}
+		var direction = directionService.getDirectionByName('e');
 
 		// act
 		service.updateLevel(direction);
@@ -82,11 +79,7 @@ describe('Level Service', function() {
 	it('Check move allows movement inside the grid', function() {
 		// arrange
 		var canMove;
-		var direction = {
-			name: 'e',
-			x: 100,
-			y: 0
-		}
+		var direction = directionService.getDirectionByName('e');
 
 		// act
 		canMove = service.checkMove(direction);
@@ -99,11 +92,7 @@ describe('Level Service', function() {
 	it('Check move restricts movement outside of grid', function() {
 		// arrange
 		var canMove;
-		var direction = {
-			name: 'w',
-			x: -100,
-			y: 0
-		};
+		var direction = directionService.getDirectionByName('w');
 
 		// act
 		canMove = service.checkMove(direction);

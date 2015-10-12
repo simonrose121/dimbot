@@ -3,38 +3,16 @@
 		.module('dimbot.game')
 		.service('movementService', movementService);
 
-	movementService.$Inject = ['programService', 'levelService', 'logger'];
+	movementService.$Inject = ['programService', 'levelService', 'directionService', 'logger'];
 
-	function movementService(programService, levelService, logger) {
+	function movementService(programService, levelService, directionService, logger) {
 		var vm = this;
 
 		vm.mesh;
 		vm.index = 1;
-		vm.dir = [
-			{
-				name: 'n',
-				x: 0,
-				y: 100
-			},
-			{
-				name: 'e',
-				x: 100,
-				y: 0
-			},
-			{
-				name: 's',
-				x: 0,
-				y: -100
-			},
-			{
-				name: 'w',
-				x: -100,
-				y: 0
-			}
-		];
 
 		// set starting direction
-		vm.direction = vm.dir[vm.index];
+		vm.direction = directionService.getDirectionByIndex(vm.index);
 
 		var service = {
 			forward: forward,
@@ -141,14 +119,14 @@
 				vm.index = setIndex(-1);
 				logger.info('index ', vm.index);
 
-				vm.direction = vm.dir[vm.index];
+				vm.direction = directionService.getDirectionByIndex(vm.index);
 				logger.info('direction', vm.direction);
 			}
 			if (dir == 'rr') {
 				vm.index = setIndex(1);
 				logger.info('index ', vm.index);
 
-				vm.direction = vm.dir[vm.index];
+				vm.direction = directionService.getDirectionByIndex(vm.index);
 				logger.info('direction', vm.direction);
 			}
 		}

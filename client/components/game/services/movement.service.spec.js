@@ -4,6 +4,7 @@ describe('Movement Service', function() {
 	var service;
 
 	beforeEach(inject(function($injector) {
+		directionService = $injector.get('directionService');
 		service = $injector.get('movementService');
 	}));
 
@@ -27,11 +28,7 @@ describe('Movement Service', function() {
 	it('setDirection chooses direction correctly', function() {
 		// arrange
 		var rr = 'rr';
-		var expectedDir = {
-			name: 's',
-			x: 0,
-			y: -100
-		}
+		var expectedDir = directionService.getDirectionByName('s');
 
 		// act
 		// rotate object right
