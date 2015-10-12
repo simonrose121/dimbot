@@ -10,11 +10,15 @@
 
 		vm.width = 3;
 		vm.height = 3;
+		vm.mapWidth = 5;
+		vm.mapHeight = 5;
 
 		vm.testLevel = [
-		 	0, 0, 0,
-			1, 0, 2,
-			0, 0, 0
+			3, 3, 3, 3, 3,
+		 	3, 0, 0, 0, 3,
+			3, 1, 0, 2, 3,
+			3, 0, 0, 0, 3,
+			3, 3, 3, 3, 3
 		];
 
 		var service = {
@@ -28,7 +32,31 @@
 		return service;
 
 		function checkMove(dir) {
+			// get index
+			var index = getIndexOfObj(1);
 
+			// get projected movement
+			switch(dir.name) {
+				case 'n':
+					index = index - vm.mapWidth;
+					break;
+				case 'e':
+					index = index + 1;
+					break;
+				case 's':
+					index = index + vm.mapWidth;
+					break;
+				case 'w':
+					index = index - 1;
+					break;
+			}
+
+			if (vm.testLevel[index] == 3) {
+				return false;
+			}
+
+			// return bool
+			return true;
 		}
 
 		function getHeight() {
@@ -58,13 +86,13 @@
 			// east
 			switch(dir.name) {
 				case 'n':
-					index = index - vm.width;
+					index = index - vm.mapWidth;
 					break;
 				case 'e':
 					index = index + 1;
 					break;
 				case 's':
-					index = index + vm.width;
+					index = index + vm.mapWidth;
 					break;
 				case 'w':
 					index = index - 1;

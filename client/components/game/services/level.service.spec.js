@@ -20,7 +20,7 @@ describe('Level Service', function() {
 
 		// assert
 		expect(level).toBeDefined();
-		expect(level[0]).toEqual(0);
+		expect(level[0]).toEqual(3);
 	});
 
 	it('Can get level width', function() {
@@ -50,9 +50,11 @@ describe('Level Service', function() {
 	it('Update level sets the correct indexes', function() {
 		// arrange
 		var expectedLevel = [
-		 	0, 0, 0,
-			0, 1, 2,
-			0, 0, 0
+			3, 3, 3, 3, 3,
+		 	3, 0, 0, 0, 3,
+			3, 0, 1, 2, 3,
+			3, 0, 0, 0, 3,
+			3, 3, 3, 3, 3
 		];
 		var direction = {
 			name: 'e',
@@ -67,5 +69,47 @@ describe('Level Service', function() {
 		// assert
 		expect(level).toBeDefined();
 		expect(level).toEqual(expectedLevel);
-	})
+	});
+
+	it('Update level sets lights to on', function() {
+
+	});
+
+	it('Update level sets lights to off', function() {
+
+	});
+
+	it('Check move allows movement inside the grid', function() {
+		// arrange
+		var canMove;
+		var direction = {
+			name: 'e',
+			x: 100,
+			y: 0
+		}
+
+		// act
+		canMove = service.checkMove(direction);
+
+		// assert
+		expect(canMove).toBeDefined();
+		expect(canMove).toBe(true);
+	});
+
+	it('Check move restricts movement outside of grid', function() {
+		// arrange
+		var canMove;
+		var direction = {
+			name: 'w',
+			x: -100,
+			y: 0
+		};
+
+		// act
+		canMove = service.checkMove(direction);
+
+		// assert
+		expect(canMove).toBeDefined();
+		expect(canMove).toBe(false);
+	});
 });

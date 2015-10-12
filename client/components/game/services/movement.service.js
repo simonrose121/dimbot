@@ -54,7 +54,9 @@
 		return service;
 
 		function moveForward(callback) {
-			forward(callback);
+			if (levelService.checkMove(vm.direction)) {
+				forward(callback);
+			}
 		}
 
 		function forward(callback) {

@@ -60,8 +60,8 @@
 				var count = 0;
 
 				// for 9 spaces x and y
-				for (var y = -1; y < height-1; y++) {
-					for (var x = -1; x < width-1; x++) {		
+				for (var y = -2; y < height; y++) {
+					for (var x = -2; x < width; x++) {
 						switch(level[count]) {
 							case 0:
 								break;
@@ -77,6 +77,8 @@
 							case 2:
 								// add test object
 								vm.addMesh(100, 0x0000FF, x, y, -100, false);
+								break;
+							case 3:
 								break;
 						}
 						count++;
