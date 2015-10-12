@@ -71,7 +71,7 @@
 								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 								var mesh = new THREE.Mesh( geometry, material );
 								mesh.position.set(100 * x, 100 * y, 0);
-								movementService.setMesh(mesh);
+								movementService.setMesh(mesh, 100 * x, 100 * y, 0);
 								vm.scene.add(mesh);
 								break;
 							case 2:

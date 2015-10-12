@@ -12,6 +12,7 @@
 		vm.height = 3;
 		vm.mapWidth = 5;
 		vm.mapHeight = 5;
+		vm.startingIndex;
 
 		vm.testLevel = [
 			3, 3, 3, 3, 3,
@@ -63,10 +64,6 @@
 			return vm.height;
 		}
 
-		function getIndexOfObj(id) {
-			return vm.testLevel.indexOf(id);
-		}
-
 		function getWidth() {
 			return vm.width;
 		}
@@ -102,6 +99,11 @@
 			// update next index
 			vm.testLevel[index] = 1;
 			logger.info('index is', index);
+		}
+
+		// private
+		function getIndexOfObj(id) {
+			return vm.testLevel.indexOf(id);
 		}
 	}
 })();

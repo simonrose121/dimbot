@@ -10,6 +10,7 @@
 
 		vm.mesh;
 		vm.index = 1;
+		vm.startingPos = {};
 
 		// set starting direction
 		vm.direction = directionService.getDirectionByIndex(vm.index);
@@ -26,16 +27,10 @@
 			run: run,
 			setDirection: setDirection,
 			setIndex: setIndex,
-			setMesh: setMesh
+			setMesh: setMesh,
 		};
 
 		return service;
-
-		function moveForward(callback) {
-			if (levelService.checkMove(vm.direction)) {
-				forward(callback);
-			}
-		}
 
 		function forward(callback) {
 			var position = {
@@ -73,9 +68,15 @@
 			return vm.mesh;
 		}
 
+		function moveForward(callback) {
+			if (levelService.checkMove(vm.direction)) {
+				forward(callback);
+			}
+		}
+
 		function reset() {
-			vm.mesh.position.x = 0;
-			vm.mesh.position.y = 0;
+			vm.mesh.position.x = vm.startingPos.x;
+			vm.mesh.position.y = vm.startingPos.y;
 			vm.mesh.position.z = 0;
 			logger.info('level reset', vm.mesh);
 		}
@@ -167,8 +168,14 @@
 			}
 		}
 
-		function setMesh(mesh) {
+		function setMesh(mesh, x, y, z) {
 			vm.mesh = mesh;
+
+			vm.startingPos = {
+				x: x,
+				y: y,
+				z: z
+			}
 		}
 	};
 })();
