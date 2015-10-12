@@ -47,7 +47,7 @@
 				for (var x = -1; x < width-1; x++) {
 					for (var y = -1; y < height-1; y++) {
 						// add a box in the correct spot
-						vm.addMesh(100, 0x0000FF, x, y, -100, true);
+						vm.addMesh(100, 0x000000, x, y, -100, true);
 					}
 				}
 			}
@@ -114,7 +114,7 @@
 				// set some camera attributes
 				var NEAR = -1000, FAR = 1000;
 
-				vm.renderer = new THREE.WebGLRenderer();
+				vm.renderer = new THREE.WebGLRenderer({ alpha: true });
 				vm.camera =
 				  new THREE.OrthographicCamera(
 					WIDTH/-2,
