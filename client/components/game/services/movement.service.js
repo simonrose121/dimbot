@@ -9,7 +9,7 @@
 		var vm = this;
 
 		vm.mesh;
-		vm.index = 0;
+		vm.index = 1;
 		vm.dir = [
 			n = {
 				x: 0,

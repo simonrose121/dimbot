@@ -44,7 +44,11 @@
 		}
 
 		function updateLevel() {
-			
+			// get current index
+
+			// change value
+
+			// update next index
 		}
 	}
 })();

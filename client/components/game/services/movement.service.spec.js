@@ -13,11 +13,11 @@ describe('Movement Service', function() {
 
 	it('setIndex method handles edge cases', function() {
 		// arrange
-		var index = 0;
+		// index = 1 on service start
 
 		// act
-		var lastIndex = service.setIndex(-1);
-		var firstIndex = service.setIndex(4);
+		var lastIndex = service.setIndex(-2);
+		var firstIndex = service.setIndex(3);
 
 		// assert
 		expect(lastIndex).toEqual(3);
@@ -33,7 +33,8 @@ describe('Movement Service', function() {
 		}
 
 		// act
-		// rotate object left
+		// rotate object left twice
+		service.setDirection(rl);
 		service.setDirection(rl);
 		var direction = service.getDirection();
 
