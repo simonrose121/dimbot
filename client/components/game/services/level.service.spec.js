@@ -4,6 +4,7 @@ describe('Level Service', function() {
 	var service;
 
 	beforeEach(inject(function($injector) {
+		//directionService = $injector.get('directionService');
 		service = $injector.get('levelService');
 	}));
 
