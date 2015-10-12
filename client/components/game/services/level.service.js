@@ -19,8 +19,8 @@
 
 		var service = {
 			checkMove: checkMove,
-			getWidth: getWidth,
 			getHeight: getHeight,
+			getWidth: getWidth,
 			readLevel: readLevel,
 			updateLevel: updateLevel
 		};
@@ -31,24 +31,49 @@
 
 		}
 
-		function getWidth() {
-			return vm.width;
-		}
-
 		function getHeight() {
 			return vm.height;
+		}
+
+		function getIndexOfObj(id) {
+			return vm.testLevel.indexOf(id);
+		}
+
+		function getWidth() {
+			return vm.width;
 		}
 
 		function readLevel() {
 			return vm.testLevel;
 		}
 
-		function updateLevel() {
+		function updateLevel(dir) {
 			// get current index
+			var index = getIndexOfObj(1);
+
+			// reset current
+			vm.testLevel[index] = 0;
 
 			// change value
+			// east
+			switch(dir.name) {
+				case 'n':
+					index = index - vm.width;
+					break;
+				case 'e':
+					index = index + 1;
+					break;
+				case 's':
+					index = index + vm.width;
+					break;
+				case 'w':
+					index = index - 1;
+					break;
+			}
 
 			// update next index
+			vm.testLevel[index] = 1;
+			logger.info('index is', index);
 		}
 	}
 })();

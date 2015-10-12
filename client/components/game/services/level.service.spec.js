@@ -46,4 +46,26 @@ describe('Level Service', function() {
 		expect(height).toBeDefined();
 		expect(height).toEqual(3);
 	});
+
+	it('Update level sets the correct indexes', function() {
+		// arrange
+		var expectedLevel = [
+		 	0, 0, 0,
+			0, 1, 2,
+			0, 0, 0
+		];
+		var direction = {
+			name: 'e',
+			x: 100,
+			y: 0
+		}
+
+		// act
+		service.updateLevel(direction);
+		var level = service.readLevel();
+
+		// assert
+		expect(level).toBeDefined();
+		expect(level).toEqual(expectedLevel);
+	})
 });

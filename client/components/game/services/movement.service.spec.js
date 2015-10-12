@@ -26,16 +26,16 @@ describe('Movement Service', function() {
 
 	it('setDirection chooses direction correctly', function() {
 		// arrange
-		var rl = 'rl';
+		var rr = 'rr';
 		var expectedDir = {
-			x: -100,
-			y: 0
+			name: 's',
+			x: 0,
+			y: -100
 		}
 
 		// act
-		// rotate object left twice
-		service.setDirection(rl);
-		service.setDirection(rl);
+		// rotate object right
+		service.setDirection(rr);
 		var direction = service.getDirection();
 
 		// assert
