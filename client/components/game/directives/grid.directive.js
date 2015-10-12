@@ -3,9 +3,9 @@
 		.module('dimbot.game')
 		.directive('dimGridDirective', dimGridDirective)
 
-	dimGridDirective.$Inject = ['movementService', 'logger'];
+	dimGridDirective.$Inject = ['movementService', 'levelService', 'logger'];
 
-	function dimGridDirective(movementService, logger) {
+	function dimGridDirective(movementService, levelService, logger) {
 		var directive = {
 			restrict: 'E',
 			link: link,
@@ -23,8 +23,9 @@
 			vm.renderer;
 
 			// methods
-			vm.addRobot = addRobot;
 			vm.addGrid = addGrid;
+			vm.addObjects = addObjects;
+			vm.addMesh = addMesh;
 			vm.bind = bind;
 			vm.init = init;
 			vm.render = render;
@@ -32,33 +33,65 @@
 			// run these when directive is loaded
 			vm.init();
 			vm.addGrid();
-			vm.addRobot();
+			vm.addObjects();
 			vm.bind();
 
 			// start render loop
 			vm.render();
 
-			function addRobot() {
-				// add test object
-				var geometry = new THREE.BoxGeometry(100, 100, 100);
-				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-				var mesh = new THREE.Mesh( geometry, material );
-				movementService.setMesh(mesh);
-				vm.scene.add(mesh);
-			}
-
 			function addGrid() {
+				var width = levelService.getWidth();
+				var height = levelService.getHeight();
+
 				// for 9 spaces x and y
-				for (var x = -1; x < 2; x++) {
-					for (var y = -1; y < 2; y++) {
+				for (var x = -1; x < width-1; x++) {
+					for (var y = -1; y < height-1; y++) {
 						// add a box in the correct spot
-						var geometry = new THREE.BoxGeometry(100, 100, 100);
-						var material = new THREE.MeshBasicMaterial( { color: 0x0000FF, wireframe: true } );
-						var mesh = new THREE.Mesh( geometry, material );
-						mesh.position.set(100 * x, 100 * y, -100);
-						vm.scene.add(mesh);
+						vm.addMesh(100, 0x0000FF, x, y, -100, true);
 					}
 				}
+			}
+
+			function addObjects() {
+				var level = levelService.readLevel();
+
+				var width = levelService.getWidth();
+				var height = levelService.getHeight();
+				var count = 0;
+
+				// for 9 spaces x and y
+				for (var y = -2; y < height; y++) {
+					for (var x = -2; x < width; x++) {
+						switch(level[count]) {
+							case 0:
+								break;
+							case 1:
+								// add test object
+								var geometry = new THREE.BoxGeometry(100, 100, 100);
+								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+								var mesh = new THREE.Mesh( geometry, material );
+								mesh.position.set(100 * x, 100 * y, 0);
+								movementService.setMesh(mesh);
+								vm.scene.add(mesh);
+								break;
+							case 2:
+								// add test object
+								vm.addMesh(100, 0x0000FF, x, y, -100, false);
+								break;
+							case 3:
+								break;
+						}
+						count++;
+					}
+				}
+			}
+
+			function addMesh(size, color, x, y, z, wireframe) {
+				var geometry = new THREE.BoxGeometry(size, size, size);
+				var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
+				var mesh = new THREE.Mesh( geometry, material );
+				mesh.position.set(size * x, size * y, z);
+				vm.scene.add(mesh);
 			}
 
 			function bind() {

@@ -3,27 +3,31 @@
 		.module('dimbot.game')
 		.service('movementService', movementService);
 
-	movementService.$Inject = ['programService', 'logger'];
+	movementService.$Inject = ['programService', 'levelService', 'logger'];
 
-	function movementService(programService, logger) {
+	function movementService(programService, levelService, logger) {
 		var vm = this;
 
-		vm.mesh = null;
-		vm.index = 0;
+		vm.mesh;
+		vm.index = 1;
 		vm.dir = [
-			n = {
+			{
+				name: 'n',
 				x: 0,
 				y: 100
 			},
-			e = {
+			{
+				name: 'e',
 				x: 100,
 				y: 0
 			},
-			s = {
+			{
+				name: 's',
 				x: 0,
 				y: -100
 			},
-			w = {
+			{
+				name: 'w',
 				x: -100,
 				y: 0
 			}
@@ -34,6 +38,7 @@
 
 		var service = {
 			forward: forward,
+			getDirection: getDirection,
 			getMesh: getMesh,
 			moveForward: moveForward,
 			reset: reset,
@@ -49,8 +54,9 @@
 		return service;
 
 		function moveForward(callback) {
-			//TODO: figure out which way shape is facing and send in that direction
-			forward(callback);
+			if (levelService.checkMove(vm.direction)) {
+				forward(callback);
+			}
 		}
 
 		function forward(callback) {
@@ -78,6 +84,11 @@
 			});
 
 			tween.start();
+			levelService.updateLevel(vm.direction);
+		}
+
+		function getDirection() {
+			return vm.direction;
 		}
 
 		function getMesh() {

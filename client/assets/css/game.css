@@ -26,7 +26,6 @@
 #instructions li img {
   float: right;
   clear: right;
-  background: url('../img/up-instruction.png');
   width: 128px;
   height: 128px;
   margin-bottom: 10px;
@@ -51,7 +50,6 @@
 }
 #program .program-inner li img {
   float: left;
-  background: url('../img/up-instruction.png');
   width: 128px;
   height: 128px;
   margin-right: 10px;
