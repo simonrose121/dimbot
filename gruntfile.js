@@ -5,7 +5,10 @@ module.exports = function(grunt) {
         options: {
           paths: ["client/assets/css"]
         },
-          files: {"client/assets/css/game.css": "client/assets/css/game.less"}
+          files: {
+            "client/assets/css/game.css": "client/assets/css/game.less",
+            "client/assets/css/styles.css": "client/assets/css/styles.less"
+          }
         }
       },
       watch: {
