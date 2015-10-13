@@ -3,9 +3,11 @@
 	        .module('dimbot.game')
 	        .controller('Game', Game);
 
-	Game.$inject = ['$http', 'logger', 'programService', 'levelService'];
+	Game.$inject = ['$http', 'logger', 'programService', 'levelService',
+					'instructionFactory'];
 
-	function Game($http, logger, programService, levelService) {
+	function Game($http, logger, programService, levelService,
+			instructionFactory) {
 		var vm = this;
 
 		levelService.setStartingInstructions();
@@ -17,8 +19,8 @@
 
 		function addToProgram(ins) {
 			if (ins.toElement) {
-				var ins = programService.getIn
-				programService.addInstruction(ins.toElement);
+				var i = instructionFactory.getInstruction(ins.toElement.id);
+				programService.addInstruction(i);
 			} else {
 				programService.addInstruction(ins);
 			}
