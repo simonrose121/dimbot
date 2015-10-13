@@ -29,6 +29,9 @@
 					return new Instruction("rl",
 						"client/assets/img/left-rotate-instruction.png");
 					break;
+				case 'lt':
+					return new Instruction("lt",
+						"client/assets/img/lightbulb.png");
 			}
 		}
 	};

@@ -94,10 +94,12 @@
 			var fw = instructionFactory.getInstruction('fw');
 			var rr = instructionFactory.getInstruction('rr');
 			var rl = instructionFactory.getInstruction('rl');
+			var lt = instructionFactory.getInstruction('lt');
 
 			vm.instructions.push(fw);
 			vm.instructions.push(rr);
 			vm.instructions.push(rl);
+			vm.instructions.push(lt);
 		}
 
 		function updateLevel(dir) {
