@@ -20,6 +20,12 @@
   width: 128px;
   height: 128px;
 }
+#instructions .instructions-inner {
+  background: #73DCFF;
+  border-radius: 5px;
+  width: 128px;
+  float: right;
+}
 #instructions ul {
   list-style: none;
 }
@@ -38,13 +44,14 @@
   bottom: 15px;
 }
 #program .program-inner {
-  background: #CCC;
-  padding: 5px;
-  height: 143px;
+  background: #73FFB9;
+  border-radius: 5px;
+  height: 128px;
   width: 100%;
 }
 #program .program-inner ul {
   list-style: none;
+  margin-left: -40px;
 }
 #program .program-inner li img {
   float: left;
