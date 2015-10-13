@@ -3,10 +3,10 @@
         .module('dimbot.game')
         .controller('Game', Game);
 
-	Game.$inject = ['$http', '$filter', 'logger', 'programService', 'levelService',
+	Game.$inject = ['$http', 'logger', 'programService', 'levelService',
 					'instructionFactory'];
 
-	function Game($http, $filter, logger, programService, levelService,
+	function Game($http, logger, programService, levelService,
 			instructionFactory) {
 		var vm = this;
 
