@@ -15,17 +15,24 @@
 		vm.addToProgram = addToProgram;
 		vm.instructions = levelService.getInstructions();
 		vm.refresh = refresh;
+		vm.removeElem = removeElem;
 		vm.removeFromProgram = removeFromProgram;
 
 		function addToProgram(ins) {
 			if (ins.toElement) {
 				var i = instructionFactory.getInstruction(ins.toElement.id);
 				programService.addInstruction(i);
+
 			} else {
 				programService.addInstruction(ins);
 			}
 			vm.refresh();
 		};
+
+		function removeElem(ins) {
+			logger.info('ins.toElement', ins.toElement);
+			ins.toElement.remove();
+		}
 
 		function removeFromProgram(index) {
 			programService.removeInstruction(index);
@@ -34,6 +41,7 @@
 
 		// ensure that DOM always matches program in program service
 		function refresh() {
+			vm.instructions = levelService.getInstructions();
 			vm.program = programService.getProgram();
 		};
 
