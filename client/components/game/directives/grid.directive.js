@@ -67,7 +67,7 @@
 								break;
 							case 1:
 								// add test object
-								var geometry = new THREE.BoxGeometry(100, 100, 100);
+								var geometry = new THREE.BoxGeometry(50, 50, 50);
 								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 								var mesh = new THREE.Mesh( geometry, material );
 								mesh.position.set(100 * x, 100 * y, 0);
