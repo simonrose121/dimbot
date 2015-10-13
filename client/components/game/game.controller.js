@@ -3,10 +3,10 @@
         .module('dimbot.game')
         .controller('Game', Game);
 
-	Game.$inject = ['$http', 'logger', 'programService', 'levelService',
+	Game.$inject = ['$http', '$filter', 'logger', 'programService', 'levelService',
 					'instructionFactory'];
 
-	function Game($http, logger, programService, levelService,
+	function Game($http, $filter, logger, programService, levelService,
 			instructionFactory) {
 		var vm = this;
 
@@ -15,17 +15,41 @@
 		vm.addToProgram = addToProgram;
 		vm.instructions = levelService.getInstructions();
 		vm.refresh = refresh;
+		vm.replace = replace;
+		vm.removeElem = removeElem;
 		vm.removeFromProgram = removeFromProgram;
 
 		function addToProgram(ins) {
 			if (ins.toElement) {
 				var i = instructionFactory.getInstruction(ins.toElement.id);
 				programService.addInstruction(i);
+
 			} else {
 				programService.addInstruction(ins);
 			}
 			vm.refresh();
 		};
+
+		function replace(ins) {
+			logger.info('toElement', ins.toElement);
+			var id = ins.toElement.id;
+
+			// get index
+			var index = $('#' + id).attr('index');
+
+			// remove this from array
+			if (index > -1) {
+				vm.instructions.splice(index, 1);
+			}
+
+			var instruction = instructionFactory.getInstruction(id);
+			vm.instructions.splice(index, 0, instruction);
+		}
+
+		function removeElem(ins) {
+			// remove from dom
+			ins.toElement.remove();
+		}
 
 		function removeFromProgram(index) {
 			programService.removeInstruction(index);
