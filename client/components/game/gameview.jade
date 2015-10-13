@@ -11,7 +11,7 @@
         img(class='{{ins.name}}' ng-src='{{ins.src}}' ng-click='vm.addToProgram(ins)' data-drag='true' jqyoui-draggable)
 #program.col-md-10
     .program-inner
-        ul
+        ul(data-drop="true" jqyoui-droppable="{onDrop:'vm.addToProgram'}")
             li(ng-repeat='ins in vm.program track by $index') 
                 img(class='{{ins.name}}' ng-src='{{ins.src}}' ng-click='vm.removeFromProgram($index)')
                 

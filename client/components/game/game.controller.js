@@ -27,6 +27,10 @@
 			vm.refresh();
 		};
 
+		function dragStart() {
+			logger.info('picked up item', null);
+		}
+
 		vm.instructions = [fw, rr, rl];
 
 		function removeFromProgram(index) {
