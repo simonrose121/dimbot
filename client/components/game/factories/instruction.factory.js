@@ -7,13 +7,13 @@
 		var Instruction = function(name, src) {
 			this.name = name;
 			this.src = src;
+		};
+
+		var factory = {
+			getInstruction: getInstruction
 		}
 
-		var instructions = {
-			getInstruction: getInstruction,
-		}
-
-		return instructions;
+		return factory;
 
 		function getInstruction(type) {
 			switch(type) {

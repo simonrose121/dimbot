@@ -1,7 +1,7 @@
 (function() {
 	angular
-	        .module('dimbot.game')
-	        .controller('Game', Game);
+        .module('dimbot.game')
+        .controller('Game', Game);
 
 	Game.$inject = ['$http', 'logger', 'programService', 'levelService',
 					'instructionFactory'];

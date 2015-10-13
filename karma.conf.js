@@ -15,13 +15,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'client/assets/libs/jquery/dist/jquery.js',
+      'client/assets/libs/jquery-ui/jquery-ui.min.js',
       'client/assets/libs/angular/angular.min.js',
       'client/assets/libs/angular-mocks/angular-mocks.js',
       'client/assets/libs/angular-route/angular-route.min.js',
       'client/assets/libs/angular-resource/angular-resource.min.js',
+      'client/assets/libs/angular-dragdrop/src/angular-dragdrop.min.js',
       'client/app.module.js',
       'client/components/**/*.module.js',
-      'client/components/**/*.js'
+      'client/components/**/*.js',
     ],
 
 
