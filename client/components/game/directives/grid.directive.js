@@ -71,12 +71,13 @@
 								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 								var mesh = new THREE.Mesh( geometry, material );
 								mesh.position.set(100 * x, 100 * y, 0);
-								movementService.setMesh(mesh, 100 * x, 100 * y, 0);
+								movementService.setMesh(mesh);
 								vm.scene.add(mesh);
 								break;
 							case 2:
 								// add test object
-								vm.addMesh(100, 0x0000FF, x, y, -100, false);
+								var mesh = vm.addMesh(100, 0x0000FF, x, y, -100, false);
+								movementService.setLightMesh(mesh);
 								break;
 							case 3:
 								break;
@@ -92,6 +93,7 @@
 				var mesh = new THREE.Mesh( geometry, material );
 				mesh.position.set(size * x, size * y, z);
 				vm.scene.add(mesh);
+				return mesh;
 			}
 
 			function bind() {
