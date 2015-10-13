@@ -43,7 +43,9 @@
 			}
 
 			var instruction = instructionFactory.getInstruction(id);
+			logger.info('instruction', instruction);
 			vm.instructions.splice(index, 0, instruction);
+			logger.info('instructions array', vm.instructions);
 		}
 
 		function removeElem(ins) {

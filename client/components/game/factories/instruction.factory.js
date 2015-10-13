@@ -3,7 +3,9 @@
 		.module('dimbot.game')
 		.factory('instructionFactory', instructionFactory)
 
-	function instructionFactory() {
+	instructionFactory.$Inject = ['logger'];
+
+	function instructionFactory(logger) {
 		var Instruction = function(name, src) {
 			this.name = name;
 			this.src = src;
@@ -16,6 +18,7 @@
 		return factory;
 
 		function getInstruction(type) {
+			logger.info('adding instruction', type);
 			switch(type) {
 				case 'fw':
 					return new Instruction("fw",
