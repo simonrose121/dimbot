@@ -3,16 +3,18 @@
 		.module('dimbot.game')
 		.service('levelService', levelService)
 
-	levelService.$Inject = ['logger'];
+	levelService.$Inject = ['logger', 'instructionFactory'];
 
-	function levelService(logger) {
+	function levelService(logger, instructionFactory) {
 		var vm = this;
 
 		vm.width = 3;
 		vm.height = 3;
 		vm.mapWidth = 5;
 		vm.mapHeight = 5;
-		vm.startingIndex;
+		vm.startingDirection = 'e';
+		vm.level;
+		vm.instructions = [];
 
 		vm.testLevel = [
 			3, 3, 3, 3, 3,
@@ -25,8 +27,12 @@
 		var service = {
 			checkMove: checkMove,
 			getHeight: getHeight,
+			getInstructions: getInstructions,
+			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
 			readLevel: readLevel,
+			resetLevel: resetLevel,
+			setStartingInstructions: setStartingInstructions,
 			updateLevel: updateLevel
 		};
 
@@ -64,12 +70,34 @@
 			return vm.height;
 		}
 
+		function getInstructions() {
+			return vm.instructions;
+		}
+
+		function getStartingDirection() {
+			return vm.startingDirection;
+		}
+
 		function getWidth() {
 			return vm.width;
 		}
 
 		function readLevel() {
 			return vm.testLevel;
+		}
+
+		function resetLevel(level) {
+			vm.level = vm.testLevel;
+		}
+
+		function setStartingInstructions() {
+			var fw = instructionFactory.getInstruction('fw');
+			var rr = instructionFactory.getInstruction('rr');
+			var rl = instructionFactory.getInstruction('rl');
+
+			vm.instructions.push(fw);
+			vm.instructions.push(rr);
+			vm.instructions.push(rl);
 		}
 
 		function updateLevel(dir) {

@@ -1,15 +1,19 @@
 describe('Program Service', function() {
 	beforeEach(module('dimbot'));
 
-	var service, Instruction, program;
+	var service, factory, program;
 
 	beforeEach(inject(function($injector) {
 	    service = $injector.get('programService');
-		Instruction = $injector.get('instructionFactory');
+		factory = $injector.get('instructionFactory');
 	}));
 
 	it('Program service is initialised', function() {
 		expect(service).toBeDefined();
+	});
+
+	it('Instruction factory is initialised', function() {
+		expect(factory).toBeDefined();
 	});
 
 	it('Program array is initialised', function() {
@@ -22,25 +26,12 @@ describe('Program Service', function() {
 		expect(program).toBeDefined();
 	});
 
-	it('Can instantiate instructions using factory', function() {
-		// arrange
-		var newInstruction;
-
-		// act
-		newInstruction = new Instruction('up', '/');
-
-		// assert
-		expect(newInstruction).toBeDefined();
-		expect(newInstruction.name).toEqual('up');
-		expect(newInstruction.src).toEqual('/');
-	});
-
 	it('Can add instructions to program', function() {
 		// arrange
 		var newInstruction;
 
 		// act
-		newInstruction = new Instruction('up', '/');
+		newInstruction = factory.getInstruction('fw');
 		service.addInstruction(newInstruction);
 
 		// assert
@@ -55,7 +46,7 @@ describe('Program Service', function() {
 		var newInstruction;
 
 		// act
-		newInstruction = new Instruction('up', '/');
+		newInstruction = factory.getInstruction('fw');
 		service.addInstruction(newInstruction);
 		var program = service.getProgram();
 

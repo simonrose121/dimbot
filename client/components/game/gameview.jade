@@ -8,9 +8,9 @@
 #instructions.col-md-2
     ul
       li(ng-repeat='ins in vm.instructions') 
-        img(class='{{ins.name}}' src='{{ins.src}}' ng-click='vm.addToProgram(ins)')
+        img(id='{{ins.name}}' ng-src='{{ins.src}}' ng-click='vm.addToProgram(ins)' data-drag='true' jqyoui-draggable="")
 #program.col-md-10
-    .program-inner
+    .program-inner(data-drop="true" jqyoui-droppable="{onDrop:'vm.addToProgram'}")
         ul
             li(ng-repeat='ins in vm.program track by $index') 
                 img(class='{{ins.name}}' ng-src='{{ins.src}}' ng-click='vm.removeFromProgram($index)')
