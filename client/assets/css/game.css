@@ -28,7 +28,6 @@
   clear: right;
   width: 128px;
   height: 128px;
-  margin-bottom: 10px;
 }
 #level .level-inner {
   height: 62vh;
@@ -51,5 +50,4 @@
   float: left;
   width: 128px;
   height: 128px;
-  margin-right: 10px;
 }
