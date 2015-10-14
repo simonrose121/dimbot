@@ -67,7 +67,11 @@
 
 		function light(callback) {
 			logger.info('lighting up', vm.lightMesh);
-			vm.lightMesh.material.color.setHex(0xffffff);
+			// check position
+			if (vm.mesh.position.x == vm.lightMesh.position.x
+				&& vm.mesh.position.y == vm.lightMesh.position.y) {
+				vm.lightMesh.material.color.setHex(0xffffff);
+			}
 			callback();
 		}
 
