@@ -70,7 +70,13 @@
 			// check position
 			if (vm.mesh.position.x == vm.lightMesh.position.x
 				&& vm.mesh.position.y == vm.lightMesh.position.y) {
-				vm.lightMesh.material.color.setHex(0xffffff);
+				var color = vm.lightMesh.material.color.getHex().toString(16);
+				if (color != 'ffffff') {
+					// change mesh colour
+					vm.lightMesh.material.color.setHex(0xffffff);
+				} else {
+					vm.lightMesh.material.color.setHex(0x0000FF);
+				}
 			}
 			callback();
 		}
