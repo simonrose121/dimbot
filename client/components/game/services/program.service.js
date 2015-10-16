@@ -26,8 +26,11 @@
 		};
 
 		function addInstruction(ins) {
-			logger.info('pushing instruction to program', ins);
-			vm.program.push(ins);
+			logger.info('adding instruction in programService', ins);
+			if (ins) {
+				logger.info('pushing instruction to program', ins);
+				vm.program.push(ins);
+			}
 		};
 
 		function removeInstruction(index) {

@@ -20,14 +20,18 @@
 		vm.removeFromProgram = removeFromProgram;
 
 		function addToProgram(ins) {
-			if (ins.toElement) {
-				var i = instructionFactory.getInstruction(ins.toElement.id);
-				programService.addInstruction(i);
-
-			} else {
-				programService.addInstruction(ins);
+			if (ins) {
+				if (ins.toElement) {
+					var i = instructionFactory.getInstruction(ins.toElement.id);
+					programService.addInstruction(i);
+					//vm.removeElem(ins);
+				} else {
+					ins.toElement.remove();
+					programService.addInstruction(ins);
+				}
 			}
 			vm.refresh();
+
 		};
 
 		function replace(ins) {
@@ -50,7 +54,7 @@
 
 		function removeElem(ins) {
 			// remove from dom
-			ins.toElement.remove();
+			//
 		}
 
 		function removeFromProgram(index) {
