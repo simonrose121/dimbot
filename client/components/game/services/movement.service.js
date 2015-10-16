@@ -59,6 +59,7 @@
 					vm.mesh.position.y = position.y;
 				});
 				tween.onComplete(function() {
+					timer.sleep(1000);
 					callback();
 				});
 
@@ -68,22 +69,20 @@
 		}
 
 		function light(callback) {
-			timer.sleep(1000, function() {
-				logger.info('lighting up', vm.lightMesh);
-				// check position
-				if (vm.mesh.position.x == vm.lightMesh.position.x
-					&& vm.mesh.position.y == vm.lightMesh.position.y) {
-					var color = vm.lightMesh.material.color.getHex().toString(16);
-					logger.info('color', color);
-					if (color != 'ffffff') {
-						// change mesh colour
-						vm.lightMesh.material.color.setHex(0xffffff);
-					} else {
-						vm.lightMesh.material.color.setHex(0x0000FF);
-					}
+			logger.info('lighting up', vm.lightMesh);
+			// check position
+			if (vm.mesh.position.x == vm.lightMesh.position.x
+				&& vm.mesh.position.y == vm.lightMesh.position.y) {
+				var color = vm.lightMesh.material.color.getHex().toString(16);
+				logger.info('color', color);
+				if (color != 'ffffff') {
+					// change mesh colour
+					vm.lightMesh.material.color.setHex(0xffffff);
+				} else {
+					vm.lightMesh.material.color.setHex(0x0000FF);
 				}
-				callback();
-			});
+			}
+			callback();
 		}
 
 		function getDirection() {
