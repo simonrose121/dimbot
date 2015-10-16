@@ -3,17 +3,28 @@
 		.module('dimbot.game')
 		.service('levelService', levelService)
 
-	levelService.$Inject = ['logger'];
+	levelService.$Inject = ['logger', 'instructionFactory'];
 
-	function levelService(logger) {
+	function levelService(logger, instructionFactory) {
 		var vm = this;
 
 		vm.width = 3;
 		vm.height = 3;
 		vm.mapWidth = 5;
 		vm.mapHeight = 5;
+		vm.startingDirection = 'e';
+		vm.level;
+		vm.instructions = [];
 
-		vm.testLevel = [
+		vm.startingLevel = [
+			3, 3, 3, 3, 3,
+		 	3, 0, 0, 0, 3,
+			3, 1, 0, 2, 3,
+			3, 0, 0, 0, 3,
+			3, 3, 3, 3, 3
+		];
+
+		vm.level = [
 			3, 3, 3, 3, 3,
 		 	3, 0, 0, 0, 3,
 			3, 1, 0, 2, 3,
@@ -24,14 +35,20 @@
 		var service = {
 			checkMove: checkMove,
 			getHeight: getHeight,
+			getInstructions: getInstructions,
+			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
 			readLevel: readLevel,
+			resetLevel: resetLevel,
+			setStartingInstructions: setStartingInstructions,
 			updateLevel: updateLevel
 		};
 
 		return service;
 
 		function checkMove(dir) {
+			logger.info('level when checking move', vm.level)
+
 			// get index
 			var index = getIndexOfObj(1);
 
@@ -51,7 +68,7 @@
 					break;
 			}
 
-			if (vm.testLevel[index] == 3) {
+			if (vm.level[index] == 3) {
 				return false;
 			}
 
@@ -63,8 +80,12 @@
 			return vm.height;
 		}
 
-		function getIndexOfObj(id) {
-			return vm.testLevel.indexOf(id);
+		function getInstructions() {
+			return vm.instructions;
+		}
+
+		function getStartingDirection() {
+			return vm.startingDirection;
 		}
 
 		function getWidth() {
@@ -72,7 +93,25 @@
 		}
 
 		function readLevel() {
-			return vm.testLevel;
+			return vm.level;
+		}
+
+		function resetLevel() {
+			logger.info('startingLevel', vm.startingLevel);
+			vm.level = vm.startingLevel;
+			logger.info('level', vm.level);
+		}
+
+		function setStartingInstructions() {
+			var fw = instructionFactory.getInstruction('fw');
+			var rr = instructionFactory.getInstruction('rr');
+			var rl = instructionFactory.getInstruction('rl');
+			var lt = instructionFactory.getInstruction('lt');
+
+			vm.instructions.push(fw);
+			vm.instructions.push(rr);
+			vm.instructions.push(rl);
+			vm.instructions.push(lt);
 		}
 
 		function updateLevel(dir) {
@@ -80,7 +119,7 @@
 			var index = getIndexOfObj(1);
 
 			// reset current
-			vm.testLevel[index] = 0;
+			vm.level[index] = 0;
 
 			// change value
 			// east
@@ -100,8 +139,13 @@
 			}
 
 			// update next index
-			vm.testLevel[index] = 1;
+			vm.level[index] = 1;
 			logger.info('index is', index);
+		}
+
+		// private
+		function getIndexOfObj(id) {
+			return vm.level.indexOf(id);
 		}
 	}
 })();

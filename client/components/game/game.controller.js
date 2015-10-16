@@ -1,33 +1,57 @@
 (function() {
 	angular
-	        .module('dimbot.game')
-	        .controller('Game', Game);
+        .module('dimbot.game')
+        .controller('Game', Game);
 
-	Game.$inject = ['$http', 'programService', 'instructionFactory'];
+	Game.$inject = ['$http', 'logger', 'programService', 'levelService',
+					'instructionFactory'];
 
-	function Game($http, programService, Instruction) {
+	function Game($http, logger, programService, levelService,
+			instructionFactory) {
 		var vm = this;
 
+		levelService.setStartingInstructions();
+
 		vm.addToProgram = addToProgram;
-		vm.instructions = [];
+		vm.instructions = levelService.getInstructions();
 		vm.refresh = refresh;
+		vm.replace = replace;
 		vm.removeFromProgram = removeFromProgram;
 
-		// setup some default instructions using the service
-		// TODO: move this to out to a service to be populated in as a level
-		var fw = new Instruction("fw",
-			"client/assets/img/up-instruction.png");
-		var rr = new Instruction("rr",
-			"client/assets/img/right-rotate-instruction.png");
-		var rl = new Instruction("rl",
-			"client/assets/img/left-rotate-instruction.png");
-
 		function addToProgram(ins) {
-			programService.addInstruction(ins);
+			// if instruction exists
+			if (ins) {
+				if (ins.toElement) {
+					// if drag and drop
+					var i = instructionFactory.getInstruction(ins.toElement.id);
+					// get instruction and add
+					//programService.addInstruction(i);
+				} else {
+					// if click
+					// remove instruction to prevent drags adding
+					programService.addInstruction(ins);
+				}
+			}
 			vm.refresh();
 		};
 
-		vm.instructions = [fw, rr, rl];
+		function replace(ins) {
+			logger.info('toElement', ins.toElement);
+			var id = ins.toElement.id;
+
+			// get index
+			var index = $('#' + id).attr('index');
+
+			// remove this from array
+			if (index > -1) {
+				vm.instructions.splice(index, 1);
+			}
+
+			var instruction = instructionFactory.getInstruction(id);
+			logger.info('instruction', instruction);
+			vm.instructions.splice(index, 0, instruction);
+			logger.info('instructions array', vm.instructions);
+		}
 
 		function removeFromProgram(index) {
 			programService.removeInstruction(index);

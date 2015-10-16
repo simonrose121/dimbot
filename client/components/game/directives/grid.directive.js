@@ -47,7 +47,7 @@
 				for (var x = -1; x < width-1; x++) {
 					for (var y = -1; y < height-1; y++) {
 						// add a box in the correct spot
-						vm.addMesh(100, 0x0000FF, x, y, -100, true);
+						vm.addMesh(100, 0x000000, x, y, -100, true);
 					}
 				}
 			}
@@ -67,7 +67,7 @@
 								break;
 							case 1:
 								// add test object
-								var geometry = new THREE.BoxGeometry(100, 100, 100);
+								var geometry = new THREE.BoxGeometry(50, 50, 50);
 								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 								var mesh = new THREE.Mesh( geometry, material );
 								mesh.position.set(100 * x, 100 * y, 0);
@@ -76,7 +76,8 @@
 								break;
 							case 2:
 								// add test object
-								vm.addMesh(100, 0x0000FF, x, y, -100, false);
+								var mesh = vm.addMesh(100, 0x0000FF, x, y, -100, false);
+								movementService.setLightMesh(mesh);
 								break;
 							case 3:
 								break;
@@ -92,6 +93,7 @@
 				var mesh = new THREE.Mesh( geometry, material );
 				mesh.position.set(size * x, size * y, z);
 				vm.scene.add(mesh);
+				return mesh;
 			}
 
 			function bind() {
@@ -114,7 +116,7 @@
 				// set some camera attributes
 				var NEAR = -1000, FAR = 1000;
 
-				vm.renderer = new THREE.WebGLRenderer();
+				vm.renderer = new THREE.WebGLRenderer({ alpha: true });
 				vm.camera =
 				  new THREE.OrthographicCamera(
 					WIDTH/-2,
