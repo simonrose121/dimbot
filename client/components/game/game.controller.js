@@ -20,18 +20,20 @@
 		vm.removeFromProgram = removeFromProgram;
 
 		function addToProgram(ins) {
+			// if instruction exists
 			if (ins) {
 				if (ins.toElement) {
+					// if drag and drop
 					var i = instructionFactory.getInstruction(ins.toElement.id);
-					programService.addInstruction(i);
-					//vm.removeElem(ins);
+					// get instruction and add
+					//programService.addInstruction(i);
 				} else {
-					ins.toElement.remove();
+					// if click
+					// remove instruction to prevent drags adding
 					programService.addInstruction(ins);
 				}
 			}
 			vm.refresh();
-
 		};
 
 		function replace(ins) {
