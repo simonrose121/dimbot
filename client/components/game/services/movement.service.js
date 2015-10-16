@@ -142,6 +142,7 @@
 			that.x = 0;
 
 			var program = programService.getProgram();
+			logger.info('running program', program);
 			that.loop(program);
 
 			// control loop execution to wait for callback from tween when complete

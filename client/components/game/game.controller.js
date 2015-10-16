@@ -16,7 +16,6 @@
 		vm.instructions = levelService.getInstructions();
 		vm.refresh = refresh;
 		vm.replace = replace;
-		vm.removeElem = removeElem;
 		vm.removeFromProgram = removeFromProgram;
 
 		function addToProgram(ins) {
