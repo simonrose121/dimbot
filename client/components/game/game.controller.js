@@ -54,11 +54,6 @@
 			logger.info('instructions array', vm.instructions);
 		}
 
-		function removeElem(ins) {
-			// remove from dom
-			//
-		}
-
 		function removeFromProgram(index) {
 			programService.removeInstruction(index);
 			vm.refresh();
