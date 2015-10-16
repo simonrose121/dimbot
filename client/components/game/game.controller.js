@@ -16,16 +16,21 @@
 		vm.instructions = levelService.getInstructions();
 		vm.refresh = refresh;
 		vm.replace = replace;
-		vm.removeElem = removeElem;
 		vm.removeFromProgram = removeFromProgram;
 
 		function addToProgram(ins) {
-			if (ins.toElement) {
-				var i = instructionFactory.getInstruction(ins.toElement.id);
-				programService.addInstruction(i);
-
-			} else {
-				programService.addInstruction(ins);
+			// if instruction exists
+			if (ins) {
+				if (ins.toElement) {
+					// if drag and drop
+					var i = instructionFactory.getInstruction(ins.toElement.id);
+					// get instruction and add
+					//programService.addInstruction(i);
+				} else {
+					// if click
+					// remove instruction to prevent drags adding
+					programService.addInstruction(ins);
+				}
 			}
 			vm.refresh();
 		};
@@ -43,12 +48,9 @@
 			}
 
 			var instruction = instructionFactory.getInstruction(id);
+			logger.info('instruction', instruction);
 			vm.instructions.splice(index, 0, instruction);
-		}
-
-		function removeElem(ins) {
-			// remove from dom
-			ins.toElement.remove();
+			logger.info('instructions array', vm.instructions);
 		}
 
 		function removeFromProgram(index) {
