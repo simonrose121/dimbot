@@ -82,6 +82,7 @@
 					vm.lightMesh.material.color.setHex(0x0000FF);
 				}
 			}
+			timer.sleep(1000);
 			callback();
 		}
 
@@ -117,6 +118,7 @@
 			var tween = new TWEEN.Tween(vm.mesh.rotation).to({ z: vm.mesh.rotation.z + rad });
 
 			tween.onComplete(function() {
+				timer.sleep(1000);
 				callback();
 			});
 
