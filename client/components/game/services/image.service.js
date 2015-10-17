@@ -5,34 +5,43 @@
 
 	imageService.$Inject = ['logger'];
 
-	function imageService() {
-		var playClass = '.play';
+	function imageService(logger) {
+		var vm = this;
+
+		vm.playClass = '.play';
+		vm.index = 0;
 
 		var service = {
-			loopInstructions: loopInstructions,
+			highlight: highlight,
 			play: play,
 			rewind: rewind,
-			stop: stop
+			stop: stop,
+			unhighlight: unhighlight
 		}
 
 		return service;
 
-		function loopInstructions() {
-
+		function highlight(ins) {
+			$('#' + vm.index).css('border', 'solid thick #FFF');
 		}
 
 		function play() {
-			$(playClass).css("pointer-events", "auto");
-			$(playClass).css("background-image", "url(../img/play-button.png)");
+			$(vm.playClass).css('pointer-events', 'auto');
+			$(vm.playClass).css('background-image', 'url(../img/play-button.png)');
 		}
 
 		function rewind() {
-			$(playClass).css("background-image", "url(../img/rewind-button.png)");
+			$(vm.playClass).css('background-image', 'url(../img/rewind-button.png)');
 		}
 
 		function stop() {
-			$(playClass).css("pointer-events", "none");
-			$(playClass).css("background-image", "url(../img/stop-button.png)");
+			$(vm.playClass).css('pointer-events', 'none');
+			$(vm.playClass).css('background-image', 'url(../img/stop-button.png)');
+		}
+
+		function unhighlight(ins) {
+			$('#' + vm.index).css('border', 'none');
+			vm.index++;
 		}
 	}
 })();

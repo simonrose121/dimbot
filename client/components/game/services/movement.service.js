@@ -82,6 +82,7 @@
 					vm.lightMesh.material.color.setHex(0x0000FF);
 				}
 			}
+			timer.sleep(1000);
 			callback();
 		}
 
@@ -117,6 +118,7 @@
 			var tween = new TWEEN.Tween(vm.mesh.rotation).to({ z: vm.mesh.rotation.z + rad });
 
 			tween.onComplete(function() {
+				timer.sleep(1000);
 				callback();
 			});
 
@@ -156,6 +158,9 @@
 				perform(arr[that.x], function() {
 					that.x++;
 
+					// unhighlight
+					imageService.unhighlight(arr[that.x]);
+
 					if (that.x < arr.length) {
 						loop(arr);
 					} else {
@@ -165,6 +170,9 @@
 			}
 
 			function perform(ins, callback) {
+				// highlight
+				imageService.highlight(ins);
+
 				switch(ins.name) {
 					case 'fw':
 						forward(callback);
