@@ -17,6 +17,7 @@
 		vm.instructions = levelService.getInstructions();
 		vm.refresh = refresh;
 		vm.replace = replace;
+		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
 
 		// call update to add default instructions
@@ -75,6 +76,17 @@
 			logger.info('instruction', instruction);
 			vm.instructions.splice(index, 0, instruction);
 			logger.info('instructions array', vm.instructions);
+		}
+
+		function remove(ins) {
+			if (ins.toElement) {
+				var i = instructionFactory.getInstruction(ins.toElement.id);
+				programService.removeInstruction(i);
+
+				if (i > -1) {
+					vm.program.splice(i, 1);
+				}
+			}
 		}
 
 		function removeFromProgram(index) {
