@@ -42,8 +42,12 @@
 
 		function bind() {
 			// used to bind play and reset buttons
-			$('.play').bind('click', function() {
-				movementService.run();
+			$('#status').bind('click', function() {
+				if ($('#status').hasClass('play')) {
+					movementService.run();
+				} else {
+					movementService.stop();
+				}
 			});
 			$('.reset').bind('click', function() {
 				movementService.reset();

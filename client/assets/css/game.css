@@ -2,19 +2,19 @@
   width: 128px;
   height: 128px;
 }
-#navigation .back {
+#navigation #back {
   float: left;
   background: url('../img/back-button.png');
   width: 128px;
   height: 128px;
 }
-#navigation .reset {
+#navigation #reset {
   float: left;
   background: url('../img/reset-button.png');
   width: 128px;
   height: 128px;
 }
-#navigation .play {
+#navigation #status {
   float: right;
   background: url('../img/play-button.png');
   width: 128px;

@@ -13,6 +13,7 @@
 		vm.mesh;
 		vm.lightMesh;
 		vm.startingPos = {};
+		vm.stopped = false;
 
 		// set starting direction
 		var dir = levelService.getStartingDirection();
@@ -25,6 +26,7 @@
 			getDirection: getDirection,
 			getMesh: getMesh,
 			reset: reset,
+			rewind: rewind,
 			rotate: rotate,
 			rotateRight: rotateRight,
 			rotateLeft: rotateLeft,
@@ -33,6 +35,7 @@
 			setIndex: setIndex,
 			setLightMesh: setLightMesh,
 			setMesh: setMesh,
+			stop: stop
 		};
 
 		return service;
@@ -96,6 +99,13 @@
 
 		function reset() {
 			// reset position
+			rewind();
+
+			// empty program
+			programService.empty();
+		}
+
+		function rewind() {
 			if (vm.mesh) {
 				vm.mesh.position.x = vm.startingPos.x;
 				vm.mesh.position.y = vm.startingPos.y;
@@ -108,9 +118,6 @@
 
 			// reset level array
 			levelService.resetLevel();
-
-			// empty program
-			programService.empty();
 		}
 
 		function rotate(deg, callback) {
@@ -147,6 +154,8 @@
 			logger.info('running program', program);
 
 			if (program.length > 0) {
+				vm.stopped = false;
+
 				// start program
 				that.loop(program);
 
@@ -162,10 +171,15 @@
 					// unhighlight
 					imageService.unhighlight(arr[that.x]);
 
-					if (that.x < arr.length) {
-						loop(arr);
+					if (!vm.stopped) {
+						logger.info('executing instruction', arr[that.x]);
+						if (that.x < arr.length) {
+							loop(arr);
+						} else {
+							imageService.rewind();
+						}
 					} else {
-						imageService.play();
+						rewind();
 					}
 				});
 			}
@@ -189,6 +203,10 @@
 						break;
 				}
 			}
+		}
+
+		function stop() {
+			vm.stopped = true;
 		}
 
 		function setIndex(val) {
