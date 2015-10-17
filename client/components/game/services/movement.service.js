@@ -156,6 +156,9 @@
 				perform(arr[that.x], function() {
 					that.x++;
 
+					// unhighlight
+					imageService.unhighlight(arr[that.x]);
+
 					if (that.x < arr.length) {
 						loop(arr);
 					} else {
@@ -165,6 +168,9 @@
 			}
 
 			function perform(ins, callback) {
+				// highlight
+				imageService.highlight(ins);
+
 				switch(ins.name) {
 					case 'fw':
 						forward(callback);
