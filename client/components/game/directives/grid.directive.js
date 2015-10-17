@@ -26,7 +26,6 @@
 			vm.addGrid = addGrid;
 			vm.addObjects = addObjects;
 			vm.addMesh = addMesh;
-			vm.bind = bind;
 			vm.init = init;
 			vm.render = render;
 
@@ -34,7 +33,6 @@
 			vm.init();
 			vm.addGrid();
 			vm.addObjects();
-			vm.bind();
 
 			// start render loop
 			vm.render();
@@ -94,16 +92,6 @@
 				mesh.position.set(size * x, size * y, z);
 				vm.scene.add(mesh);
 				return mesh;
-			}
-
-			function bind() {
-				// used to bind play and reset buttons
-				$('.play').bind('click', function() {
-					movementService.run();
-				});
-				$('.reset').bind('click', function() {
-					movementService.reset();
-				});
 			}
 
 			function init() {

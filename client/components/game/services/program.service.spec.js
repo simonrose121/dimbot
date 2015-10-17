@@ -62,4 +62,12 @@ describe('Program Service', function() {
 		expect(program[0]).toBeUndefined();
 		expect(program[1]).toBeUndefined();
 	});
+
+	it('Can empty program', function() {
+		// arrange
+
+		// act
+
+		// assert
+	});
 });

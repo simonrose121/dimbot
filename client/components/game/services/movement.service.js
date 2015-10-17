@@ -109,7 +109,8 @@
 			// reset level array
 			levelService.resetLevel();
 
-			logger.info('level reset', vm.mesh);
+			// empty program
+			programService.empty();
 		}
 
 		function rotate(deg, callback) {
