@@ -77,6 +77,15 @@
 			logger.info('instructions array', vm.instructions);
 		}
 
+		function remove(ins) {
+			if (ins) {
+				if (ins.toElement) {
+					var i = instructionFactory.getInstruction(ins.toElement.id);
+					programService.removeInstruction(i);
+				}
+			}
+		}
+
 		function removeFromProgram(index) {
 			programService.removeInstruction(index);
 			vm.refresh();
