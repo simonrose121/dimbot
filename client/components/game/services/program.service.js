@@ -15,6 +15,7 @@
 		var service = {
 			getProgram: getProgram,
 			addInstruction: addInstruction,
+			empty: empty,
 			removeInstruction: removeInstruction
 		};
 
@@ -31,6 +32,10 @@
 				logger.info('pushing instruction to program', ins);
 				vm.program.push(ins);
 			}
+		};
+
+		function empty() {
+			vm.program.length = 0;
 		};
 
 		function removeInstruction(index) {

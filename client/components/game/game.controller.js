@@ -3,20 +3,25 @@
         .module('dimbot.game')
         .controller('Game', Game);
 
-	Game.$inject = ['$http', 'logger', 'programService', 'levelService',
-					'instructionFactory'];
+	Game.$inject = ['$http', '$scope', 'logger', 'programService', 'movementService',
+	'levelService',	'instructionFactory'];
 
-	function Game($http, logger, programService, levelService,
-			instructionFactory) {
+	function Game($http, $scope, logger, programService, movementService,
+		levelService, instructionFactory) {
 		var vm = this;
 
 		levelService.setStartingInstructions();
 
 		vm.addToProgram = addToProgram;
+		vm.bind = bind;
 		vm.instructions = levelService.getInstructions();
 		vm.refresh = refresh;
 		vm.replace = replace;
 		vm.removeFromProgram = removeFromProgram;
+
+		// call update to add default instructions
+		vm.refresh();
+		vm.bind();
 
 		function addToProgram(ins) {
 			// if instruction exists
@@ -34,6 +39,25 @@
 			}
 			vm.refresh();
 		};
+
+		function bind() {
+			// used to bind play and reset buttons
+			$('#status').bind('click', function() {
+				if ($('#status').hasClass('play')) {
+					movementService.run();
+				} else if ($('#status').hasClass('stop')) {
+					movementService.stop();
+				} else if ($('#status').hasClass('rewind')) {
+					movementService.rewind();
+				}
+			});
+			$('.reset').bind('click', function() {
+				movementService.reset();
+				$scope.$apply(function() {
+					vm.refresh();
+				});
+			});
+		}
 
 		function replace(ins) {
 			logger.info('toElement', ins.toElement);
@@ -62,8 +86,5 @@
 		function refresh() {
 			vm.program = programService.getProgram();
 		};
-
-		// call update to add default instructions
-		vm.refresh();
 	};
 })();

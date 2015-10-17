@@ -8,7 +8,7 @@
 	function imageService(logger) {
 		var vm = this;
 
-		vm.playClass = '.play';
+		vm.id = '#status';
 		vm.index = 0;
 
 		var service = {
@@ -26,17 +26,21 @@
 		}
 
 		function play() {
-			$(vm.playClass).css('pointer-events', 'auto');
-			$(vm.playClass).css('background-image', 'url(../img/play-button.png)');
+			$(vm.id).css('background-image', 'url(../img/play-button.png)');
+			$(vm.id).removeClass();
+			$(vm.id).addClass('play');
 		}
 
 		function rewind() {
-			$(vm.playClass).css('background-image', 'url(../img/rewind-button.png)');
+			$(vm.id).css('background-image', 'url(../img/rewind-button.png)');
+			$(vm.id).removeClass();
+			$(vm.id).addClass('rewind');
 		}
 
 		function stop() {
-			$(vm.playClass).css('pointer-events', 'none');
-			$(vm.playClass).css('background-image', 'url(../img/stop-button.png)');
+			$(vm.id).css('background-image', 'url(../img/stop-button.png)');
+			$(vm.id).removeClass();
+			$(vm.id).addClass('stop');
 		}
 
 		function unhighlight(ins) {
