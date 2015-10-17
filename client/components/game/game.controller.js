@@ -45,8 +45,10 @@
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
 					movementService.run();
-				} else {
+				} else if ($('#status').hasClass('stop')) {
 					movementService.stop();
+				} else if ($('#status').hasClass('rewind')) {
+					movementService.rewind();
 				}
 			});
 			$('.reset').bind('click', function() {

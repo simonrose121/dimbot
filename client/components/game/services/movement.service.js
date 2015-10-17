@@ -118,6 +118,9 @@
 
 			// reset level array
 			levelService.resetLevel();
+
+			// set play button
+			imageService.play();
 		}
 
 		function rotate(deg, callback) {
@@ -172,8 +175,8 @@
 					imageService.unhighlight(arr[that.x]);
 
 					if (!vm.stopped) {
-						logger.info('executing instruction', arr[that.x]);
 						if (that.x < arr.length) {
+							logger.info('executing instruction', arr[that.x]);
 							loop(arr);
 						} else {
 							imageService.rewind();
