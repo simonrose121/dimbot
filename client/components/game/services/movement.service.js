@@ -4,10 +4,10 @@
 		.service('movementService', movementService);
 
 	movementService.$Inject = ['programService', 'levelService',
-		'directionService', 'logger', 'timer'];
+		'directionService', 'imageService', 'logger', 'timer'];
 
 	function movementService(programService, levelService, directionService,
-			logger, timer) {
+			imageService, logger, timer) {
 		var vm = this;
 
 		vm.mesh;
@@ -142,16 +142,25 @@
 
 			var program = programService.getProgram();
 			logger.info('running program', program);
-			that.loop(program);
+
+			if (program.length > 0) {
+				// start program
+				that.loop(program);
+
+				// set stop button
+				imageService.stop();
+			}
 
 			// control loop execution to wait for callback from tween when complete
 			function loop(arr) {
 				perform(arr[that.x], function() {
 					that.x++;
 
-					if(that.x < arr.length) {
+					if (that.x < arr.length) {
 						loop(arr);
-					};
+					} else {
+						imageService.play();
+					}
 				});
 			}
 
