@@ -35,6 +35,7 @@
 		var lookup = directionLookup();
 
 		var service = {
+			directionLookup: directionLookup,
 			getDirectionByIndex: getDirectionByIndex,
 			getDirectionByName: getDirectionByName,
 			getIndexFromDirection: getIndexFromDirection

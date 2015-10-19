@@ -23,29 +23,26 @@
 		return service;
 
 		function highlight(ins) {
-			$('#' + vm.index).css('border', 'solid thick #FFF');
+			$('#' + vm.index).addClass('highlight');
 		}
 
 		function play() {
-			$(vm.id).css('background-image', 'url(../img/play-button.png)');
 			$(vm.id).removeClass();
 			$(vm.id).addClass('play');
 		}
 
 		function rewind() {
-			$(vm.id).css('background-image', 'url(../img/rewind-button.png)');
 			$(vm.id).removeClass();
 			$(vm.id).addClass('rewind');
 		}
 
 		function stop() {
-			$(vm.id).css('background-image', 'url(../img/stop-button.png)');
 			$(vm.id).removeClass();
 			$(vm.id).addClass('stop');
 		}
 
 		function unhighlight(ins) {
-			$('#' + vm.index).css('border', 'none');
+			$('#' + vm.index).removeClass('highlight');
 			vm.index++;
 		}
 

@@ -43,21 +43,16 @@ describe('Program Service', function() {
 
 	it('Can remove instructions', function() {
 		// arrange
-		var newInstruction;
+		var ins = factory.getInstruction('fw');
 
 		// act
-		newInstruction = factory.getInstruction('fw');
-		service.addInstruction(newInstruction);
-		var program = service.getProgram();
-
-		// check that instruction has been added
-		expect(program[0]).toBeDefined();
+		service.addInstruction(ins);
 
 		// mock an index for the instruction
 		service.removeInstruction(0);
+		var program = service.getProgram();
 
 		// assert
-		var program = service.getProgram();
 		expect(program).toBeDefined();
 		expect(program[0]).toBeUndefined();
 		expect(program[1]).toBeUndefined();
@@ -65,9 +60,17 @@ describe('Program Service', function() {
 
 	it('Can empty program', function() {
 		// arrange
+		var ins1 = factory.getInstruction('fw');
+		var ins2 = factory.getInstruction('rr');
+		var program;
 
 		// act
+		service.addInstruction(ins1);
+		service.addInstruction(ins2);
+		service.empty();
+		program = service.getProgram();
 
 		// assert
+		expect(program.length).toBe(0);
 	});
 });
