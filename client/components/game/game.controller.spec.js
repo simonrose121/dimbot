@@ -10,10 +10,10 @@ describe('Game Controller', function() {
 	}));
 
 	// Get test specific controller
-	var controller;
+	var controller, $scope;
 
     beforeEach(function() {
-      	controller = $controller('Game');
+      	controller = $controller('Game', { $scope: $scope });
     });
 
 	it('Controller to be defined', function() {

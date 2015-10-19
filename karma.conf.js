@@ -25,6 +25,11 @@ module.exports = function(config) {
       'client/app.module.js',
       'client/components/**/*.module.js',
       'client/components/**/*.js',
+      'client/components/**/**/*.js',
+      'client/components/**/**/*.service.js',
+      'client/components/**/**/*.factory.js',
+      'client/components/**/**/*.directive.js',
+      'client/components/**/**/*.module.js'
     ],
 
 

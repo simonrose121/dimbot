@@ -52,7 +52,7 @@
 					movementService.rewind();
 				}
 			});
-			$('.reset').bind('click', function() {
+			$('#reset').bind('click', function() {
 				movementService.reset();
 				$scope.$apply(function() {
 					vm.refresh();
