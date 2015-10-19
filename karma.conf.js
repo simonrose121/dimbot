@@ -22,6 +22,7 @@ module.exports = function(config) {
       'client/assets/libs/angular-route/angular-route.min.js',
       'client/assets/libs/angular-resource/angular-resource.min.js',
       'client/assets/libs/angular-dragdrop/src/angular-dragdrop.min.js',
+      'client/assets/libs/three.js/build/three.min.js',
       'client/app.module.js',
       'client/components/**/*.module.js',
       'client/components/**/*.js',
