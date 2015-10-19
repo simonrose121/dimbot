@@ -15,9 +15,9 @@
 
 		var service = {
 			checkPositionMatch: checkPositionMatch,
-			checkOff: checkOff,
 			getColour: getColour,
 			getLight: getLight,
+			isLightOn: isLightOn,
 			setLight: setLight,
 			turnOff: turnOff,
 			turnOn: turnOn
@@ -33,8 +33,8 @@
 			return false;
 		}
 
-		function checkOff() {
-			if (getColour() != vm.onVal) {
+		function isLightOn() {
+			if (getColour() == vm.onVal) {
 				return true;
 			}
 			return false;

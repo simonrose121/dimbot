@@ -22,7 +22,7 @@ describe('Light Service', function() {
 		service.setLight(light);
 	});
 
-	it('Light is initialised', function() {
+	it('Can get light', function() {
 		// arrange
 		var x = 0;
 
@@ -32,5 +32,65 @@ describe('Light Service', function() {
 		// assert
 		expect(light).toBeDefined();
 		expect(light.position.x).toEqual(0);
+	});
+
+	it('Can check light status', function() {
+		// arrange
+		var expected = true;
+
+		// act
+		service.turnOn();
+		var status = service.isLightOn();
+
+		// assert
+		expect(status).toEqual(expected);
+	});
+
+	it('Can get light colour in hex string', function() {
+		// arrange
+		var expected = 'ff';
+
+		// act
+		var colour = service.getColour();
+
+		// assert
+		expect(colour).toEqual(expected);
+	});
+
+	it('Can check position of light matches expected position', function() {
+		// arrange
+		var expected = true;
+		var y = 0;
+		var x = 0;
+
+		// act
+		var isMatching = service.checkPositionMatch(x, y);
+
+		// assert
+		expect(isMatching).toEqual(expected);
+	});
+
+	it('Can turn light on', function() {
+		// arrange
+		var expected = true;
+
+		// act
+		service.turnOn();
+		var status = service.isLightOn();
+
+		// assert
+		expect(status).toEqual(expected);
+	});
+
+	it('Can turn light off', function() {
+		// arrange
+		var expected = false;
+
+		// act
+		service.turnOff();
+		var status = service.isLightOn();
+
+		// assert
+		expect(status).toEqual(expected);
 	});
 });

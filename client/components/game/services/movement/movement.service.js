@@ -84,11 +84,11 @@
 
 			// check position
 			if (lightService.checkPositionMatch(x, y)) {
-				if (lightService.checkOff()) {
+				if (lightService.isLightOn()) {
 					// change mesh colour
-					lightService.turnOn();
-				} else {
 					lightService.turnOff();
+				} else {
+					lightService.turnOn();
 				}
 			}
 			timer.sleep(1000);
