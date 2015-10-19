@@ -1,11 +1,13 @@
 describe('Level Service', function() {
 	beforeEach(module('dimbot'));
 
-	var service;
+	var service, directionService, instructionFactory;
 
 	beforeEach(inject(function($injector) {
 		directionService = $injector.get('directionService');
 		service = $injector.get('levelService');
+		instructionFactory = $injector.get('instructionFactory');
+
 		service.resetLevel();
 	}));
 
@@ -70,14 +72,6 @@ describe('Level Service', function() {
 		expect(level).toEqual(expectedLevel);
 	});
 
-	it('Update level sets lights to on', function() {
-
-	});
-
-	it('Update level sets lights to off', function() {
-
-	});
-
 	it('Check move allows movement inside the grid', function() {
 		// arrange
 		var canMove;
@@ -102,5 +96,30 @@ describe('Level Service', function() {
 		// assert
 		expect(canMove).toBeDefined();
 		expect(canMove).toBe(false);
+	});
+
+	it('Get instructions gets the correct instructions', function() {
+		// arrange
+		var instructions;
+
+		// act
+		instructions = service.getInstructions();
+
+		// assert
+		expect(instructions).not.toBeEmpty();
+	});
+
+	it('Starting instructions set correctly', function() {
+		// arrange
+		var expected = instructionFactory.getInstruction('fw');
+		var instructions;
+
+		// act
+		service.setStartingInstructions();
+		instructions = service.getInstructions();
+
+		// assert
+		expect(instructions).not.toBeEmpty();
+		expect(instructions[0]).toEqual(expected);
 	});
 });
