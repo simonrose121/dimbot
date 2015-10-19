@@ -17,6 +17,7 @@
 			checkPositionMatch: checkPositionMatch,
 			checkOff: checkOff,
 			getColour: getColour,
+			getLight: getLight,
 			setLight: setLight,
 			turnOff: turnOff,
 			turnOn: turnOn
@@ -41,6 +42,10 @@
 
 		function getColour() {
 			return vm.light.material.color.getHex().toString(16);
+		}
+
+		function getLight() {
+			return vm.light;
 		}
 
 		function setLight(mesh) {

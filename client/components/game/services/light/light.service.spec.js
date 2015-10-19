@@ -1,7 +1,7 @@
 describe('Light Service', function() {
 	beforeEach(module('dimbot'));
 
-	var service, light;
+	var service;
 
 	beforeEach(inject(function($injector) {
 		service = $injector.get('lightService');
@@ -17,8 +17,9 @@ describe('Light Service', function() {
 		var wireframe = false;
 		var geometry = new THREE.BoxGeometry(size, size, size);
 		var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
-		light = new THREE.Mesh( geometry, material );
+		var light = new THREE.Mesh( geometry, material );
 		light.position.set(size * 0, size * 0, -100);
+		service.setLight(light);
 	});
 
 	it('Light is initialised', function() {
@@ -26,6 +27,7 @@ describe('Light Service', function() {
 		var x = 0;
 
 		// act
+		var light = service.getLight();
 
 		// assert
 		expect(light).toBeDefined();
