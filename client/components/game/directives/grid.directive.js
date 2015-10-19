@@ -3,9 +3,12 @@
 		.module('dimbot.game')
 		.directive('dimGridDirective', dimGridDirective);
 
-	dimGridDirective.$Inject = ['movementService', 'levelService', 'logger'];
+	dimGridDirective.$Inject = ['movementService', 'levelService',
+		'lightService', 'logger'];
 
-	function dimGridDirective(movementService, levelService, logger) {
+	function dimGridDirective(movementService, levelService, lightService,
+		logger) {
+
 		var directive = {
 			restrict: 'E',
 			link: link,
@@ -77,7 +80,7 @@
 							case 2:
 								// add test object
 								mesh = vm.addMesh(100, 0x0000FF, x, y, -100, false);
-								movementService.setLightMesh(mesh);
+								lightService.setLight(mesh);
 								break;
 							case 3:
 								break;
