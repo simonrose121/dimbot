@@ -15,6 +15,7 @@
 			highlight: highlight,
 			play: play,
 			rewind: rewind,
+			setIndex: setIndex,
 			stop: stop,
 			unhighlight: unhighlight
 		};
@@ -46,6 +47,10 @@
 		function unhighlight(ins) {
 			$('#' + vm.index).css('border', 'none');
 			vm.index++;
+		}
+
+		function setIndex(val) {
+			vm.index = val;
 		}
 	}
 })();

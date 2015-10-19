@@ -24,13 +24,7 @@
 			3, 3, 3, 3, 3
 		];
 
-		vm.level = [
-			3, 3, 3, 3, 3,
-		 	3, 0, 0, 0, 3,
-			3, 1, 0, 2, 3,
-			3, 0, 0, 0, 3,
-			3, 3, 3, 3, 3
-		];
+		vm.level = [];
 
 		var service = {
 			checkMove: checkMove,
@@ -98,8 +92,8 @@
 
 		function resetLevel() {
 			logger.info('startingLevel', vm.startingLevel);
-			vm.level = vm.startingLevel;
 			logger.info('level', vm.level);
+			vm.level = vm.startingLevel.slice();
 		}
 
 		function setStartingInstructions() {
