@@ -123,6 +123,9 @@
 
 			// set play button
 			imageService.play();
+
+			// turn off light
+			lightService.turnOff();
 		}
 
 		function rotate(deg, callback) {
