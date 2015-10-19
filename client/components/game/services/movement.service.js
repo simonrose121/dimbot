@@ -13,7 +13,7 @@
 		// keep track of mesh positions and colours
 		vm.mesh = null;
 		vm.lightMesh = null;
-		
+
 		vm.startingPos = {};
 		vm.stopped = false;
 
@@ -70,6 +70,9 @@
 
 				tween.start();
 				levelService.updateLevel(vm.direction);
+			} else {
+				// callback anyway to unhighlight instruction
+				callback();
 			}
 		}
 
