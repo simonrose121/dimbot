@@ -1,12 +1,12 @@
 (function() {
 	angular
 		.module('utils.timer')
-		.factory('timer', timer)
+		.factory('timer', timer);
 
 	function timer() {
 		var service = {
 			sleep: sleep
-		}
+		};
 
 		return service;
 

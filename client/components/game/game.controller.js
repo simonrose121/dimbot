@@ -39,7 +39,7 @@
 				}
 			}
 			vm.refresh();
-		};
+		}
 
 		function bind() {
 			// used to bind play and reset buttons
@@ -58,6 +58,11 @@
 					vm.refresh();
 				});
 			});
+		}
+		
+		// ensure that DOM always matches program in program service
+		function refresh() {
+			vm.program = programService.getProgram();
 		}
 
 		function replace(ins) {
@@ -92,11 +97,6 @@
 		function removeFromProgram(index) {
 			programService.removeInstruction(index);
 			vm.refresh();
-		};
-
-		// ensure that DOM always matches program in program service
-		function refresh() {
-			vm.program = programService.getProgram();
-		};
-	};
+		}
+	}
 })();

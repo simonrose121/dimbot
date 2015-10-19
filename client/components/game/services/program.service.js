@@ -24,7 +24,7 @@
 		// public methods
 		function getProgram() {
 			return vm.program;
-		};
+		}
 
 		function addInstruction(ins) {
 			logger.info('adding instruction in programService', ins);
@@ -32,16 +32,16 @@
 				logger.info('pushing instruction to program', ins);
 				vm.program.push(ins);
 			}
-		};
+		}
 
 		function empty() {
 			vm.program.length = 0;
-		};
+		}
 
 		function removeInstruction(index) {
 			if (index > -1) {
 				vm.program.splice(index, 1);
 			}
-		};
-	};
+		}
+	}
 })();

@@ -1,7 +1,7 @@
 (function() {
 	angular
 		.module('dimbot.game')
-		.directive('dimGridDirective', dimGridDirective)
+		.directive('dimGridDirective', dimGridDirective);
 
 	dimGridDirective.$Inject = ['movementService', 'levelService', 'logger'];
 
@@ -18,9 +18,9 @@
 			var vm = this;
 
 			// variables
-			vm.camera;
-			vm.scene;
-			vm.renderer;
+			vm.camera = null;
+			vm.scene = null;
+			vm.renderer = null;
 
 			// methods
 			vm.addGrid = addGrid;
@@ -57,6 +57,8 @@
 				var height = levelService.getHeight();
 				var count = 0;
 
+				var mesh = null;
+
 				// for 9 spaces x and y
 				for (var y = -2; y < height; y++) {
 					for (var x = -2; x < width; x++) {
@@ -67,14 +69,14 @@
 								// add test object
 								var geometry = new THREE.BoxGeometry(50, 50, 50);
 								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-								var mesh = new THREE.Mesh( geometry, material );
+								mesh = new THREE.Mesh( geometry, material );
 								mesh.position.set(100 * x, 100 * y, 0);
 								movementService.setMesh(mesh);
 								vm.scene.add(mesh);
 								break;
 							case 2:
 								// add test object
-								var mesh = vm.addMesh(100, 0x0000FF, x, y, -100, false);
+								mesh = vm.addMesh(100, 0x0000FF, x, y, -100, false);
 								movementService.setLightMesh(mesh);
 								break;
 							case 3:
@@ -137,5 +139,5 @@
 				renderloop();
 			}
 		}
-	};
+	}
 })();

@@ -1,7 +1,7 @@
 (function() {
 	angular
 		.module('dimbot.game')
-		.service('imageService', imageService)
+		.service('imageService', imageService);
 
 	imageService.$Inject = ['logger'];
 
@@ -17,7 +17,7 @@
 			rewind: rewind,
 			stop: stop,
 			unhighlight: unhighlight
-		}
+		};
 
 		return service;
 

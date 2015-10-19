@@ -19,7 +19,7 @@ describe('Direction Service', function() {
 			name: 'n',
 			x: 0,
 			y: 100
-		}
+		};
 
 		// act
 		direction = service.getDirectionByIndex(index);
@@ -37,7 +37,7 @@ describe('Direction Service', function() {
 			name: 'e',
 			x: 100,
 			y: 0
-		}
+		};
 
 		// act
 		direction = service.getDirectionByName(name);

@@ -1,7 +1,7 @@
 (function() {
 	angular
 		.module('dimbot.game')
-		.service('directionService', directionService)
+		.service('directionService', directionService);
 
 	directionService.$Inject = ['logger'];
 
@@ -29,7 +29,7 @@
 				x: -100,
 				y: 0
 			}
-		]
+		];
 
 		// setup lookup
 		var lookup = directionLookup();
@@ -38,7 +38,7 @@
 			getDirectionByIndex: getDirectionByIndex,
 			getDirectionByName: getDirectionByName,
 			getIndexFromDirection: getIndexFromDirection
-		}
+		};
 
 		return service;
 
