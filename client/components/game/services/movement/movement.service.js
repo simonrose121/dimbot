@@ -15,17 +15,20 @@
 
 		vm.startingPos = {};
 		vm.stopped = false;
+		vm.x = 0;
 
 		// set starting direction
 		var dir = levelService.getStartingDirection();
 		vm.direction = directionService.getDirectionByName(dir);
-		vm.index = directionService.getIndexFromDirection(vm.direction);
+		// vm.index = directionService.getIndexFromDirection(vm.direction);
 
 		var service = {
 			forward: forward,
 			getDirection: getDirection,
 			getMesh: getMesh,
+			loop: loop,
 			light: light,
+			perform: perform,
 			reset: reset,
 			rewind: rewind,
 			rotate: rotate,
@@ -144,21 +147,17 @@
 		}
 
 		function rotateLeft(callback) {
-			setDirection('rl');
-			rotate(90, callback);
+			service.setDirection('rl');
+			service.rotate(90, callback);
 		}
 
 		function rotateRight(callback) {
-			setDirection('rr');
-			rotate(-90, callback);
+			service.setDirection('rr');
+			service.rotate(-90, callback);
 		}
 
 		function run() {
-			var that = this;
-
-			that.loop = loop;
-			that.perform = perform;
-			var x = 0;
+			vm.x = 0;
 
 			var program = programService.getProgram();
 			logger.info('running program', program);
@@ -172,52 +171,52 @@
 				imageService.setIndex(0);
 
 				// start program
-				that.loop(program);
+				service.loop(program);
 
 				// set stop button
 				imageService.stop();
 			}
+		}
 
-			// control loop execution to wait for callback from tween when complete
-			function loop(arr) {
-				perform(arr[x], function() {
-					x++;
+		// control loop execution to wait for callback from tween when complete
+		function loop(arr) {
+			service.perform(arr[vm.x], function() {
+				vm.x++;
 
-					// unhighlight
-					imageService.unhighlight(arr[x]);
+				// unhighlight
+				imageService.unhighlight(arr[vm.x]);
 
-					if (!vm.stopped) {
-						if (x < arr.length) {
-							loop(arr);
-						} else {
-							imageService.rewind();
-						}
+				if (!vm.stopped) {
+					if (vm.x < arr.length) {
+						service.loop(arr);
 					} else {
-						rewind();
+						imageService.rewind();
 					}
-				});
-			}
-
-			function perform(ins, callback) {
-				logger.warn('executing instruction', ins);
-
-				// highlight
-				imageService.highlight(ins);
-
-				switch(ins.name) {
-					case 'fw':
-						forward(callback);
-						break;
-					case 'rr':
-						rotateRight(callback);
-						break;
-					case 'rl':
-						rotateLeft(callback);
-						break;
-					case 'lt':
-						light(callback);
-						break;
+				} else {
+					rewind();
 				}
+			});
+		}
+
+		function perform(ins, callback) {
+			logger.warn('executing instruction', ins);
+
+			// highlight
+			imageService.highlight(ins);
+
+			switch(ins.name) {
+				case 'fw':
+					service.forward(callback);
+					break;
+				case 'rr':
+					service.rotateRight(callback);
+					break;
+				case 'rl':
+					service.rotateLeft(callback);
+					break;
+				case 'lt':
+					service.light(callback);
+					break;
 			}
 		}
 
