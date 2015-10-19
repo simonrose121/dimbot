@@ -1,7 +1,7 @@
 (function() {
 	angular
 		.module('dimbot.game')
-		.service('levelService', levelService)
+		.service('levelService', levelService);
 
 	levelService.$Inject = ['logger', 'instructionFactory'];
 
@@ -13,7 +13,7 @@
 		vm.mapWidth = 5;
 		vm.mapHeight = 5;
 		vm.startingDirection = 'e';
-		vm.level;
+		vm.level = null;
 		vm.instructions = [];
 
 		vm.startingLevel = [
@@ -47,7 +47,7 @@
 		return service;
 
 		function checkMove(dir) {
-			logger.info('level when checking move', vm.level)
+			logger.info('level when checking move', vm.level);
 
 			// get index
 			var index = getIndexOfObj(1);

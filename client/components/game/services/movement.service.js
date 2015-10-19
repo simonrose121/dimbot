@@ -10,8 +10,8 @@
 			imageService, logger, timer) {
 		var vm = this;
 
-		vm.mesh;
-		vm.lightMesh;
+		vm.mesh = null;
+		vm.lightMesh = null;
 		vm.startingPos = {};
 		vm.stopped = false;
 
@@ -74,8 +74,8 @@
 		function light(callback) {
 			logger.info('lighting up', vm.lightMesh);
 			// check position
-			if (vm.mesh.position.x == vm.lightMesh.position.x
-				&& vm.mesh.position.y == vm.lightMesh.position.y) {
+			if (vm.mesh.position.x == vm.lightMesh.position.x &&
+				vm.mesh.position.y == vm.lightMesh.position.y) {
 				var color = vm.lightMesh.material.color.getHex().toString(16);
 				logger.info('color', color);
 				if (color != 'ffffff') {
@@ -142,7 +142,7 @@
 		}
 
 		function rotateLeft(callback) {
-			setDirection('rl')
+			setDirection('rl');
 			rotate(90, callback);
 		}
 
@@ -248,7 +248,7 @@
 				x: mesh.position.x,
 				y: mesh.position.y,
 				z: mesh.position.z
-			}
+			};
 
 			logger.info('starting pos', vm.startingPos);
 		}
@@ -256,5 +256,5 @@
 		function setLightMesh(mesh) {
 			vm.lightMesh = mesh;
 		}
-	};
+	}
 })();
