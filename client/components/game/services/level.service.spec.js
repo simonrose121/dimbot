@@ -6,6 +6,7 @@ describe('Level Service', function() {
 	beforeEach(inject(function($injector) {
 		directionService = $injector.get('directionService');
 		service = $injector.get('levelService');
+		service.resetLevel();
 	}));
 
 	it('levelService service is initialised', function() {
@@ -15,7 +16,6 @@ describe('Level Service', function() {
 	it('Can read level array', function() {
 		// arrange
 		var level;
-		service.resetLevel();
 
 		// act
 		level = service.readLevel();
@@ -95,7 +95,6 @@ describe('Level Service', function() {
 		// arrange
 		var canMove;
 		var direction = directionService.getDirectionByName('w');
-		service.resetLevel();
 
 		// act
 		canMove = service.checkMove(direction);
