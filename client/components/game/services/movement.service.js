@@ -157,15 +157,20 @@
 
 			that.loop = loop;
 			that.perform = perform;
-			that.x = 0;
+			var x = 0;
 
 			var program = programService.getProgram();
 			logger.info('running program', program);
+			logger.debug('x is', x);
 
 			// when program is started
 			if (program.length > 0) {
+				// make sure program isn't stopped
 				vm.stopped = false;
 
+				// set imageService index to 0
+				imageService.setIndex(0);
+				
 				// start program
 				that.loop(program);
 
@@ -175,15 +180,14 @@
 
 			// control loop execution to wait for callback from tween when complete
 			function loop(arr) {
-				perform(arr[that.x], function() {
-					that.x++;
+				perform(arr[x], function() {
+					x++;
 
 					// unhighlight
-					imageService.unhighlight(arr[that.x]);
+					imageService.unhighlight(arr[x]);
 
 					if (!vm.stopped) {
-						if (that.x < arr.length) {
-							logger.info('executing instruction', arr[that.x]);
+						if (x < arr.length) {
 							loop(arr);
 						} else {
 							imageService.rewind();
@@ -195,6 +199,8 @@
 			}
 
 			function perform(ins, callback) {
+				logger.warn('executing instruction', ins);
+
 				// highlight
 				imageService.highlight(ins);
 
