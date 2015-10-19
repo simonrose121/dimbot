@@ -185,4 +185,19 @@ describe('Movement Service', function() {
 		expect(direction).toEqual(expectedDirection);
 		expect(level).toEqual(expectedLevel);
 	});
+
+	it('Can reset program', function() {
+		// arrange
+		var program;
+		var ins = factory.getInstruction('fw');
+
+		// act
+		programService.addInstruction(ins);
+		service.reset();
+		program = programService.getProgram();
+
+		// assert
+		expect(program).toBeDefined();
+		expect(program.length).toEqual(0);
+	});
 });
