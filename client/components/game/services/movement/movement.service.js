@@ -60,6 +60,7 @@
 				logger.info('moving mesh to', target);
 
 				var tween = new TWEEN.Tween(position).to(target);
+				
 				tween.onUpdate(function() {
 					vm.mesh.position.x = position.x;
 					vm.mesh.position.y = position.y;
