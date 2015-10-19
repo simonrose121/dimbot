@@ -106,11 +106,11 @@ describe('Movement Service', function() {
 
 	});
 
-	it('Can rotate right', function() {
+	it('Mesh rotates right', function() {
 
 	});
 
-	it('Can rotate left', function() {
+	it('Mesh rotates left', function() {
 
 	});
 
