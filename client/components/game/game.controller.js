@@ -59,6 +59,11 @@
 				});
 			});
 		}
+		
+		// ensure that DOM always matches program in program service
+		function refresh() {
+			vm.program = programService.getProgram();
+		}
 
 		function replace(ins) {
 			logger.info('toElement', ins.toElement);
@@ -92,11 +97,6 @@
 		function removeFromProgram(index) {
 			programService.removeInstruction(index);
 			vm.refresh();
-		}
-
-		// ensure that DOM always matches program in program service
-		function refresh() {
-			vm.program = programService.getProgram();
 		}
 	}
 })();

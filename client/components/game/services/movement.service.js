@@ -10,8 +10,10 @@
 			imageService, logger, timer) {
 		var vm = this;
 
+		// keep track of mesh positions and colours
 		vm.mesh = null;
 		vm.lightMesh = null;
+		
 		vm.startingPos = {};
 		vm.stopped = false;
 
@@ -22,14 +24,14 @@
 
 		var service = {
 			forward: forward,
-			light: light,
 			getDirection: getDirection,
 			getMesh: getMesh,
+			light: light,
 			reset: reset,
 			rewind: rewind,
 			rotate: rotate,
-			rotateRight: rotateRight,
 			rotateLeft: rotateLeft,
+			rotateRight: rotateRight,
 			run: run,
 			setDirection: setDirection,
 			setIndex: setIndex,
@@ -71,13 +73,16 @@
 			}
 		}
 
+		function getDirection() {
+			return vm.direction;
+		}
+
 		function light(callback) {
 			logger.info('lighting up', vm.lightMesh);
 			// check position
 			if (vm.mesh.position.x == vm.lightMesh.position.x &&
 				vm.mesh.position.y == vm.lightMesh.position.y) {
 				var color = vm.lightMesh.material.color.getHex().toString(16);
-				logger.info('color', color);
 				if (color != 'ffffff') {
 					// change mesh colour
 					vm.lightMesh.material.color.setHex(0xffffff);
@@ -87,10 +92,6 @@
 			}
 			timer.sleep(1000);
 			callback();
-		}
-
-		function getDirection() {
-			return vm.direction;
 		}
 
 		function getMesh() {
@@ -126,7 +127,9 @@
 		function rotate(deg, callback) {
 			var rad = deg * ( Math.PI / 180 );
 
-			var tween = new TWEEN.Tween(vm.mesh.rotation).to({ z: vm.mesh.rotation.z + rad });
+			var tween = new TWEEN.Tween(vm.mesh.rotation).to({
+				z: vm.mesh.rotation.z + rad
+			});
 
 			tween.onComplete(function() {
 				timer.sleep(1000);
@@ -136,14 +139,14 @@
 			tween.start();
 		}
 
-		function rotateRight(callback) {
-			setDirection('rr');
-			rotate(-90, callback);
-		}
-
 		function rotateLeft(callback) {
 			setDirection('rl');
 			rotate(90, callback);
+		}
+
+		function rotateRight(callback) {
+			setDirection('rr');
+			rotate(-90, callback);
 		}
 
 		function run() {
@@ -156,6 +159,7 @@
 			var program = programService.getProgram();
 			logger.info('running program', program);
 
+			// when program is started
 			if (program.length > 0) {
 				vm.stopped = false;
 
@@ -208,22 +212,6 @@
 			}
 		}
 
-		function stop() {
-			vm.stopped = true;
-		}
-
-		function setIndex(val) {
-			var index = vm.index + val;
-			// handle edge cases
-			if (index == -1) {
-				index = 3;
-			}
-			if (index == 4) {
-				index = 0;
-			}
-			return index;
-		}
-
 		function setDirection(dir) {
 			if (dir == 'rl') {
 				vm.index = setIndex(-1);
@@ -241,6 +229,22 @@
 			}
 		}
 
+		function setIndex(val) {
+			var index = vm.index + val;
+			// handle edge cases
+			if (index == -1) {
+				index = 3;
+			}
+			if (index == 4) {
+				index = 0;
+			}
+			return index;
+		}
+
+		function setLightMesh(mesh) {
+			vm.lightMesh = mesh;
+		}
+
 		function setMesh(mesh, x, y, z) {
 			vm.mesh = mesh;
 
@@ -253,8 +257,8 @@
 			logger.info('starting pos', vm.startingPos);
 		}
 
-		function setLightMesh(mesh) {
-			vm.lightMesh = mesh;
+		function stop() {
+			vm.stopped = true;
 		}
 	}
 })();
