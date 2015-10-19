@@ -10,4 +10,13 @@ describe('Light Service', function() {
 	it('lightService is initialised', function() {
 		expect(service).toBeDefined();
 	});
+
+	it('Light is initialised', function() {
+		// arrange
+		
+
+		// act
+
+		// assert
+	});
 });

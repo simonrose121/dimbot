@@ -4,15 +4,14 @@
 		.service('movementService', movementService);
 
 	movementService.$Inject = ['programService', 'levelService',
-		'directionService', 'imageService', 'logger', 'timer'];
+		'directionService', 'imageService', 'lightService', 'logger', 'timer'];
 
 	function movementService(programService, levelService, directionService,
-			imageService, logger, timer) {
+			imageService, lightService, logger, timer) {
 		var vm = this;
 
 		// keep track of mesh positions and colours
 		vm.mesh = null;
-		vm.lightMesh = null;
 
 		vm.startingPos = {};
 		vm.stopped = false;
@@ -35,7 +34,6 @@
 			run: run,
 			setDirection: setDirection,
 			setIndex: setIndex,
-			setLightMesh: setLightMesh,
 			setMesh: setMesh,
 			stop: stop
 		};
@@ -81,16 +79,16 @@
 		}
 
 		function light(callback) {
-			logger.info('lighting up', vm.lightMesh);
+			var x = vm.mesh.position.x;
+			var y = vm.mesh.position.y;
+
 			// check position
-			if (vm.mesh.position.x == vm.lightMesh.position.x &&
-				vm.mesh.position.y == vm.lightMesh.position.y) {
-				var color = vm.lightMesh.material.color.getHex().toString(16);
-				if (color != 'ffffff') {
+			if (lightService.checkPositionMatch(x, y)) {
+				if (lightService.checkOff()) {
 					// change mesh colour
-					vm.lightMesh.material.color.setHex(0xffffff);
+					lightService.turnOn();
 				} else {
-					vm.lightMesh.material.color.setHex(0x0000FF);
+					lightService.turnOff();
 				}
 			}
 			timer.sleep(1000);
@@ -247,10 +245,6 @@
 				index = 0;
 			}
 			return index;
-		}
-
-		function setLightMesh(mesh) {
-			vm.lightMesh = mesh;
 		}
 
 		function setMesh(mesh, x, y, z) {
