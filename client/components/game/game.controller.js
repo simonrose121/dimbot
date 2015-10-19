@@ -11,6 +11,7 @@
 		var vm = this;
 
 		levelService.setStartingInstructions();
+		levelService.resetLevel();
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
@@ -59,7 +60,7 @@
 				});
 			});
 		}
-		
+
 		// ensure that DOM always matches program in program service
 		function refresh() {
 			vm.program = programService.getProgram();

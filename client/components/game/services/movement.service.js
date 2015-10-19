@@ -161,7 +161,6 @@
 
 			var program = programService.getProgram();
 			logger.info('running program', program);
-			logger.debug('x is', x);
 
 			// when program is started
 			if (program.length > 0) {
@@ -170,7 +169,7 @@
 
 				// set imageService index to 0
 				imageService.setIndex(0);
-				
+
 				// start program
 				that.loop(program);
 

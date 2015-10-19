@@ -58,6 +58,7 @@ describe('Level Service', function() {
 			3, 3, 3, 3, 3
 		];
 		var direction = directionService.getDirectionByName('e');
+		service.resetLevel();
 
 		// act
 		service.updateLevel(direction);
