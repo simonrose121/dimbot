@@ -1,34 +1,39 @@
 (function() {
 	angular
 		.module('utils.logger')
-		.factory('logger', logger)
+		.factory('logger', logger);
 
 	logger.$inject = ['$log'];
 
 	function logger($log) {
 		var service = {
+			debug: debug,
 			error: error,
+			log: log,
 			info: info,
-			success: success,
-			warning: warning
+			warn: warn
 		};
 
 		return service;
 
+		function debug(message, data) {
+			$log.debug('Debug: ' + message, data);
+		}
+
 		function error(message, data) {
 			$log.error('Error: ' + message, data);
-		};
+		}
+
+		function log(message, data) {
+			$log.log('Success: ' + message, data);
+		}
 
 		function info(message, data) {
-			$log.info('Info: ' + message, data)
-		};
+			$log.info('Info: ' + message, data);
+		}
 
-		function success(message, data) {
-			$log.success('Success: ' + message, data);
-		};
-
-		function warning(message, data) {
-			$log.warning('Warning: ' + message, data);
-		};
-	};
+		function warn(message, data) {
+			$log.warn('Warning: ' + message, data);
+		}
+	}
 })();

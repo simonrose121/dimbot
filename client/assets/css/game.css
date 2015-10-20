@@ -2,23 +2,31 @@
   width: 128px;
   height: 128px;
 }
-#navigation .back {
+#navigation #back {
   float: left;
   background: url('../img/back-button.png');
   width: 128px;
   height: 128px;
 }
-#navigation .reset {
+#navigation #reset {
   float: left;
   background: url('../img/reset-button.png');
   width: 128px;
   height: 128px;
 }
-#navigation .play {
+#navigation #status {
   float: right;
-  background: url('../img/play-button.png');
   width: 128px;
   height: 128px;
+}
+#navigation .play {
+  background: url('../img/play-button.png');
+}
+#navigation .rewind {
+  background: url('../img/rewind-button.png');
+}
+#navigation .stop {
+  background: url('../img/stop-button.png');
 }
 #instructions .instructions-inner {
   background: #73DCFF;
@@ -57,4 +65,7 @@
   float: left;
   width: 128px;
   height: 128px;
+}
+#program .highlight {
+  border: solid thick #FFF;
 }

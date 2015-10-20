@@ -1,11 +1,14 @@
 (function() {
 	angular
 		.module('dimbot.game')
-		.directive('dimGridDirective', dimGridDirective)
+		.directive('dimGridDirective', dimGridDirective);
 
-	dimGridDirective.$Inject = ['movementService', 'levelService', 'logger'];
+	dimGridDirective.$Inject = ['movementService', 'levelService',
+		'lightService', 'logger'];
 
-	function dimGridDirective(movementService, levelService, logger) {
+	function dimGridDirective(movementService, levelService, lightService,
+		logger) {
+
 		var directive = {
 			restrict: 'E',
 			link: link,
@@ -18,15 +21,15 @@
 			var vm = this;
 
 			// variables
-			vm.camera;
-			vm.scene;
-			vm.renderer;
+			vm.camera = null;
+			vm.scene = null;
+			vm.renderer = null;
 
 			// methods
 			vm.addGrid = addGrid;
 			vm.addObjects = addObjects;
 			vm.addMesh = addMesh;
-			vm.bind = bind;
+			vm.addRobot = addRobot;
 			vm.init = init;
 			vm.render = render;
 
@@ -34,7 +37,6 @@
 			vm.init();
 			vm.addGrid();
 			vm.addObjects();
-			vm.bind();
 
 			// start render loop
 			vm.render();
@@ -47,7 +49,7 @@
 				for (var x = -1; x < width-1; x++) {
 					for (var y = -1; y < height-1; y++) {
 						// add a box in the correct spot
-						vm.addMesh(100, 0x000000, x, y, -100, true);
+						vm.addMesh(100, 0xCCCCCC, x, y, -100, true);
 					}
 				}
 			}
@@ -59,6 +61,8 @@
 				var height = levelService.getHeight();
 				var count = 0;
 
+				var mesh = null;
+
 				// for 9 spaces x and y
 				for (var y = -2; y < height; y++) {
 					for (var x = -2; x < width; x++) {
@@ -66,18 +70,13 @@
 							case 0:
 								break;
 							case 1:
-								// add test object
-								var geometry = new THREE.BoxGeometry(50, 50, 50);
-								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-								var mesh = new THREE.Mesh( geometry, material );
-								mesh.position.set(100 * x, 100 * y, 0);
-								movementService.setMesh(mesh);
-								vm.scene.add(mesh);
+								vm.addRobot(x, y);
 								break;
 							case 2:
 								// add test object
-								var mesh = vm.addMesh(100, 0x0000FF, x, y, -100, false);
-								movementService.setLightMesh(mesh);
+								var lightColour = lightService.getOffHex();
+								mesh = vm.addMesh(100, lightColour, x, y, -100, false);
+								lightService.setLight(mesh);
 								break;
 							case 3:
 								break;
@@ -87,22 +86,28 @@
 				}
 			}
 
-			function addMesh(size, color, x, y, z, wireframe) {
+			function addMesh(size, color, x, y, z) {
 				var geometry = new THREE.BoxGeometry(size, size, size);
-				var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
+				var material = new THREE.MeshBasicMaterial({
+					color: color
+				});
 				var mesh = new THREE.Mesh( geometry, material );
 				mesh.position.set(size * x, size * y, z);
+				var cube = new THREE.EdgesHelper( mesh, 0x0c0065 );
+				vm.scene.add(cube);
 				vm.scene.add(mesh);
 				return mesh;
 			}
 
-			function bind() {
-				// used to bind play and reset buttons
-				$('.play').bind('click', function() {
-					movementService.run();
-				});
-				$('.reset').bind('click', function() {
-					movementService.reset();
+			function addRobot(x, y) {
+				var jsonLoader = new THREE.JSONLoader();
+			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry, material) {
+					var mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial(material));
+					mesh.rotation.x = (Math.PI / 2);
+					mesh.rotation.y = (Math.PI / 2);
+					mesh.position.set(100 * x, 100 * y, 0);
+					vm.scene.add(mesh);
+					movementService.setMesh(mesh);
 				});
 			}
 
@@ -149,5 +154,5 @@
 				renderloop();
 			}
 		}
-	};
+	}
 })();

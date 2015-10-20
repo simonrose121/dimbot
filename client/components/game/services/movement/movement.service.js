@@ -4,35 +4,41 @@
 		.service('movementService', movementService);
 
 	movementService.$Inject = ['programService', 'levelService',
-		'directionService', 'logger', 'timer'];
+		'directionService', 'imageService', 'lightService', 'logger', 'timer'];
 
 	function movementService(programService, levelService, directionService,
-			logger, timer) {
+			imageService, lightService, logger, timer) {
 		var vm = this;
 
-		vm.mesh;
-		vm.lightMesh;
+		// keep track of mesh positions and colours
+		vm.mesh = null;
+
 		vm.startingPos = {};
+		vm.stopped = false;
+		vm.x = 0;
 
 		// set starting direction
 		var dir = levelService.getStartingDirection();
 		vm.direction = directionService.getDirectionByName(dir);
-		vm.index = directionService.getIndexFromDirection(vm.direction);
+		// vm.index = directionService.getIndexFromDirection(vm.direction);
 
 		var service = {
 			forward: forward,
-			light: light,
 			getDirection: getDirection,
 			getMesh: getMesh,
+			loop: loop,
+			light: light,
+			perform: perform,
 			reset: reset,
+			rewind: rewind,
 			rotate: rotate,
-			rotateRight: rotateRight,
 			rotateLeft: rotateLeft,
+			rotateRight: rotateRight,
 			run: run,
 			setDirection: setDirection,
 			setIndex: setIndex,
-			setLightMesh: setLightMesh,
 			setMesh: setMesh,
+			stop: stop
 		};
 
 		return service;
@@ -54,6 +60,7 @@
 				logger.info('moving mesh to', target);
 
 				var tween = new TWEEN.Tween(position).to(target);
+
 				tween.onUpdate(function() {
 					vm.mesh.position.x = position.x;
 					vm.mesh.position.y = position.y;
@@ -65,28 +72,31 @@
 
 				tween.start();
 				levelService.updateLevel(vm.direction);
+			} else {
+				// callback anyway to unhighlight instruction
+				callback();
 			}
-		}
-
-		function light(callback) {
-			logger.info('lighting up', vm.lightMesh);
-			// check position
-			if (vm.mesh.position.x == vm.lightMesh.position.x
-				&& vm.mesh.position.y == vm.lightMesh.position.y) {
-				var color = vm.lightMesh.material.color.getHex().toString(16);
-				logger.info('color', color);
-				if (color != 'ffffff') {
-					// change mesh colour
-					vm.lightMesh.material.color.setHex(0xffffff);
-				} else {
-					vm.lightMesh.material.color.setHex(0x0000FF);
-				}
-			}
-			callback();
 		}
 
 		function getDirection() {
 			return vm.direction;
+		}
+
+		function light(callback) {
+			var x = vm.mesh.position.x;
+			var y = vm.mesh.position.y;
+
+			// check position
+			if (lightService.checkPositionMatch(x, y)) {
+				if (lightService.isLightOn()) {
+					// change mesh colour
+					lightService.turnOff();
+				} else {
+					lightService.turnOn();
+				}
+			}
+			timer.sleep(1000);
+			callback();
 		}
 
 		function getMesh() {
@@ -95,6 +105,13 @@
 
 		function reset() {
 			// reset position
+			rewind();
+
+			// empty program
+			programService.empty();
+		}
+
+		function rewind() {
 			if (vm.mesh) {
 				vm.mesh.position.x = vm.startingPos.x;
 				vm.mesh.position.y = vm.startingPos.y;
@@ -108,81 +125,100 @@
 			// reset level array
 			levelService.resetLevel();
 
-			logger.info('level reset', vm.mesh);
+			// set play button
+			imageService.play();
+
+			// turn off light
+			lightService.turnOff();
 		}
 
 		function rotate(deg, callback) {
 			var rad = deg * ( Math.PI / 180 );
 
-			var tween = new TWEEN.Tween(vm.mesh.rotation).to({ z: vm.mesh.rotation.z + rad });
+			var tween = new TWEEN.Tween(vm.mesh.rotation).to({
+				y: vm.mesh.rotation.y + rad
+			});
 
 			tween.onComplete(function() {
+				timer.sleep(1000);
 				callback();
 			});
 
 			tween.start();
 		}
 
-		function rotateRight(callback) {
-			setDirection('rr');
-			rotate(-90, callback);
+		function rotateLeft(callback) {
+			service.setDirection('rl');
+			service.rotate(90, callback);
 		}
 
-		function rotateLeft(callback) {
-			setDirection('rl')
-			rotate(90, callback);
+		function rotateRight(callback) {
+			service.setDirection('rr');
+			service.rotate(-90, callback);
 		}
 
 		function run() {
-			var that = this;
-
-			that.loop = loop;
-			that.perform = perform;
-			that.x = 0;
+			vm.x = 0;
 
 			var program = programService.getProgram();
 			logger.info('running program', program);
-			that.loop(program);
 
-			// control loop execution to wait for callback from tween when complete
-			function loop(arr) {
-				perform(arr[that.x], function() {
-					that.x++;
+			// when program is started
+			if (program.length > 0) {
+				// make sure program isn't stopped
+				vm.stopped = false;
 
-					if(that.x < arr.length) {
-						loop(arr);
-					};
-				});
-			}
+				// set imageService index to 0
+				imageService.setIndex(0);
 
-			function perform(ins, callback) {
-				switch(ins.name) {
-					case 'fw':
-						forward(callback);
-						break;
-					case 'rr':
-						rotateRight(callback);
-						break;
-					case 'rl':
-						rotateLeft(callback);
-						break;
-					case 'lt':
-						light(callback);
-						break;
-				}
+				// start program
+				service.loop(program);
+
+				// set stop button
+				imageService.stop();
 			}
 		}
 
-		function setIndex(val) {
-			var index = vm.index + val;
-			// handle edge cases
-			if (index == -1) {
-				index = 3;
+		// control loop execution to wait for callback from tween when complete
+		function loop(arr) {
+			service.perform(arr[vm.x], function() {
+				vm.x++;
+
+				// unhighlight
+				imageService.unhighlight(arr[vm.x]);
+
+				if (!vm.stopped) {
+					if (vm.x < arr.length) {
+						service.loop(arr);
+					} else {
+						imageService.rewind();
+					}
+				} else {
+					rewind();
+				}
+			});
+		}
+
+		function perform(ins, callback) {
+			logger.warn('executing instruction', ins);
+
+			// highlight
+			imageService.highlight(ins);
+
+			switch(ins.name) {
+				case 'fw':
+					service.forward(callback);
+					break;
+				case 'rr':
+					service.rotateRight(callback);
+					break;
+				case 'rl':
+					service.rotateLeft(callback);
+					break;
+				case 'lt':
+					service.light(callback);
+					break;
 			}
-			if (index == 4) {
-				index = 0;
-			}
-			return index;
 		}
 
 		function setDirection(dir) {
@@ -202,6 +238,18 @@
 			}
 		}
 
+		function setIndex(val) {
+			var index = vm.index + val;
+			// handle edge cases
+			if (index == -1) {
+				index = 3;
+			}
+			if (index == 4) {
+				index = 0;
+			}
+			return index;
+		}
+
 		function setMesh(mesh, x, y, z) {
 			vm.mesh = mesh;
 
@@ -209,13 +257,13 @@
 				x: mesh.position.x,
 				y: mesh.position.y,
 				z: mesh.position.z
-			}
+			};
 
 			logger.info('starting pos', vm.startingPos);
 		}
 
-		function setLightMesh(mesh) {
-			vm.lightMesh = mesh;
+		function stop() {
+			vm.stopped = true;
 		}
-	};
+	}
 })();

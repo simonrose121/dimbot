@@ -1,7 +1,7 @@
 (function() {
 	angular
 		.module('dimbot.game')
-		.factory('instructionFactory', instructionFactory)
+		.factory('instructionFactory', instructionFactory);
 
 	instructionFactory.$Inject = ['logger'];
 
@@ -13,7 +13,7 @@
 
 		var factory = {
 			getInstruction: getInstruction
-		}
+		};
 
 		return factory;
 
@@ -23,19 +23,16 @@
 				case 'fw':
 					return new Instruction("fw",
 						"client/assets/img/up-instruction.png");
-					break;
 				case 'rr':
 					return new Instruction("rr",
 						"client/assets/img/right-rotate-instruction.png");
-					break;
 				case 'rl':
 					return new Instruction("rl",
 						"client/assets/img/left-rotate-instruction.png");
-					break;
 				case 'lt':
 					return new Instruction("lt",
 						"client/assets/img/lightbulb.png");
 			}
 		}
-	};
+	}
 })();

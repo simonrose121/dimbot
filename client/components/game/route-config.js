@@ -1,7 +1,7 @@
 (function() {
 	angular
 		.module('dimbot.game')
-		.config(config)
+		.config(config);
 
 	function config($routeProvider) {
       	$routeProvider.when("/", {
@@ -9,5 +9,5 @@
 		  	controller: "Game",
           	controllerAs: "vm"
         });
-    };
+    }
 })();
