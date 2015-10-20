@@ -16,11 +16,11 @@
 		vm.startingPos = {};
 		vm.stopped = false;
 		vm.x = 0;
+		vm.direction = null;
+		vm.index = null;
 
 		// set starting direction
-		var dir = levelService.getStartingDirection();
-		vm.direction = directionService.getDirectionByName(dir);
-		vm.index = directionService.getIndexFromDirection(vm.direction);
+		setStartingDirection();
 
 		var service = {
 			forward: forward,
@@ -38,6 +38,7 @@
 			setDirection: setDirection,
 			setIndex: setIndex,
 			setMesh: setMesh,
+			setStartingDirection: setStartingDirection,
 			stop: stop,
 			updateIndex: updateIndex
 		};
@@ -178,7 +179,7 @@
 				imageService.setIndex(0);
 
 				// set rotation index back to 0
-				service.setIndex(0);
+				service.setStartingDirection();
 
 				// start program
 				service.loop(program);
@@ -257,6 +258,12 @@
 			};
 
 			logger.info('starting pos', vm.startingPos);
+		}
+
+		function setStartingDirection() {
+			var dir = levelService.getStartingDirection();
+			vm.direction = directionService.getDirectionByName(dir);
+			vm.index = directionService.getIndexFromDirection(vm.direction);
 		}
 
 		function setIndex(val) {
