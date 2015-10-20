@@ -13,6 +13,8 @@
 		levelService.setStartingInstructions();
 		levelService.resetLevel();
 
+		vm.beingDragged = false;
+
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
 		vm.instructions = levelService.getInstructions();
@@ -28,11 +30,14 @@
 		function addToProgram(ins) {
 			// if instruction exists
 			if (ins) {
-				if (ins.toElement) {
-					// if drag and drop
-					var i = instructionFactory.getInstruction(ins.toElement.id);
-					// get instruction and add
-					//programService.addInstruction(i);
+				if (vm.beingDragged) {
+					if (ins.toElement) {
+						// if drag and drop
+						var i = instructionFactory.getInstruction(ins.toElement.id);
+						// get instruction and add
+						programService.addInstruction(i);
+						vm.beingDragged = false;
+					}
 				} else {
 					// if click
 					// remove instruction to prevent drags adding
@@ -67,6 +72,8 @@
 		}
 
 		function replace(ins) {
+			vm.beingDragged = true;
+			
 			logger.info('toElement', ins.toElement);
 			var id = ins.toElement.id;
 
