@@ -16,11 +16,11 @@
 		vm.startingPos = {};
 		vm.stopped = false;
 		vm.x = 0;
+		vm.direction = null;
+		vm.index = null;
 
 		// set starting direction
-		var dir = levelService.getStartingDirection();
-		vm.direction = directionService.getDirectionByName(dir);
-		// vm.index = directionService.getIndexFromDirection(vm.direction);
+		setStartingDirection();
 
 		var service = {
 			forward: forward,
@@ -38,7 +38,9 @@
 			setDirection: setDirection,
 			setIndex: setIndex,
 			setMesh: setMesh,
-			stop: stop
+			setStartingDirection: setStartingDirection,
+			stop: stop,
+			updateIndex: updateIndex
 		};
 
 		return service;
@@ -118,6 +120,11 @@
 				vm.mesh.position.z = 0;
 			}
 
+			// rotation
+			vm.mesh.rotation.x = (Math.PI / 2);
+			vm.mesh.rotation.y = (Math.PI / 2);
+			vm.mesh.rotation.z = 0;
+
 			// reset direction
 			var name = levelService.getStartingDirection();
 			vm.direction = directionService.getDirectionByName(name);
@@ -171,6 +178,9 @@
 				// set imageService index to 0
 				imageService.setIndex(0);
 
+				// set rotation index back to 0
+				service.setStartingDirection();
+
 				// start program
 				service.loop(program);
 
@@ -223,31 +233,19 @@
 
 		function setDirection(dir) {
 			if (dir == 'rl') {
-				vm.index = setIndex(-1);
+				vm.index = service.updateIndex(-1);
 				logger.info('index ', vm.index);
 
 				vm.direction = directionService.getDirectionByIndex(vm.index);
 				logger.info('direction', vm.direction);
 			}
 			if (dir == 'rr') {
-				vm.index = setIndex(1);
+				vm.index = service.updateIndex(1);
 				logger.info('index ', vm.index);
 
 				vm.direction = directionService.getDirectionByIndex(vm.index);
 				logger.info('direction', vm.direction);
 			}
-		}
-
-		function setIndex(val) {
-			var index = vm.index + val;
-			// handle edge cases
-			if (index == -1) {
-				index = 3;
-			}
-			if (index == 4) {
-				index = 0;
-			}
-			return index;
 		}
 
 		function setMesh(mesh, x, y, z) {
@@ -262,8 +260,30 @@
 			logger.info('starting pos', vm.startingPos);
 		}
 
+		function setStartingDirection() {
+			var dir = levelService.getStartingDirection();
+			vm.direction = directionService.getDirectionByName(dir);
+			vm.index = directionService.getIndexFromDirection(vm.direction);
+		}
+
+		function setIndex(val) {
+			vm.index = val;
+		}
+
 		function stop() {
 			vm.stopped = true;
+		}
+
+		function updateIndex(val) {
+			var index = vm.index + val;
+			// handle edge cases
+			if (index == -1) {
+				index = 3;
+			}
+			if (index == 4) {
+				index = 0;
+			}
+			return index;
 		}
 	}
 })();

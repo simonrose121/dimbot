@@ -200,4 +200,17 @@ describe('Movement Service', function() {
 		expect(program).toBeDefined();
 		expect(program.length).toEqual(0);
 	});
+
+	it('Update index method handles rotation either direction', function() {
+		// arrange
+		service.setIndex(0);
+
+		// act
+		var lastIndex = service.updateIndex(-1);
+		var firstIndex = service.updateIndex(1);
+
+		// assert
+		expect(lastIndex).toEqual(3);
+		expect(firstIndex).toEqual(1);
+	});
 });
