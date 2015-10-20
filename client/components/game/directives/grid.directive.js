@@ -102,11 +102,10 @@
 			function addRobot(x, y) {
 				var jsonLoader = new THREE.JSONLoader();
 			   	jsonLoader.load("../../models/jasubot.js", function(geometry, material) {
-					var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xffff00 }));
-					mesh.scale.x = 1/4;
-					mesh.scale.y = 1/4;
-					//mesh.rotation.z += (Math.PI / 2);
-					mesh.position.set(50 * x, 50 * y, 0);
+					var mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial(material));
+					mesh.rotation.x = (Math.PI / 2);
+					mesh.rotation.y = (Math.PI / 2);
+					mesh.position.set(100 * x, 100 * y, 0);
 					vm.scene.add(mesh);
 					movementService.setMesh(mesh);
 				});
@@ -125,10 +124,10 @@
 				vm.renderer = new THREE.WebGLRenderer({ alpha: true });
 				vm.camera =
 				  new THREE.OrthographicCamera(
-					WIDTH/-1,
-					WIDTH/1,
-					HEIGHT/1,
-					HEIGHT/-1,
+					WIDTH/-2,
+					WIDTH/2,
+					HEIGHT/2,
+					HEIGHT/-2,
 					NEAR,
 					FAR
 				);
