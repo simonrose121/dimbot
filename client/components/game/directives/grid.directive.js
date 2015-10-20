@@ -101,7 +101,7 @@
 
 			function addRobot(x, y) {
 				var jsonLoader = new THREE.JSONLoader();
-			   	jsonLoader.load("../../models/jasubot.js", function(geometry, material) {
+			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry, material) {
 					var mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial(material));
 					mesh.rotation.x = (Math.PI / 2);
 					mesh.rotation.y = (Math.PI / 2);

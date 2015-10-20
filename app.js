@@ -33,7 +33,7 @@ app.get('/client/components/:component/:name', function (req, res) {
 app.use('/libs', express.static(__dirname + '/client/assets/libs'));
 app.use('/css', express.static(__dirname + '/client/assets/css'));
 app.use('/img', express.static(__dirname + '/client/assets/img'));
-app.use('/models', express.static(__dirname + '/client/assets/models'));
+app.use('/mdls', express.static(__dirname + '/client/assets/mdls'));
 app.use('/client', express.static(__dirname + '/client/'));
 
 app.listen(port);
