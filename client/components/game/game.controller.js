@@ -13,6 +13,8 @@
 		levelService.setStartingInstructions();
 		levelService.resetLevel();
 
+		vm.beingDragged = false;
+
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
 		vm.instructions = levelService.getInstructions();
@@ -21,15 +23,11 @@
 		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
 
-		vm.beingDragged = false;
-
 		// call update to add default instructions
 		vm.refresh();
 		vm.bind();
 
 		function addToProgram(ins) {
-			logger.debug('being dragged in add to program', vm.beingDragged);
-
 			// if instruction exists
 			if (ins) {
 				if (vm.beingDragged) {
@@ -75,8 +73,7 @@
 
 		function replace(ins) {
 			vm.beingDragged = true;
-			logger.debug('being dragged', vm.beingDragged);
-
+			
 			logger.info('toElement', ins.toElement);
 			var id = ins.toElement.id;
 
