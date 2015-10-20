@@ -9,14 +9,15 @@
 		var vm = this;
 
 		vm.light = null;
-		vm.offHex = 0x0000FF;
-		vm.onHex = 0xFFFFFF;
-		vm.onVal = 'ffffff';
+		vm.offHex = 0x183ba6;
+		vm.onHex = 0xffe600;
+		vm.onVal = 'ffe600';
 
 		var service = {
 			checkPositionMatch: checkPositionMatch,
 			getColour: getColour,
 			getLight: getLight,
+			getOffHex: getOffHex,
 			isLightOn: isLightOn,
 			setLight: setLight,
 			turnOff: turnOff,
@@ -42,6 +43,10 @@
 
 		function getColour() {
 			return vm.light.material.color.getHex().toString(16);
+		}
+
+		function getOffHex() {
+			return vm.offHex;
 		}
 
 		function getLight() {

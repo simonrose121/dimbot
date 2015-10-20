@@ -29,6 +29,7 @@
 			vm.addGrid = addGrid;
 			vm.addObjects = addObjects;
 			vm.addMesh = addMesh;
+			vm.addRobot = addRobot;
 			vm.init = init;
 			vm.render = render;
 
@@ -48,7 +49,7 @@
 				for (var x = -1; x < width-1; x++) {
 					for (var y = -1; y < height-1; y++) {
 						// add a box in the correct spot
-						vm.addMesh(100, 0x000000, x, y, -100, true);
+						vm.addMesh(100, 0xCCCCCC, x, y, -100, true);
 					}
 				}
 			}
@@ -69,17 +70,12 @@
 							case 0:
 								break;
 							case 1:
-								// add test object
-								var geometry = new THREE.BoxGeometry(50, 50, 50);
-								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-								mesh = new THREE.Mesh( geometry, material );
-								mesh.position.set(100 * x, 100 * y, 0);
-								movementService.setMesh(mesh);
-								vm.scene.add(mesh);
+								vm.addRobot(x, y);
 								break;
 							case 2:
 								// add test object
-								mesh = vm.addMesh(100, 0x0000FF, x, y, -100, false);
+								var lightColour = lightService.getOffHex();
+								mesh = vm.addMesh(100, lightColour, x, y, -100, false);
 								lightService.setLight(mesh);
 								break;
 							case 3:
@@ -90,13 +86,29 @@
 				}
 			}
 
-			function addMesh(size, color, x, y, z, wireframe) {
+			function addMesh(size, color, x, y, z) {
 				var geometry = new THREE.BoxGeometry(size, size, size);
-				var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
+				var material = new THREE.MeshBasicMaterial({
+					color: color
+				});
 				var mesh = new THREE.Mesh( geometry, material );
 				mesh.position.set(size * x, size * y, z);
+				var cube = new THREE.EdgesHelper( mesh, 0x0c0065 );
+				vm.scene.add(cube);
 				vm.scene.add(mesh);
 				return mesh;
+			}
+
+			function addRobot(x, y) {
+				var jsonLoader = new THREE.JSONLoader();
+			   	jsonLoader.load("../../models/jasubot.js", function(geometry, material) {
+					var mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial(material));
+					mesh.rotation.x = (Math.PI / 2);
+					mesh.rotation.y = (Math.PI / 2);
+					mesh.position.set(100 * x, 100 * y, 0);
+					vm.scene.add(mesh);
+					movementService.setMesh(mesh);
+				});
 			}
 
 			function init() {

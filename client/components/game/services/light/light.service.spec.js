@@ -57,6 +57,17 @@ describe('Light Service', function() {
 		expect(colour).toEqual(expected);
 	});
 
+	it('Can get off hex colour', function() {
+		// arrange
+		var expected = 0x183ba6;
+
+		// act
+		var colour = service.getOffHex();
+
+		// assert
+		expect(colour).toEqual(expected);
+	});
+
 	it('Can check position of light matches expected position', function() {
 		// arrange
 		var expected = true;
