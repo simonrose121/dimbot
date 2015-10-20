@@ -29,6 +29,7 @@
 			vm.addGrid = addGrid;
 			vm.addObjects = addObjects;
 			vm.addMesh = addMesh;
+			vm.addRobot = addRobot;
 			vm.init = init;
 			vm.render = render;
 
@@ -69,13 +70,12 @@
 							case 0:
 								break;
 							case 1:
+								vm.addRobot(x, y);
 								// add test object
-								var geometry = new THREE.BoxGeometry(50, 50, 50);
-								var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-								mesh = new THREE.Mesh( geometry, material );
-								mesh.position.set(100 * x, 100 * y, 0);
-								movementService.setMesh(mesh);
-								vm.scene.add(mesh);
+								// var geometry = new THREE.BoxGeometry(50, 50, 50);
+								// var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+								// mesh = new THREE.Mesh( geometry, material );
+								// mesh.position.set(100 * x, 100 * y, 0);
 								break;
 							case 2:
 								// add test object
@@ -99,6 +99,19 @@
 				return mesh;
 			}
 
+			function addRobot(x, y) {
+				var jsonLoader = new THREE.JSONLoader();
+			   	jsonLoader.load("../../models/jasubot.js", function(geometry, material) {
+					var mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0xffff00 }));
+					mesh.scale.x = 1/4;
+					mesh.scale.y = 1/4;
+					//mesh.rotation.z += (Math.PI / 2);
+					mesh.position.set(50 * x, 50 * y, 0);
+					vm.scene.add(mesh);
+					movementService.setMesh(mesh);
+				});
+			}
+
 			function init() {
 				container = $('#level');
 
@@ -112,10 +125,10 @@
 				vm.renderer = new THREE.WebGLRenderer({ alpha: true });
 				vm.camera =
 				  new THREE.OrthographicCamera(
-					WIDTH/-2,
-					WIDTH/2,
-					HEIGHT/2,
-					HEIGHT/-2,
+					WIDTH/-1,
+					WIDTH/1,
+					HEIGHT/1,
+					HEIGHT/-1,
 					NEAR,
 					FAR
 				);
