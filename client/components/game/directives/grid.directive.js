@@ -92,9 +92,13 @@
 
 			function addMesh(size, color, x, y, z, wireframe) {
 				var geometry = new THREE.BoxGeometry(size, size, size);
-				var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
+				var material = new THREE.MeshBasicMaterial({
+					color: color
+				});
 				var mesh = new THREE.Mesh( geometry, material );
 				mesh.position.set(size * x, size * y, z);
+				var cube = new THREE.EdgesHelper( mesh, 0x00ffff );
+				vm.scene.add(cube);
 				vm.scene.add(mesh);
 				return mesh;
 			}
