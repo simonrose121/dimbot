@@ -24,7 +24,7 @@
 		vm.removeFromProgram = removeFromProgram;
 
 		// set current state
-		state.current = state.states.COMPOSING;
+		state.current = state.COMPOSING;
 
 		// call update to add default instructions
 		vm.refresh();
