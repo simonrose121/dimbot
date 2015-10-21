@@ -10,7 +10,7 @@
 		levelService, instructionFactory, state) {
 		var vm = this;
 
-		levelService.setStartingInstructions();
+		levelService.setInstructions();
 		levelService.resetLevel();
 
 		vm.beingDragged = false;

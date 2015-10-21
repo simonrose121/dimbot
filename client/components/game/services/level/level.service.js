@@ -18,14 +18,19 @@
 		vm.levelNo = 1;
 
 		vm.levels = {
-			1:
-			[
-				3, 3, 3, 3, 3,
-			 	3, 0, 0, 0, 3,
-				3, 1, 0, 2, 3,
-				3, 0, 0, 0, 3,
-				3, 3, 3, 3, 3
-			],
+			1: {
+				'lvl': [
+					3, 3, 3, 3, 3,
+				 	3, 0, 0, 0, 3,
+					3, 1, 0, 2, 3,
+					3, 0, 0, 0, 3,
+					3, 3, 3, 3, 3
+				],
+				'ins': [
+					'fw',
+					'lt'
+				]
+			},
 			2:
 			[
 				3, 3, 3, 3, 3,
@@ -45,7 +50,7 @@
 			nextLevel: nextLevel,
 			readLevel: readLevel,
 			resetLevel: resetLevel,
-			setStartingInstructions: setStartingInstructions,
+			setInstructions: setInstructions,
 			updateLevel: updateLevel
 		};
 
@@ -107,19 +112,15 @@
 
 		function resetLevel() {
 			logger.info('level', vm.level);
-			vm.level = vm.levels[vm.levelNo].slice();
+			vm.level = vm.levels[vm.levelNo].lvl.slice();
 		}
 
-		function setStartingInstructions() {
-			var fw = instructionFactory.getInstruction('fw');
-			var rr = instructionFactory.getInstruction('rr');
-			var rl = instructionFactory.getInstruction('rl');
-			var lt = instructionFactory.getInstruction('lt');
-
-			vm.instructions.push(fw);
-			vm.instructions.push(rr);
-			vm.instructions.push(rl);
-			vm.instructions.push(lt);
+		function setInstructions() {
+			for (var i = 0; i < vm.levels[vm.levelNo].ins.length; i++) {
+				var name = vm.levels[vm.levelNo].ins[i];
+				var ins = instructionFactory.getInstruction(name);
+				vm.instructions.push(ins);
+			}
 		}
 
 		function updateLevel(dir) {
