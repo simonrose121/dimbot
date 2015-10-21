@@ -204,6 +204,7 @@
 						imageService.rewind();
 					}
 				} else if (state.current == state.COMPLETE) {
+					imageService.rewind();
 					// do something!
 				} else {
 					rewind();
