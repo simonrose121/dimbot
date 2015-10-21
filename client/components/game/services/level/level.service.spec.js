@@ -115,7 +115,7 @@ describe('Level Service', function() {
 		var instructions;
 
 		// act
-		service.setStartingInstructions();
+		service.setInstructions();
 		instructions = service.getInstructions();
 
 		// assert

@@ -20,7 +20,8 @@ describe('Direction Service', function() {
 		var expectedDirection = {
 			name: 'w',
 			x: -100,
-			y: 0
+			y: 0,
+			rot: -(Math.PI / 2)
 		};
 
 		// act
@@ -39,7 +40,8 @@ describe('Direction Service', function() {
 		var expectedDirection = {
 			name: 'n',
 			x: 0,
-			y: 100
+			y: 100,
+			rot: (Math.PI)
 		};
 
 		// act
@@ -57,7 +59,8 @@ describe('Direction Service', function() {
 		var expectedDirection = {
 			name: 'e',
 			x: 100,
-			y: 0
+			y: 0,
+			rot: (Math.PI / 2)
 		};
 
 		// act

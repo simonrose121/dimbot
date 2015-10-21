@@ -204,8 +204,8 @@
 						imageService.rewind();
 					}
 				} else if (state.current == state.COMPLETE) {
+					imageService.next();
 					imageService.rewind();
-					// do something!
 				} else {
 					rewind();
 					state.current = state.COMPOSING;

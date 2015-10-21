@@ -7,7 +7,7 @@
         .back-img('back-button');
         .standard-img-size;
     }
-    
+
     #reset {
         float: left;
         .back-img('reset-button');
@@ -29,6 +29,14 @@
 
     .stop {
         .back-img('stop-button');
+    }
+
+    #level-no {
+        float:left;
+        font-size: 30px;
+        color: #FFF;
+        text-align: center;
+        width: 78%;
     }
 }
 
@@ -82,4 +90,14 @@
     .highlight {
         border: solid thick #FFF;
     }
+}
+
+#next {
+    display: none;
+    z-index: 1;
+    position: absolute;
+    top: 8%;
+    left: 37%;
+    .back-img('forward-button');
+    .standard-img-size;
 }

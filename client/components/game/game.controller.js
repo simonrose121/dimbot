@@ -3,14 +3,15 @@
         .module('dimbot.game')
         .controller('Game', Game);
 
-	Game.$inject = ['$http', '$scope', 'logger', 'programService', 'movementService',
-	'levelService',	'instructionFactory', 'state'];
+	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
+		'movementService','levelService', 'imageService',
+		'instructionFactory', 'state'];
 
-	function Game($http, $scope, logger, programService, movementService,
-		levelService, instructionFactory, state) {
+	function Game($http, $scope, $compile, logger, programService,
+		movementService, levelService, imageService, instructionFactory, state) {
 		var vm = this;
 
-		levelService.setStartingInstructions();
+		levelService.setInstructions();
 		levelService.resetLevel();
 
 		vm.beingDragged = false;
@@ -59,12 +60,29 @@
 					movementService.stop();
 				} else if ($('#status').hasClass('rewind')) {
 					movementService.rewind();
+					imageService.removeNext();
 				}
 			});
 			$('#reset').bind('click', function() {
 				movementService.reset();
+				imageService.removeNext();
 				$scope.$apply(function() {
 					vm.refresh();
+				});
+			});
+			$('#next').bind('click', function() {
+				levelService.nextLevel();
+				imageService.play();
+				imageService.next();
+
+				$scope.$apply(function() {
+					vm.refresh();
+					levelService.setInstructions();
+					programService.empty();
+
+					$('.level-inner').html('');
+					var newElement = $compile("<dim-grid-directive></dim-grid-directive>")($scope);
+					$('.level-inner').append(newElement);
 				});
 			});
 		}
