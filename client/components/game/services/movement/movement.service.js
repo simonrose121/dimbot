@@ -4,17 +4,17 @@
 		.service('movementService', movementService);
 
 	movementService.$Inject = ['programService', 'levelService',
-		'directionService', 'imageService', 'lightService', 'logger', 'timer'];
+		'directionService', 'imageService', 'lightService', 'logger', 'timer',
+		'state'];
 
 	function movementService(programService, levelService, directionService,
-			imageService, lightService, logger, timer) {
+			imageService, lightService, logger, timer, state) {
 		var vm = this;
 
 		// keep track of mesh positions and colours
 		vm.mesh = null;
 
 		vm.startingPos = {};
-		vm.stopped = false;
 		vm.x = 0;
 		vm.direction = null;
 		vm.index = null;
@@ -95,6 +95,7 @@
 					lightService.turnOff();
 				} else {
 					lightService.turnOn();
+					state.current = state.COMPLETE;
 				}
 			}
 			timer.sleep(1000);
@@ -172,8 +173,7 @@
 
 			// when program is started
 			if (program.length > 0) {
-				// make sure program isn't stopped
-				vm.stopped = false;
+				state.current = state.RUNNING;
 
 				// set imageService index to 0
 				imageService.setIndex(0);
@@ -197,14 +197,18 @@
 				// unhighlight
 				imageService.unhighlight(arr[vm.x]);
 
-				if (!vm.stopped) {
+				if (state.current == state.RUNNING) {
 					if (vm.x < arr.length) {
 						service.loop(arr);
 					} else {
 						imageService.rewind();
 					}
+				} else if (state.current == state.COMPLETE) {
+					imageService.rewind();
+					// do something!
 				} else {
 					rewind();
+					state.current = state.COMPOSING;
 				}
 			});
 		}
@@ -271,7 +275,7 @@
 		}
 
 		function stop() {
-			vm.stopped = true;
+			state.current = state.STOPPED;
 		}
 
 		function updateIndex(val) {
