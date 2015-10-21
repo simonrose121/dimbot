@@ -13,18 +13,28 @@
 		vm.mapWidth = 5;
 		vm.mapHeight = 5;
 		vm.startingDirection = 'e';
-		vm.level = null;
-		vm.instructions = [];
-
-		vm.startingLevel = [
-			3, 3, 3, 3, 3,
-		 	3, 0, 0, 0, 3,
-			3, 1, 0, 2, 3,
-			3, 0, 0, 0, 3,
-			3, 3, 3, 3, 3
-		];
-
 		vm.level = [];
+		vm.instructions = [];
+		vm.levelNo = 1;
+
+		vm.levels = {
+			1:
+			[
+				3, 3, 3, 3, 3,
+			 	3, 0, 0, 0, 3,
+				3, 1, 0, 2, 3,
+				3, 0, 0, 0, 3,
+				3, 3, 3, 3, 3
+			],
+			2:
+			[
+				3, 3, 3, 3, 3,
+			 	3, 0, 0, 0, 3,
+				3, 1, 2, 2, 3,
+				3, 0, 0, 0, 3,
+				3, 3, 3, 3, 3
+			]
+		};
 
 		var service = {
 			checkMove: checkMove,
@@ -32,6 +42,7 @@
 			getInstructions: getInstructions,
 			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
+			nextLevel: nextLevel,
 			readLevel: readLevel,
 			resetLevel: resetLevel,
 			setStartingInstructions: setStartingInstructions,
@@ -86,14 +97,17 @@
 			return vm.width;
 		}
 
+		function nextLevel() {
+			vm.levelNo++;
+		}
+
 		function readLevel() {
 			return vm.level;
 		}
 
 		function resetLevel() {
-			logger.info('startingLevel', vm.startingLevel);
 			logger.info('level', vm.level);
-			vm.level = vm.startingLevel.slice();
+			vm.level = vm.levels[vm.levelNo].slice();
 		}
 
 		function setStartingInstructions() {
