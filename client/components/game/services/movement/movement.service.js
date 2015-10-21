@@ -95,6 +95,7 @@
 					lightService.turnOff();
 				} else {
 					lightService.turnOn();
+					state.current = state.COMPLETE;
 				}
 			}
 			timer.sleep(1000);
@@ -202,6 +203,8 @@
 					} else {
 						imageService.rewind();
 					}
+				} else if (state.current == state.COMPLETE) {
+					// do something!
 				} else {
 					rewind();
 					state.current = state.COMPOSING;
