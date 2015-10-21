@@ -73,7 +73,7 @@
 			$('#next').bind('click', function() {
 				levelService.nextLevel();
 				imageService.play();
-				imageService.next();
+				imageService.removeNext();
 
 				$scope.$apply(function() {
 					vm.refresh();
