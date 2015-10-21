@@ -12,22 +12,26 @@
 			{
 				name: 'n',
 				x: 0,
-				y: 100
+				y: 100,
+				rot: (Math.PI)
 			},
 			{
 				name: 'e',
 				x: 100,
-				y: 0
+				y: 0,
+				rot: (Math.PI / 2)
 			},
 			{
 				name: 's',
 				x: 0,
-				y: -100
+				y: -100,
+				rot: 0
 			},
 			{
 				name: 'w',
 				x: -100,
-				y: 0
+				y: 0,
+				rot: -(Math.PI / 2)
 			}
 		];
 

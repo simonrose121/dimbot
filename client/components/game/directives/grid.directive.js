@@ -7,7 +7,7 @@
 		'lightService', 'logger'];
 
 	function dimGridDirective(movementService, levelService, lightService,
-		logger) {
+		directionService, logger) {
 
 		var directive = {
 			restrict: 'E',
@@ -80,6 +80,9 @@
 								break;
 							case 3:
 								break;
+							case 4:
+								vm.addMesh(100, 0x000000, x, y, 0, false);
+								break;
 						}
 						count++;
 					}
@@ -104,7 +107,11 @@
 			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry, material) {
 					var mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial(material));
 					mesh.rotation.x = (Math.PI / 2);
-					mesh.rotation.y = (Math.PI / 2);
+
+					var dirName = levelService.getStartingDirection();
+					var dir = directionService.getDirectionByName(dirName);
+					mesh.rotation.y = dir.rot;
+
 					mesh.position.set(100 * x, 100 * y, 0);
 					vm.scene.add(mesh);
 					movementService.setMesh(mesh);

@@ -34,8 +34,8 @@
 			2: {
 				'lvl': [
 					3, 3, 3, 3, 3,
-				 	3, 0, 2, 0, 3,
-					3, 1, 0, 0, 3,
+				 	3, 0, 0, 0, 3,
+					3, 1, 4, 2, 3,
 					3, 0, 0, 0, 3,
 					3, 3, 3, 3, 3
 				],
@@ -44,7 +44,7 @@
 					'rr',
 					'lt'
 				],
-				'dir': 'e',
+				'dir': 's',
 				'width': 3,
 				'height': 3,
 				'mwidth': 5,
@@ -90,6 +90,10 @@
 			}
 
 			if (vm.level[index] == 3) {
+				return false;
+			}
+
+			if (vm.level[index] == 4) {
 				return false;
 			}
 
