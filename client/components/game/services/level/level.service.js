@@ -124,6 +124,7 @@
 
 		function resetLevel() {
 			vm.level = vm.levels[vm.levelNo].lvl.slice();
+			$('#level-no').html('Level ' + vm.levelNo);
 			logger.info('level', vm.level);
 		}
 
@@ -144,7 +145,6 @@
 			vm.level[index] = 0;
 
 			// change value
-			// east
 			switch(dir.name) {
 				case 'n':
 					index = index - vm.levels[vm.levelNo].mwidth;
