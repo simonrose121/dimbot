@@ -8,11 +8,6 @@
 	function levelService(logger, instructionFactory) {
 		var vm = this;
 
-		vm.width = 3;
-		vm.height = 3;
-		vm.mapWidth = 5;
-		vm.mapHeight = 5;
-		vm.startingDirection = 'e';
 		vm.level = [];
 		vm.instructions = [];
 		vm.levelNo = 1;
@@ -29,7 +24,12 @@
 				'ins': [
 					'fw',
 					'lt'
-				]
+				],
+				'dir': 'e',
+				'width': 3,
+				'height': 3,
+				'mwidth': 5,
+				'mheight': 5
 			},
 			2: {
 				'lvl': [
@@ -43,7 +43,12 @@
 					'fw',
 					'rr',
 					'lt'
-				]
+				],
+				'dir': 'e',
+				'width': 3,
+				'height': 3,
+				'mwidth': 5,
+				'mheight': 5
 			}
 		};
 
@@ -71,13 +76,13 @@
 			// get projected movement
 			switch(dir.name) {
 				case 'n':
-					index = index - vm.mapWidth;
+					index = index - vm.levels[vm.levelNo].mwidth;
 					break;
 				case 'e':
 					index = index + 1;
 					break;
 				case 's':
-					index = index + vm.mapWidth;
+					index = index + vm.levels[vm.levelNo].mwidth;
 					break;
 				case 'w':
 					index = index - 1;
@@ -93,7 +98,7 @@
 		}
 
 		function getHeight() {
-			return vm.height;
+			return vm.levels[vm.levelNo].height;
 		}
 
 		function getInstructions() {
@@ -101,11 +106,11 @@
 		}
 
 		function getStartingDirection() {
-			return vm.startingDirection;
+			return vm.levels[vm.levelNo].dir;
 		}
 
 		function getWidth() {
-			return vm.width;
+			return vm.levels[vm.levelNo].width;
 		}
 
 		function nextLevel() {
@@ -142,13 +147,13 @@
 			// east
 			switch(dir.name) {
 				case 'n':
-					index = index - vm.mapWidth;
+					index = index - vm.levels[vm.levelNo].mwidth;
 					break;
 				case 'e':
 					index = index + 1;
 					break;
 				case 's':
-					index = index + vm.mapWidth;
+					index = index + vm.levels[vm.levelNo].mwidth;
 					break;
 				case 'w':
 					index = index - 1;
