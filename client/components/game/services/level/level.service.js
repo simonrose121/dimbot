@@ -10,6 +10,7 @@
 
 		vm.level = [];
 		vm.instructions = [];
+		vm.maxLevel = 2;
 		vm.levelNo = 1;
 
 		vm.levels = {
@@ -118,8 +119,10 @@
 		}
 
 		function nextLevel() {
-			vm.levelNo++;
-			service.resetLevel();
+			if (vm.levelNo <= vm.maxLevel) {
+				vm.levelNo++;
+				service.resetLevel();
+			}
 		}
 
 		function readLevel() {
@@ -129,7 +132,6 @@
 		function resetLevel() {
 			vm.level = vm.levels[vm.levelNo].lvl.slice();
 			$('#level-no').html('Level ' + vm.levelNo);
-			logger.info('level', vm.level);
 		}
 
 		function setInstructions() {
