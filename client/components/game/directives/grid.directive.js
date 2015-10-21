@@ -11,13 +11,13 @@
 
 		var directive = {
 			restrict: 'E',
-			link: link,
-			template: "<div id='scene'></div>",
+			link: link
 		};
 
 		return directive;
 
-		function link(element) {
+		function link(scope, elem) {
+			console.log('called link');
 			var vm = this;
 
 			// variables
@@ -142,7 +142,7 @@
 				vm.renderer.setSize(WIDTH, HEIGHT);
 
 				// attach the render-supplied DOM element
-				$('#scene').append(renderer.domElement);
+				elem[0].appendChild(renderer.domElement);
 			}
 
 			function render() {

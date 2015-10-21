@@ -3,11 +3,12 @@
         .module('dimbot.game')
         .controller('Game', Game);
 
-	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService', 'movementService',
-	'levelService',	'instructionFactory', 'state'];
+	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
+		'movementService','levelService', 'imageService',
+		'instructionFactory', 'state'];
 
-	function Game($http, $scope, $compile, logger, programService, movementService,
-		levelService, instructionFactory, state) {
+	function Game($http, $scope, $compile, logger, programService,
+		movementService, levelService, imageService, instructionFactory, state) {
 		var vm = this;
 
 		levelService.setInstructions();
@@ -69,13 +70,17 @@
 			});
 			$('#next').bind('click', function() {
 				levelService.nextLevel();
-				$('dim-grid-directive').remove();
-				var newElement = $compile("<dim-grid-directive></dim-grid-directive>")($scope);
-				$('.level-inner').append(newElement);
+				imageService.play();
+				imageService.next();
+
 				$scope.$apply(function() {
 					vm.refresh();
 					levelService.setInstructions();
 					programService.empty();
+
+					$('.level-inner').html('');
+					var newElement = $compile("<dim-grid-directive></dim-grid-directive>")($scope);
+					$('.level-inner').append(newElement);
 				});
 			});
 		}

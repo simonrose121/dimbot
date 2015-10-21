@@ -34,9 +34,9 @@
 			2: {
 				'lvl': [
 					3, 3, 3, 3, 3,
-				 	3, 0, 0, 0, 3,
+				 	3, 0, 2, 0, 3,
 					3, 1, 0, 0, 3,
-					3, 0, 2, 0, 3,
+					3, 0, 0, 0, 3,
 					3, 3, 3, 3, 3
 				],
 				'ins': [
@@ -123,6 +123,7 @@
 		}
 
 		function setInstructions() {
+			vm.instructions.length = 0;
 			for (var i = 0; i < vm.levels[vm.levelNo].ins.length; i++) {
 				var name = vm.levels[vm.levelNo].ins[i];
 				var ins = instructionFactory.getInstruction(name);
