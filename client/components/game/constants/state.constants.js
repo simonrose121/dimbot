@@ -9,6 +9,6 @@
 				COMPLETE : 3,
 				PAUSED: 4,
 			},
-			currentState: null
+			current: null
 		});
 })();

@@ -172,7 +172,7 @@
 
 			// when program is started
 			if (program.length > 0) {
-				state.currentState = state.states.RUNNING;
+				state.current = state.states.RUNNING;
 
 				// set imageService index to 0
 				imageService.setIndex(0);
@@ -196,7 +196,7 @@
 				// unhighlight
 				imageService.unhighlight(arr[vm.x]);
 
-				if (state.currentState == state.states.RUNNING) {
+				if (state.current == state.states.RUNNING) {
 					if (vm.x < arr.length) {
 						service.loop(arr);
 					} else {
@@ -204,6 +204,7 @@
 					}
 				} else {
 					rewind();
+					state.current = state.states.COMPOSING;
 				}
 			});
 		}
@@ -270,7 +271,7 @@
 		}
 
 		function stop() {
-			state.currentState = state.states.STOPPED;
+			state.current = state.states.STOPPED;
 		}
 
 		function updateIndex(val) {

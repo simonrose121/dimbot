@@ -23,7 +23,8 @@
 		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
 
-		state.currentState = state.states.PLAYING;
+		// set current state
+		state.current = state.states.COMPOSING;
 
 		// call update to add default instructions
 		vm.refresh();
