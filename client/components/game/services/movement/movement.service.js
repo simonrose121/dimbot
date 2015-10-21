@@ -204,7 +204,7 @@
 						imageService.rewind();
 					}
 				} else if (state.current == state.COMPLETE) {
-					//levelService.nextLevel();
+					imageService.next();
 					imageService.rewind();
 				} else {
 					rewind();

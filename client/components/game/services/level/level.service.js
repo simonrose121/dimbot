@@ -31,14 +31,20 @@
 					'lt'
 				]
 			},
-			2:
-			[
-				3, 3, 3, 3, 3,
-			 	3, 0, 0, 0, 3,
-				3, 1, 2, 2, 3,
-				3, 0, 0, 0, 3,
-				3, 3, 3, 3, 3
-			]
+			2: {
+				'lvl': [
+					3, 3, 3, 3, 3,
+				 	3, 0, 0, 0, 3,
+					3, 1, 0, 0, 3,
+					3, 0, 2, 0, 3,
+					3, 3, 3, 3, 3
+				],
+				'ins': [
+					'fw',
+					'rr',
+					'lt'
+				]
+			}
 		};
 
 		var service = {
@@ -104,6 +110,7 @@
 
 		function nextLevel() {
 			vm.levelNo++;
+			service.resetLevel();
 		}
 
 		function readLevel() {
@@ -111,8 +118,8 @@
 		}
 
 		function resetLevel() {
-			logger.info('level', vm.level);
 			vm.level = vm.levels[vm.levelNo].lvl.slice();
+			logger.info('level', vm.level);
 		}
 
 		function setInstructions() {

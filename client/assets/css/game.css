@@ -69,3 +69,13 @@
 #program .highlight {
   border: solid thick #FFF;
 }
+#next {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+#next h1 {
+  color: #000;
+}

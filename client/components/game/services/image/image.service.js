@@ -14,6 +14,7 @@
 		var service = {
 			highlight: highlight,
 			play: play,
+			next: next,
 			rewind: rewind,
 			setIndex: setIndex,
 			stop: stop,
@@ -34,6 +35,10 @@
 		function rewind() {
 			$(vm.id).removeClass();
 			$(vm.id).addClass('rewind');
+		}
+
+		function next() {
+			$('#next').toggle();
 		}
 
 		function stop() {
