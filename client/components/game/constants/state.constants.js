@@ -2,10 +2,11 @@
 	angular
 		.module('dimbot.game')
 		.constant('state', {
-			state: {
+			states: {
 				PLAYING : 0,
 				COMPLETE : 1,
 				PAUSED: 2,
-			}
+			},
+			currentState: null
 		});
 })();

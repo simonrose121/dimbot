@@ -4,10 +4,10 @@
         .controller('Game', Game);
 
 	Game.$inject = ['$http', '$scope', 'logger', 'programService', 'movementService',
-	'levelService',	'instructionFactory'];
+	'levelService',	'instructionFactory', 'state'];
 
 	function Game($http, $scope, logger, programService, movementService,
-		levelService, instructionFactory) {
+		levelService, instructionFactory, state) {
 		var vm = this;
 
 		levelService.setStartingInstructions();
@@ -22,6 +22,8 @@
 		vm.replace = replace;
 		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
+
+		state.currentState = state.states.PLAYING;
 
 		// call update to add default instructions
 		vm.refresh();
@@ -73,7 +75,7 @@
 
 		function replace(ins) {
 			vm.beingDragged = true;
-			
+
 			logger.info('toElement', ins.toElement);
 			var id = ins.toElement.id;
 

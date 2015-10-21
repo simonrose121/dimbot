@@ -4,10 +4,11 @@
 		.service('movementService', movementService);
 
 	movementService.$Inject = ['programService', 'levelService',
-		'directionService', 'imageService', 'lightService', 'logger', 'timer'];
+		'directionService', 'imageService', 'lightService', 'logger', 'timer',
+		'state'];
 
 	function movementService(programService, levelService, directionService,
-			imageService, lightService, logger, timer) {
+			imageService, lightService, logger, timer, state) {
 		var vm = this;
 
 		// keep track of mesh positions and colours
