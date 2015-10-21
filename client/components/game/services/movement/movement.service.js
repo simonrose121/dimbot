@@ -15,7 +15,6 @@
 		vm.mesh = null;
 
 		vm.startingPos = {};
-		vm.stopped = false;
 		vm.x = 0;
 		vm.direction = null;
 		vm.index = null;
@@ -173,8 +172,7 @@
 
 			// when program is started
 			if (program.length > 0) {
-				// make sure program isn't stopped
-				vm.stopped = false;
+				state.currentState = state.states.RUNNING;
 
 				// set imageService index to 0
 				imageService.setIndex(0);
@@ -198,7 +196,7 @@
 				// unhighlight
 				imageService.unhighlight(arr[vm.x]);
 
-				if (!vm.stopped) {
+				if (state.currentState == state.states.RUNNING) {
 					if (vm.x < arr.length) {
 						service.loop(arr);
 					} else {
@@ -272,7 +270,7 @@
 		}
 
 		function stop() {
-			vm.stopped = true;
+			state.currentState = state.states.STOPPED;
 		}
 
 		function updateIndex(val) {

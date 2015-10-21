@@ -3,9 +3,11 @@
 		.module('dimbot.game')
 		.constant('state', {
 			states: {
-				PLAYING : 0,
-				COMPLETE : 1,
-				PAUSED: 2,
+				COMPOSING : 0,
+				RUNNING: 1,
+				STOPPED: 2,
+				COMPLETE : 3,
+				PAUSED: 4,
 			},
 			currentState: null
 		});
