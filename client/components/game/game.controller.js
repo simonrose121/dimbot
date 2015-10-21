@@ -60,10 +60,12 @@
 					movementService.stop();
 				} else if ($('#status').hasClass('rewind')) {
 					movementService.rewind();
+					imageService.removeNext();
 				}
 			});
 			$('#reset').bind('click', function() {
 				movementService.reset();
+				imageService.removeNext();
 				$scope.$apply(function() {
 					vm.refresh();
 				});

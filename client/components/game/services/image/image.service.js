@@ -16,6 +16,7 @@
 			play: play,
 			next: next,
 			rewind: rewind,
+			removeNext: removeNext,
 			setIndex: setIndex,
 			stop: stop,
 			unhighlight: unhighlight
@@ -38,7 +39,11 @@
 		}
 
 		function next() {
-			$('#next').toggle();
+			$('#next').show();
+		}
+
+		function removeNext() {
+			$('#next').hide();
 		}
 
 		function stop() {
