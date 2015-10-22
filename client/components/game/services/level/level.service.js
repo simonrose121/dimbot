@@ -3,28 +3,118 @@
 		.module('dimbot.game')
 		.service('levelService', levelService);
 
-	levelService.$Inject = ['logger', 'instructionFactory'];
+	levelService.$Inject = ['logger', 'programService', 'instructionFactory'];
 
-	function levelService(logger, instructionFactory) {
+	function levelService(logger, programService, instructionFactory) {
 		var vm = this;
 
-		vm.width = 3;
-		vm.height = 3;
-		vm.mapWidth = 5;
-		vm.mapHeight = 5;
-		vm.startingDirection = 'e';
-		vm.level = null;
-		vm.instructions = [];
-
-		vm.startingLevel = [
-			3, 3, 3, 3, 3,
-		 	3, 0, 0, 0, 3,
-			3, 1, 0, 2, 3,
-			3, 0, 0, 0, 3,
-			3, 3, 3, 3, 3
-		];
-
 		vm.level = [];
+		vm.instructions = [];
+		vm.maxLevel = 5;
+		vm.levelNo = 1;
+
+		vm.levels = {
+			1: {
+				'lvl': [
+					3, 3, 3, 3, 3,
+				 	3, 0, 0, 0, 3,
+					3, 1, 0, 2, 3,
+					3, 0, 0, 0, 3,
+					3, 3, 3, 3, 3
+				],
+				'ins': [
+					'fw',
+					'lt'
+				],
+				'dir': 'e',
+				'width': 3,
+				'height': 3,
+				'mwidth': 5,
+				'mheight': 5,
+				'limit': 5
+			},
+			2: {
+				'lvl': [
+					3, 3, 3, 3, 3,
+				 	3, 0, 0, 2, 3,
+					3, 1, 0, 0, 3,
+					3, 0, 0, 0, 3,
+					3, 3, 3, 3, 3
+				],
+				'ins': [
+					'fw',
+					'rl',
+					'lt'
+				],
+				'dir': 'e',
+				'width': 3,
+				'height': 3,
+				'mwidth': 5,
+				'mheight': 5,
+				'limit': 7
+			},
+			3: {
+				'lvl': [
+					3, 3, 3, 3, 3,
+				 	3, 1, 0, 0, 3,
+					3, 0, 4, 2, 3,
+					3, 0, 0, 0, 3,
+					3, 3, 3, 3, 3
+				],
+				'ins': [
+					'fw',
+					'rr',
+					'lt'
+				],
+				'dir': 'e',
+				'width': 3,
+				'height': 3,
+				'mwidth': 5,
+				'mheight': 5,
+				'limit': 8
+			},
+			4: {
+				'lvl': [
+					3, 3, 3, 3, 3,
+				 	3, 1, 4, 2, 3,
+					3, 0, 0, 0, 3,
+					3, 0, 0, 0, 3,
+					3, 3, 3, 3, 3
+				],
+				'ins': [
+					'fw',
+					'rl',
+					'lt'
+				],
+				'dir': 's',
+				'width': 3,
+				'height': 3,
+				'mwidth': 5,
+				'mheight': 5,
+				'limit': 8
+			},
+			5: {
+				'lvl': [
+					3, 3, 3, 3, 3,
+				 	3, 1, 4, 2, 3,
+					3, 0, 4, 0, 3,
+					3, 0, 0, 0, 3,
+					3, 3, 3, 3, 3
+				],
+				'ins': [
+					'fw',
+					'rl',
+					'rr',
+					'lt'
+				],
+				'dir': 's',
+				'width': 3,
+				'height': 3,
+				'mwidth': 5,
+				'mheight': 5,
+				'limit': 10
+			}
+		};
 
 		var service = {
 			checkMove: checkMove,
@@ -32,9 +122,10 @@
 			getInstructions: getInstructions,
 			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
+			nextLevel: nextLevel,
 			readLevel: readLevel,
 			resetLevel: resetLevel,
-			setStartingInstructions: setStartingInstructions,
+			setInstructions: setInstructions,
 			updateLevel: updateLevel
 		};
 
@@ -49,13 +140,13 @@
 			// get projected movement
 			switch(dir.name) {
 				case 'n':
-					index = index - vm.mapWidth;
+					index = index - vm.levels[vm.levelNo].mwidth;
 					break;
 				case 'e':
 					index = index + 1;
 					break;
 				case 's':
-					index = index + vm.mapWidth;
+					index = index + vm.levels[vm.levelNo].mwidth;
 					break;
 				case 'w':
 					index = index - 1;
@@ -66,12 +157,16 @@
 				return false;
 			}
 
+			if (vm.level[index] == 4) {
+				return false;
+			}
+
 			// return bool
 			return true;
 		}
 
 		function getHeight() {
-			return vm.height;
+			return vm.levels[vm.levelNo].height;
 		}
 
 		function getInstructions() {
@@ -79,11 +174,18 @@
 		}
 
 		function getStartingDirection() {
-			return vm.startingDirection;
+			return vm.levels[vm.levelNo].dir;
 		}
 
 		function getWidth() {
-			return vm.width;
+			return vm.levels[vm.levelNo].width;
+		}
+
+		function nextLevel() {
+			if (vm.levelNo <= vm.maxLevel) {
+				vm.levelNo++;
+				service.resetLevel();
+			}
 		}
 
 		function readLevel() {
@@ -91,21 +193,18 @@
 		}
 
 		function resetLevel() {
-			logger.info('startingLevel', vm.startingLevel);
-			logger.info('level', vm.level);
-			vm.level = vm.startingLevel.slice();
+			vm.level = vm.levels[vm.levelNo].lvl.slice();
+			$('#level-no').html('Level ' + vm.levelNo);
+			programService.setLimit(vm.levels[vm.levelNo].limit);
 		}
 
-		function setStartingInstructions() {
-			var fw = instructionFactory.getInstruction('fw');
-			var rr = instructionFactory.getInstruction('rr');
-			var rl = instructionFactory.getInstruction('rl');
-			var lt = instructionFactory.getInstruction('lt');
-
-			vm.instructions.push(fw);
-			vm.instructions.push(rr);
-			vm.instructions.push(rl);
-			vm.instructions.push(lt);
+		function setInstructions() {
+			vm.instructions.length = 0;
+			for (var i = 0; i < vm.levels[vm.levelNo].ins.length; i++) {
+				var name = vm.levels[vm.levelNo].ins[i];
+				var ins = instructionFactory.getInstruction(name);
+				vm.instructions.push(ins);
+			}
 		}
 
 		function updateLevel(dir) {
@@ -116,16 +215,15 @@
 			vm.level[index] = 0;
 
 			// change value
-			// east
 			switch(dir.name) {
 				case 'n':
-					index = index - vm.mapWidth;
+					index = index - vm.levels[vm.levelNo].mwidth;
 					break;
 				case 'e':
 					index = index + 1;
 					break;
 				case 's':
-					index = index + vm.mapWidth;
+					index = index + vm.levels[vm.levelNo].mwidth;
 					break;
 				case 'w':
 					index = index - 1;

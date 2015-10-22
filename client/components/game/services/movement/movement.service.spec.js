@@ -93,6 +93,7 @@ describe('Movement Service', function() {
 		spyOn(imageService, 'stop');
 
 		// act
+		programService.setLimit(8);
 		programService.addInstruction(ins);
 		var program = programService.getProgram();
 
@@ -199,5 +200,18 @@ describe('Movement Service', function() {
 		// assert
 		expect(program).toBeDefined();
 		expect(program.length).toEqual(0);
+	});
+
+	it('Update index method handles rotation either direction', function() {
+		// arrange
+		service.setIndex(0);
+
+		// act
+		var lastIndex = service.updateIndex(-1);
+		var firstIndex = service.updateIndex(1);
+
+		// assert
+		expect(lastIndex).toEqual(3);
+		expect(firstIndex).toEqual(1);
 	});
 });

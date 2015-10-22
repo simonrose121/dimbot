@@ -7,17 +7,17 @@
 		'lightService', 'logger'];
 
 	function dimGridDirective(movementService, levelService, lightService,
-		logger) {
+		directionService, logger) {
 
 		var directive = {
 			restrict: 'E',
-			link: link,
-			template: "<div id='scene'></div>",
+			link: link
 		};
 
 		return directive;
 
-		function link(element) {
+		function link(scope, elem) {
+			console.log('called link');
 			var vm = this;
 
 			// variables
@@ -64,7 +64,7 @@
 				var mesh = null;
 
 				// for 9 spaces x and y
-				for (var y = -2; y < height; y++) {
+				for (var y = 2; y > -height; y--) {
 					for (var x = -2; x < width; x++) {
 						switch(level[count]) {
 							case 0:
@@ -79,6 +79,9 @@
 								lightService.setLight(mesh);
 								break;
 							case 3:
+								break;
+							case 4:
+								vm.addMesh(100, 0x000000, x, y, 0, false);
 								break;
 						}
 						count++;
@@ -104,7 +107,11 @@
 			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry, material) {
 					var mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial(material));
 					mesh.rotation.x = (Math.PI / 2);
-					mesh.rotation.y = (Math.PI / 2);
+
+					var dirName = levelService.getStartingDirection();
+					var dir = directionService.getDirectionByName(dirName);
+					mesh.rotation.y = dir.rot;
+
 					mesh.position.set(100 * x, 100 * y, 0);
 					vm.scene.add(mesh);
 					movementService.setMesh(mesh);
@@ -142,7 +149,7 @@
 				vm.renderer.setSize(WIDTH, HEIGHT);
 
 				// attach the render-supplied DOM element
-				$('#scene').append(renderer.domElement);
+				elem[0].appendChild(renderer.domElement);
 			}
 
 			function render() {

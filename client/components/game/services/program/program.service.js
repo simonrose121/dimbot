@@ -11,26 +11,27 @@
 
 		// private members
 		vm.program = [];
+		vm.limit = null;
 		// exposed methods using function hoisting
 		var service = {
-			getProgram: getProgram,
 			addInstruction: addInstruction,
 			empty: empty,
-			removeInstruction: removeInstruction
+			getLimit: getLimit,
+			getProgram: getProgram,
+			removeInstruction: removeInstruction,
+			setLimit: setLimit
 		};
 
 		return service;
 
 		// public methods
-		function getProgram() {
-			return vm.program;
-		}
-
 		function addInstruction(ins) {
-			logger.info('adding instruction in programService', ins);
-			if (ins) {
-				logger.info('pushing instruction to program', ins);
-				vm.program.push(ins);
+			if (vm.program.length < vm.limit) {
+				logger.info('adding instruction in programService', ins);
+				if (ins) {
+					logger.info('pushing instruction to program', ins);
+					vm.program.push(ins);
+				}
 			}
 		}
 
@@ -38,10 +39,22 @@
 			vm.program.length = 0;
 		}
 
+		function getLimit() {
+			return vm.limit;
+		}
+
+		function getProgram() {
+			return vm.program;
+		}
+
 		function removeInstruction(index) {
 			if (index > -1) {
 				vm.program.splice(index, 1);
 			}
+		}
+
+		function setLimit(limit) {
+			vm.limit = limit;
 		}
 	}
 })();

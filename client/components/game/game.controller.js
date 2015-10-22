@@ -3,15 +3,18 @@
         .module('dimbot.game')
         .controller('Game', Game);
 
-	Game.$inject = ['$http', '$scope', 'logger', 'programService', 'movementService',
-	'levelService',	'instructionFactory'];
+	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
+		'movementService','levelService', 'imageService',
+		'instructionFactory', 'state'];
 
-	function Game($http, $scope, logger, programService, movementService,
-		levelService, instructionFactory) {
+	function Game($http, $scope, $compile, logger, programService,
+		movementService, levelService, imageService, instructionFactory, state) {
 		var vm = this;
 
-		levelService.setStartingInstructions();
+		levelService.setInstructions();
 		levelService.resetLevel();
+
+		vm.beingDragged = false;
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
@@ -21,6 +24,9 @@
 		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
 
+		// set current state
+		state.current = state.COMPOSING;
+
 		// call update to add default instructions
 		vm.refresh();
 		vm.bind();
@@ -28,11 +34,15 @@
 		function addToProgram(ins) {
 			// if instruction exists
 			if (ins) {
-				if (ins.toElement) {
-					// if drag and drop
-					var i = instructionFactory.getInstruction(ins.toElement.id);
-					// get instruction and add
-					//programService.addInstruction(i);
+				if (vm.beingDragged) {
+					if (ins.toElement) {
+						// if drag and drop
+						var i = instructionFactory.getInstruction(ins.toElement.id);
+						// get instruction and add
+						programService.addInstruction(i);
+						vm.beingDragged = false;
+					}
+					vm.beingDragged = false;
 				} else {
 					// if click
 					// remove instruction to prevent drags adding
@@ -51,12 +61,29 @@
 					movementService.stop();
 				} else if ($('#status').hasClass('rewind')) {
 					movementService.rewind();
+					imageService.removeNext();
 				}
 			});
 			$('#reset').bind('click', function() {
 				movementService.reset();
+				imageService.removeNext();
 				$scope.$apply(function() {
 					vm.refresh();
+				});
+			});
+			$('#next').bind('click', function() {
+				levelService.nextLevel();
+				imageService.play();
+				imageService.removeNext();
+
+				$scope.$apply(function() {
+					vm.refresh();
+					levelService.setInstructions();
+					programService.empty();
+
+					$('.level-inner').html('');
+					var newElement = $compile("<dim-grid-directive></dim-grid-directive>")($scope);
+					$('.level-inner').append(newElement);
 				});
 			});
 		}
@@ -64,9 +91,29 @@
 		// ensure that DOM always matches program in program service
 		function refresh() {
 			vm.program = programService.getProgram();
+
+			// set program width
+			var width;
+			var limit = programService.getLimit();
+			if (limit <= 8) {
+				width = limit * 128;
+				$('.program-inner').css('width', width);
+			} else {
+				width = 8 * 128;
+				$('.program-inner').css('width', width);
+			}
+
+			// add additional space
+			if (vm.program.length > 8) {
+				$('.program-inner').css('height', '256px');
+			} else {
+				$('.program-inner').css('height', '128px');
+			}
 		}
 
 		function replace(ins) {
+			vm.beingDragged = true;
+
 			logger.info('toElement', ins.toElement);
 			var id = ins.toElement.id;
 

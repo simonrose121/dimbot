@@ -28,6 +28,13 @@
 #navigation .stop {
   background: url('../img/stop-button.png');
 }
+#navigation #level-no {
+  float: left;
+  font-size: 30px;
+  color: #FFF;
+  text-align: center;
+  width: 78%;
+}
 #instructions .instructions-inner {
   background: #73DCFF;
   border-radius: 5px;
@@ -54,8 +61,11 @@
 #program .program-inner {
   background: #73FFB9;
   border-radius: 5px;
-  height: 128px;
+  height: 256px;
   width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 #program .program-inner ul {
   list-style: none;
@@ -68,4 +78,17 @@
 }
 #program .highlight {
   border: solid thick #FFF;
+}
+#next {
+  display: none;
+  z-index: 1;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url('../img/forward-button.png');
+  width: 256px;
+  height: 256px;
 }
