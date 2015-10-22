@@ -90,6 +90,12 @@
 		// ensure that DOM always matches program in program service
 		function refresh() {
 			vm.program = programService.getProgram();
+
+			if (vm.program.length > 8) {
+				$('.program-inner').css('height', '256px');
+			} else {
+				$('.program-inner').css('height', '128px');
+			}
 		}
 
 		function replace(ins) {
