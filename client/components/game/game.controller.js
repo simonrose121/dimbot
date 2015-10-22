@@ -92,7 +92,14 @@
 		function refresh() {
 			vm.program = programService.getProgram();
 
-			if (vm.program.length > 8) {
+			// set program width
+			var limit = programService.getLimit();
+			var width = limit * 128;
+
+			$('.program-inner').css('width', width);
+
+			// add additional space
+			if (vm.program.length >= 8) {
 				$('.program-inner').css('height', '256px');
 			} else {
 				$('.program-inner').css('height', '128px');
