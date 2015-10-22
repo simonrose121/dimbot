@@ -64,7 +64,7 @@
 				var mesh = null;
 
 				// for 9 spaces x and y
-				for (var y = -2; y < height; y++) {
+				for (var y = 2; y > -height; y--) {
 					for (var x = -2; x < width; x++) {
 						switch(level[count]) {
 							case 0:
