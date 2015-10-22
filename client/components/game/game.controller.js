@@ -93,13 +93,18 @@
 			vm.program = programService.getProgram();
 
 			// set program width
+			var width;
 			var limit = programService.getLimit();
-			var width = limit * 128;
-
-			$('.program-inner').css('width', width);
+			if (limit <= 8) {
+				width = limit * 128;
+				$('.program-inner').css('width', width);
+			} else {
+				width = 8 * 128;
+				$('.program-inner').css('width', width);
+			}
 
 			// add additional space
-			if (vm.program.length >= 8) {
+			if (vm.program.length > 8) {
 				$('.program-inner').css('height', '256px');
 			} else {
 				$('.program-inner').css('height', '128px');
