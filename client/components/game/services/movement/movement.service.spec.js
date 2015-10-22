@@ -93,6 +93,7 @@ describe('Movement Service', function() {
 		spyOn(imageService, 'stop');
 
 		// act
+		programService.setLimit(8);
 		programService.addInstruction(ins);
 		var program = programService.getProgram();
 
