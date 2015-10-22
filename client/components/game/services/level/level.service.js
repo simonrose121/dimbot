@@ -3,9 +3,9 @@
 		.module('dimbot.game')
 		.service('levelService', levelService);
 
-	levelService.$Inject = ['logger', 'instructionFactory'];
+	levelService.$Inject = ['logger', 'programService', 'instructionFactory'];
 
-	function levelService(logger, instructionFactory) {
+	function levelService(logger, programService, instructionFactory) {
 		var vm = this;
 
 		vm.level = [];
@@ -30,7 +30,8 @@
 				'width': 3,
 				'height': 3,
 				'mwidth': 5,
-				'mheight': 5
+				'mheight': 5,
+				'limit': 5
 			},
 			2: {
 				'lvl': [
@@ -49,18 +50,39 @@
 				'width': 3,
 				'height': 3,
 				'mwidth': 5,
-				'mheight': 5
+				'mheight': 5,
+				'limit': 7
 			},
 			3: {
 				'lvl': [
 					3, 3, 3, 3, 3,
-				 	3, 1, 4, 0, 3,
+				 	3, 1, 0, 0, 3,
 					3, 0, 4, 2, 3,
 					3, 0, 0, 0, 3,
 					3, 3, 3, 3, 3
 				],
 				'ins': [
 					'fw',
+					'rr',
+					'lt'
+				],
+				'dir': 'e',
+				'width': 3,
+				'height': 3,
+				'mwidth': 5,
+				'mheight': 5,
+				'limit': 8
+			},
+			4: {
+				'lvl': [
+					3, 3, 3, 3, 3,
+				 	3, 1, 4, 2, 3,
+					3, 0, 0, 0, 3,
+					3, 0, 0, 0, 3,
+					3, 3, 3, 3, 3
+				],
+				'ins': [
+					'fw',
 					'rl',
 					'lt'
 				],
@@ -68,14 +90,15 @@
 				'width': 3,
 				'height': 3,
 				'mwidth': 5,
-				'mheight': 5
+				'mheight': 5,
+				'limit': 8
 			},
-			4: {
+			5: {
 				'lvl': [
 					3, 3, 3, 3, 3,
 				 	3, 1, 4, 2, 3,
-					3, 0, 0, 0, 3,
 					3, 0, 4, 0, 3,
+					3, 0, 0, 0, 3,
 					3, 3, 3, 3, 3
 				],
 				'ins': [
@@ -88,27 +111,8 @@
 				'width': 3,
 				'height': 3,
 				'mwidth': 5,
-				'mheight': 5
-			},
-			5: {
-				'lvl': [
-					3, 3, 3, 3, 3, 3,
-				 	3, 1, 4, 0, 2, 3,
-					3, 0, 4, 0, 4, 3,
-					3, 0, 0, 0, 4, 3,
-					3, 3, 3, 3, 3, 3
-				],
-				'ins': [
-					'fw',
-					'rl',
-					'rr',
-					'lt'
-				],
-				'dir': 's',
-				'width': 4,
-				'height': 3,
-				'mwidth': 6,
-				'mheight': 5
+				'mheight': 5,
+				'limit': 10
 			}
 		};
 
@@ -191,6 +195,7 @@
 		function resetLevel() {
 			vm.level = vm.levels[vm.levelNo].lvl.slice();
 			$('#level-no').html('Level ' + vm.levelNo);
+			programService.setLimit(vm.levels[vm.levelNo].limit);
 		}
 
 		function setInstructions() {
