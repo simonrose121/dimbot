@@ -42,7 +42,6 @@
 						programService.addInstruction(i);
 						vm.beingDragged = false;
 					}
-					vm.beingDragged = false;
 				} else {
 					// if click
 					// remove instruction to prevent drags adding
