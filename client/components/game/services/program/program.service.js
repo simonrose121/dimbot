@@ -50,6 +50,9 @@
 		function removeInstruction(index) {
 			if (index > -1) {
 				vm.program.splice(index, 1);
+				for (var i = index; i <= vm.program.length; i++) {
+					vm.program.splice(i, 1);
+				}
 			}
 		}
 

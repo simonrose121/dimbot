@@ -83,11 +83,8 @@
   display: none;
   z-index: 1;
   position: absolute;
-  margin: auto;
   top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  left: 500px;
   background: url('../img/forward-button.png');
   width: 256px;
   height: 256px;

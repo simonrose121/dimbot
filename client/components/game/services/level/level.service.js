@@ -11,7 +11,7 @@
 		vm.level = [];
 		vm.instructions = [];
 		vm.maxLevel = 5;
-		vm.levelNo = 1;
+		vm.levelNo = 4;
 
 		vm.levels = {
 			1: {
@@ -84,6 +84,7 @@
 				'ins': [
 					'fw',
 					'rl',
+
 					'lt'
 				],
 				'dir': 's',
@@ -96,9 +97,9 @@
 			5: {
 				'lvl': [
 					3, 3, 3, 3, 3,
-				 	3, 1, 4, 2, 3,
+				 	3, 0, 0, 0, 3,
 					3, 0, 4, 0, 3,
-					3, 0, 0, 0, 3,
+					3, 1, 4, 2, 3,
 					3, 3, 3, 3, 3
 				],
 				'ins': [
@@ -107,7 +108,7 @@
 					'rr',
 					'lt'
 				],
-				'dir': 's',
+				'dir': 'n',
 				'width': 3,
 				'height': 3,
 				'mwidth': 5,
@@ -174,6 +175,7 @@
 		}
 
 		function getStartingDirection() {
+			logger.log('starting dir', vm.levels[vm.levelNo].dir);
 			return vm.levels[vm.levelNo].dir;
 		}
 

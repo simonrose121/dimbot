@@ -121,14 +121,14 @@
 				vm.mesh.position.z = 0;
 			}
 
-			// rotation
-			vm.mesh.rotation.x = (Math.PI / 2);
-			vm.mesh.rotation.y = (Math.PI / 2);
-			vm.mesh.rotation.z = 0;
-
 			// reset direction
 			var name = levelService.getStartingDirection();
 			vm.direction = directionService.getDirectionByName(name);
+
+			// rotation
+			vm.mesh.rotation.x = (Math.PI / 2);
+			mesh.rotation.y = vm.direction.rot;
+			vm.mesh.rotation.z = 0;
 
 			// reset level array
 			levelService.resetLevel();

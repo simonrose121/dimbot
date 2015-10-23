@@ -131,17 +131,20 @@
 		}
 
 		function remove(ins) {
+			logger.log('removing ins', ins);
 			if (ins.toElement) {
 				var i = instructionFactory.getInstruction(ins.toElement.id);
 				programService.removeInstruction(i);
 
 				if (i > -1) {
 					vm.program.splice(i, 1);
+					vm.refresh();
 				}
 			}
 		}
 
 		function removeFromProgram(index) {
+			logger.log('removing from program', index);
 			programService.removeInstruction(index);
 			vm.refresh();
 		}
