@@ -94,16 +94,16 @@
 			// set program width
 			var width;
 			var limit = programService.getLimit();
-			if (limit <= 8) {
+			if (limit <= 9) {
 				width = limit * 128;
 				$('.program-inner').css('width', width);
 			} else {
-				width = 8 * 128;
+				width = 9 * 128;
 				$('.program-inner').css('width', width);
 			}
 
 			// add additional space
-			if (vm.program.length > 8) {
+			if (vm.program.length > 9) {
 				$('.program-inner').css('height', '256px');
 			} else {
 				$('.program-inner').css('height', '128px');

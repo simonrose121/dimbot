@@ -127,7 +127,7 @@
 
 			// rotation
 			vm.mesh.rotation.x = (Math.PI / 2);
-			mesh.rotation.y = vm.direction.rot;
+			vm.mesh.rotation.y = vm.direction.rot;
 			vm.mesh.rotation.z = 0;
 
 			// reset level array
