@@ -1,13 +1,11 @@
-goog.require('Blockly.JavaScript');
-
 (function() {
 	angular
 		.module('dimbot.game')
 		.directive('dimBlocklyDirective', dimBlocklyDirective);
 
-	dimBlocklyDirective.$Inject = ['logger'];
+	dimBlocklyDirective.$Inject = ['programService', 'movementService', 'instrutionFactory', 'logger'];
 
-	function dimBlocklyDirective(logger) {
+	function dimBlocklyDirective(programService, movementService, instructionFactory, logger) {
 		var directive = {
 			restrict: 'E',
 			link: link
@@ -21,68 +19,48 @@ goog.require('Blockly.JavaScript');
 			vm.workspace = null;
 			vm.code = null;
 
-			vm.bind = bind;
 			vm.customBlocks = customBlocks;
-			vm.generate = generate;
 			vm.generators = generators;
 			vm.init = init;
 
-			vm.bind();
 			vm.customBlocks();
 			vm.generators();
 			vm.init();
 
-			function bind() {
-				$('#status.play').bind('click', function() {
-					vm.generate();
-				});
-			}
-
 			function customBlocks() {
-				Blockly.Blocks.move_forward = {
-				  init: function() {
-				    this.appendValueInput("1")
-				        .setCheck("Number")
-				        .setAlign(Blockly.ALIGN_RIGHT)
-				        .appendField("Forward");
-					this.setOutput(true);
-				    this.setColour(260);
-				  }
+				Blockly.Blocks.fw = {
+				  	init: function() {
+						this.appendDummyInput()
+        					.appendField('Forward');
+						this.setPreviousStatement(true);
+	      				this.setNextStatement(true);
+					    this.setColour(260);
+				  	}
 				};
-				Blockly.Blocks.lightbulb = {
-				  init: function() {
-				    this.appendValueInput("1")
-				        .setAlign(Blockly.ALIGN_RIGHT)
-				        .appendField("Lightbulb");
-					this.setOutput(true);
-				    this.setColour(260);
-				  }
+				Blockly.Blocks.lt = {
+				  	init: function() {
+					  	this.appendDummyInput()
+  							.appendField('Lightbulb');
+  						this.setPreviousStatement(true);
+  						this.setNextStatement(true);
+						this.setColour(260);
+				  	}
 				};
-			}
-
-			function generate() {
-				logger.info('code is', vm.code);
 			}
 
 			function generators() {
-				Blockly.JavaScript.move_forward = function(block) {
-				  return ['fw', Blockly.JavaScript.ORDER_MEMBER];
+				Blockly.JavaScript.fw = function(block) {
+				  	return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 				};
 
-				Blockly.JavaScript.lightbulb = function(block) {
-				  return ['lt', Blockly.JavaScript.ORDER_MEMBER];
+				Blockly.JavaScript.lt = function(block) {
+					return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 				};
 			}
 
 			function init() {
 				vm.workspace = Blockly.inject('instructions-inner',
 					{toolbox: document.getElementById('toolbox')});
-
-				function update() {
-					vm.code = Blockly.JavaScript.workspaceToCode(vm.workspace);
-				}
-
-				vm.workspace.addChangeListener(update);
 			}
 		}
 	}
