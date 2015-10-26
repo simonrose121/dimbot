@@ -35,37 +35,15 @@
   text-align: center;
   width: 78%;
 }
-#instructions .instructions-inner {
-  background: #73DCFF;
+#instructions #instructions-inner {
   border-radius: 5px;
-  width: 128px;
+  height: 800px;
+  width: 600px;
   float: right;
-}
-#instructions ul {
-  list-style: none;
-}
-#instructions li img {
-  float: right;
-  clear: right;
-  width: 128px;
-  height: 128px;
 }
 #level .level-inner {
   height: 62vh;
   padding: 5px;
-}
-#program {
-  position: absolute;
-  bottom: 15px;
-}
-#program #blocklyDiv {
-  background: #73FFB9;
-  border-radius: 5px;
-  height: 128px;
-  width: 800px;
-}
-#program .highlight {
-  border: solid thick #FFF;
 }
 #next {
   display: none;
