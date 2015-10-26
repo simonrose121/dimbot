@@ -103,16 +103,28 @@
 
     ul[dnd-list] li {
         position: relative;
+        display: block;
     }
 
     ul[dnd-list] .dndDraggingSource {
         display: none;
     }
 
-    ul[dnd-list] .dndPlaceholder {
-        //display: block;
-        //background-color: #73FFB9;
-        //min-height: 128px;
+    .dndDragging {
+        opacity: 0.7;
+    }
+
+    .itemlist {
+        min-height: 128px !important;
+    }
+
+    .itemlist li {
+        border: none;
+        color: #fff;
+        float: left;
+        height: 128px;
+        text-align: center;
+        width: 128px;
     }
 }
 

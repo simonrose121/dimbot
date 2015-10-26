@@ -85,9 +85,24 @@
 }
 #program ul[dnd-list] li {
   position: relative;
+  display: block;
 }
 #program ul[dnd-list] .dndDraggingSource {
   display: none;
+}
+#program .dndDragging {
+  opacity: 0.7;
+}
+#program .itemlist {
+  min-height: 128px !important;
+}
+#program .itemlist li {
+  border: none;
+  color: #fff;
+  float: left;
+  height: 128px;
+  text-align: center;
+  width: 128px;
 }
 #next {
   display: none;

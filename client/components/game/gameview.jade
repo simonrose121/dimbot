@@ -19,7 +19,10 @@
 #program.col-md-11
     .program-inner(data-drop="true" 
                     jqyoui-droppable="{onDrop:'vm.addToProgram'}")
-        ul(dnd-list="vm.program")
+        ul( dnd-list="vm.program"
+            dnd-external-sources="true"
+            dnd-horizontal-list="true"
+            class="itemlist")
             li( ng-repeat='ins in vm.program track by $index'
                 dnd-draggable='ins'
                 dnd-moved="vm.program.splice($index, 1)"
