@@ -49,6 +49,7 @@
   clear: right;
   width: 128px;
   height: 128px;
+  cursor: move;
 }
 #level .level-inner {
   height: 62vh;
