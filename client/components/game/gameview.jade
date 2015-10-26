@@ -1,3 +1,5 @@
+include ../../assets/xml/toolbox.html
+
 #navigation.col-md-12
     //- #back
     #reset
@@ -8,24 +10,7 @@
         dim-grid-directive
 #instructions.col-md-2
     .instructions-inner
-        ul
-          li(ng-repeat='ins in vm.instructions') 
-            img(id='{{ins.name}}' 
-                ng-src='{{ins.src}}' 
-                ng-click='vm.addToProgram(ins)' 
-                data-drag='true' 
-                index='{{$index}}' 
-                jqyoui-draggable="{onStart:'vm.replace'}")
 #program.col-md-11
-    .program-inner(data-drop="true" 
-                    jqyoui-droppable="{onDrop:'vm.addToProgram'}")
-        ul
-            li(ng-repeat='ins in vm.program track by $index') 
-                img(class='{{ins.name}}' 
-                    id='{{$index}}' 
-                    data-drag='true' 
-                    ng-src='{{ins.src}}' 
-                    ng-click='vm.removeFromProgram($index)' 
-                    jqyoui-draggable="{onStart:'vm.remove'}")
+    #blocklyDiv
+    dim-blockly-directive
 #next
-                
