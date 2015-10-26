@@ -37,6 +37,24 @@
 					    this.setColour(260);
 				  	}
 				};
+				Blockly.Blocks.rr = {
+				  	init: function() {
+					  	this.appendDummyInput()
+  							.appendField('Rotate right');
+  						this.setPreviousStatement(true);
+  						this.setNextStatement(true);
+						this.setColour(260);
+				  	}
+				};
+				Blockly.Blocks.rl = {
+				  	init: function() {
+					  	this.appendDummyInput()
+  							.appendField('Rotate left');
+  						this.setPreviousStatement(true);
+  						this.setNextStatement(true);
+						this.setColour(260);
+				  	}
+				};
 				Blockly.Blocks.lt = {
 				  	init: function() {
 					  	this.appendDummyInput()
@@ -52,7 +70,12 @@
 				Blockly.JavaScript.fw = function(block) {
 				  	return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 				};
-
+				Blockly.JavaScript.rr = function(block) {
+				  	return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
+				};
+				Blockly.JavaScript.rl = function(block) {
+				  	return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
+				};
 				Blockly.JavaScript.lt = function(block) {
 					return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 				};
