@@ -79,6 +79,9 @@
 #program .highlight {
   border: solid thick #FFF;
 }
+#program ul[dnd-list] > li {
+  position: relative;
+}
 #next {
   display: none;
   z-index: 1;
