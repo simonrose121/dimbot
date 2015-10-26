@@ -73,7 +73,7 @@
     .program-inner {
         background: #73FFB9;
         border-radius: 5px;
-        height: 256px;
+        height: 128px;
         width: 100%;
         display: block;
         margin-left: auto;
@@ -94,8 +94,25 @@
         border: solid thick #FFF;
     }
 
+    // angular drag drop lists styling
+
+    ul[dnd-list],
     ul[dnd-list] > li {
     	position: relative;
+    }
+
+    ul[dnd-list] li {
+        position: relative;
+    }
+
+    ul[dnd-list] .dndDraggingSource {
+        display: none;
+    }
+
+    ul[dnd-list] .dndPlaceholder {
+        //display: block;
+        //background-color: #73FFB9;
+        //min-height: 128px;
     }
 }
 
