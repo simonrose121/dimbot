@@ -8,7 +8,8 @@
         dim-grid-directive
 #instructions.col-md-2
     .instructions-inner
-        ul(dnd-list="vm.instructions")
+        ul( dnd-list="vm.instructions"
+            dnd-disable-if="vm.instructions.length >= vm.max")
           li(ng-repeat='ins in vm.instructions'
              dnd-draggable="ins"
              dnd-effect-allowed="copyMove") 

@@ -16,6 +16,7 @@
 
 		vm.beingDragged = false;
 		vm.selected = null;
+		vm.max = 0;
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
@@ -24,6 +25,7 @@
 		vm.replace = replace;
 		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
+		vm.setMax = setMax;
 
 		// set current state
 		state.current = state.COMPOSING;
@@ -148,6 +150,10 @@
 			logger.log('removing from program', index);
 			programService.removeInstruction(index);
 			vm.refresh();
+		}
+
+		function setMax() {
+			vm.max = vm.instructions.length;
 		}
 	}
 })();
