@@ -14,11 +14,10 @@
              dnd-effect-allowed="copyMove") 
             img(id='{{ins.name}}' 
                 ng-src='{{ins.src}}' 
-                ng-click='vm.addToProgram(ins)' 
+                ng-click='vm.addToProgram(ins)'
                 index='{{$index}}')
 #program.col-md-11
-    .program-inner(data-drop="true" 
-                    jqyoui-droppable="{onDrop:'vm.addToProgram'}")
+    .program-inner
         ul( dnd-list="vm.program"
             dnd-external-sources="true"
             dnd-horizontal-list="true"

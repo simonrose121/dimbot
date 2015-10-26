@@ -11,7 +11,7 @@
 		vm.level = [];
 		vm.instructions = [];
 		vm.maxLevel = 6;
-		vm.levelNo = 5;
+		vm.levelNo = 1;
 
 		vm.levels = {
 			1: {
