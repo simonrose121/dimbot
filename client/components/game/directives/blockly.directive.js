@@ -23,15 +23,21 @@
 			vm.init();
 
 			function customBlocks() {
-				Blockly.Blocks['move_forward'] = {
+				Blockly.Blocks.move_forward = {
 				  init: function() {
 				    this.appendValueInput("1")
 				        .setCheck("Number")
 				        .setAlign(Blockly.ALIGN_RIGHT)
 				        .appendField("Forward");
 				    this.setColour(260);
-				    this.setTooltip('');
-				    this.setHelpUrl('http://www.example.com/');
+				  }
+				};
+				Blockly.Blocks.lightbulb = {
+				  init: function() {
+				    this.appendValueInput("1")
+				        .setAlign(Blockly.ALIGN_RIGHT)
+				        .appendField("Lightbulb");
+				    this.setColour(260);
 				  }
 				};
 			}
