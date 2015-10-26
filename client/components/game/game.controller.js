@@ -15,6 +15,7 @@
 		levelService.resetLevel();
 
 		vm.beingDragged = false;
+		vm.selected = null;
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
