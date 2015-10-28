@@ -35,6 +35,18 @@
   text-align: center;
   width: 78%;
 }
+#bin {
+  background: url('../img/bin.png');
+  width: 128px;
+  height: 128px;
+  position: absolute;
+  bottom: 158px;
+  display: none;
+  z-index: 1;
+}
+#bin ul {
+  min-height: 128px;
+}
 #instructions {
   position: absolute;
   bottom: 15px;
