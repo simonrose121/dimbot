@@ -3,6 +3,7 @@
     #reset
     #level-no
     #status.play
+#bin.col-md-1
 #level.col-md-10
     .level-inner
         dim-grid-directive
@@ -26,7 +27,9 @@
             li( ng-repeat='ins in vm.program track by $index'
                 dnd-draggable='ins'
                 dnd-moved="vm.program.splice($index, 1)"
-                dnd-effect-allowed="move") 
+                dnd-effect-allowed="move"
+                dnd-dragstart="vm.toggleBin()"
+                dnd-dragend="vm.toggleBin()") 
                 img(class='{{ins.name}}' 
                     id='{{$index}}' 
                     ng-src='{{ins.src}}' 

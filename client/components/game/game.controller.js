@@ -27,6 +27,7 @@
 		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
 		vm.setMax = setMax;
+		vm.toggleBin = toggleBin;
 
 		// set current state
 		state.current = state.COMPOSING;
@@ -159,6 +160,10 @@
 
 		function setMax() {
 			vm.max = vm.instructions.length;
+		}
+
+		function toggleBin() {
+			$('#bin').toggle();
 		}
 	}
 })();
