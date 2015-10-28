@@ -35,6 +35,11 @@
   text-align: center;
   width: 78%;
 }
+#instructions {
+  position: absolute;
+  bottom: 15px;
+  right: 0px;
+}
 #instructions .instructions-inner {
   background: #73DCFF;
   border-radius: 5px;
