@@ -4,6 +4,9 @@
     #level-no
     #status.play
 #bin.col-md-1
+    ul( dnd-list='' 
+        dnd-external-sources="true" 
+        dnd-drop='vm.removeFromProgram()')
 #level.col-md-10
     .level-inner
         dim-grid-directive
@@ -28,7 +31,7 @@
                 dnd-draggable='ins'
                 dnd-moved="vm.program.splice($index, 1)"
                 dnd-effect-allowed="move"
-                dnd-dragstart="vm.toggleBin()"
+                dnd-dragstart="vm.toggleBin(); vm.setIndex($index)"
                 dnd-dragend="vm.toggleBin()") 
                 img(class='{{ins.name}}' 
                     id='{{$index}}' 

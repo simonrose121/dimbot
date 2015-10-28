@@ -42,6 +42,10 @@
   position: absolute;
   bottom: 143px;
   display: none;
+  z-index: 1;
+}
+#bin ul {
+  min-height: 128px;
 }
 #instructions {
   position: absolute;

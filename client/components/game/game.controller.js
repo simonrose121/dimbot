@@ -18,6 +18,7 @@
 		vm.beingDragged = false;
 		vm.selected = null;
 		vm.max = 0;
+		vm.currentIndex = null;
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
@@ -26,6 +27,7 @@
 		vm.replace = replace;
 		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
+		vm.setIndex = setIndex;
 		vm.setMax = setMax;
 		vm.toggleBin = toggleBin;
 
@@ -153,9 +155,16 @@
 		}
 
 		function removeFromProgram(index) {
-			logger.log('removing from program', index);
+			// if dropped on the bin
+			if (!index) {
+				index = vm.currentIndex;
+			}
 			programService.removeInstruction(index);
 			vm.refresh();
+		}
+
+		function setIndex(index) {
+			vm.currentIndex = index;
 		}
 
 		function setMax() {
