@@ -82,7 +82,7 @@
 			}
 
 			function init() {
-				vm.workspace = Blockly.inject('instructions-inner',
+				vm.workspace = Blockly.inject('blockly-inner',
 					{toolbox: document.getElementById('toolbox')});
 			}
 		}
