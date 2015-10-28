@@ -35,10 +35,33 @@
   text-align: center;
   width: 78%;
 }
+#bin {
+  background: url('../img/bin.png');
+  width: 128px;
+  height: 128px;
+  position: absolute;
+  bottom: 158px;
+  display: none;
+  z-index: 1;
+}
+#bin ul {
+  min-height: 128px;
+}
+#instructions {
+  position: absolute;
+  bottom: 15px;
+  right: 0px;
+}
 #instructions .instructions-inner {
   background: #73DCFF;
   border-radius: 5px;
   width: 128px;
+  float: right;
+}
+#instructions #blockly-inner {
+  border-radius: 5px;
+  height: 570px;
+  width: 450px;
   float: right;
 }
 #instructions ul {
@@ -49,6 +72,7 @@
   clear: right;
   width: 128px;
   height: 128px;
+  cursor: move;
 }
 #level .level-inner {
   height: 62vh;
@@ -61,7 +85,7 @@
 #program .program-inner {
   background: #73FFB9;
   border-radius: 5px;
-  height: 256px;
+  height: 128px;
   width: 100%;
   display: block;
   margin-left: auto;
@@ -79,15 +103,38 @@
 #program .highlight {
   border: solid thick #FFF;
 }
+#program ul[dnd-list],
+#program ul[dnd-list] > li {
+  position: relative;
+}
+#program ul[dnd-list] li {
+  position: relative;
+  display: block;
+}
+#program ul[dnd-list] .dndDraggingSource {
+  display: none;
+}
+#program .dndDragging {
+  opacity: 0.7;
+}
+#program .itemlist {
+  min-height: 128px !important;
+}
+#program .itemlist li {
+  border: none;
+  color: #fff;
+  float: left;
+  height: 128px;
+  text-align: center;
+  width: 128px;
+  cursor: move;
+}
 #next {
   display: none;
   z-index: 1;
   position: absolute;
-  margin: auto;
   top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  left: 500px;
   background: url('../img/forward-button.png');
   width: 256px;
   height: 256px;

@@ -5,16 +5,20 @@
 
 	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
 		'movementService','levelService', 'imageService',
-		'instructionFactory', 'state'];
+		'instructionFactory', 'state', 'ENV'];
 
 	function Game($http, $scope, $compile, logger, programService,
-		movementService, levelService, imageService, instructionFactory, state) {
+		movementService, levelService, imageService, instructionFactory, state,
+		ENV) {
 		var vm = this;
 
 		levelService.setInstructions();
 		levelService.resetLevel();
 
 		vm.beingDragged = false;
+		vm.selected = null;
+		vm.max = 0;
+		vm.currentIndex = null;
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
@@ -23,6 +27,9 @@
 		vm.replace = replace;
 		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
+		vm.setIndex = setIndex;
+		vm.setMax = setMax;
+		vm.toggleBin = toggleBin;
 
 		// set current state
 		state.current = state.COMPOSING;
@@ -42,7 +49,6 @@
 						programService.addInstruction(i);
 						vm.beingDragged = false;
 					}
-					vm.beingDragged = false;
 				} else {
 					// if click
 					// remove instruction to prevent drags adding
@@ -56,11 +62,15 @@
 			// used to bind play and reset buttons
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
+					if (ENV.ins == 'blockly') {
+						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
+						eval(code);
+					}
 					movementService.run();
 				} else if ($('#status').hasClass('stop')) {
 					movementService.stop();
 				} else if ($('#status').hasClass('rewind')) {
-					movementService.rewind();
+					movementService.reset();
 					imageService.removeNext();
 				}
 			});
@@ -95,16 +105,16 @@
 			// set program width
 			var width;
 			var limit = programService.getLimit();
-			if (limit <= 8) {
+			if (limit <= 9) {
 				width = limit * 128;
 				$('.program-inner').css('width', width);
 			} else {
-				width = 8 * 128;
+				width = 9 * 128;
 				$('.program-inner').css('width', width);
 			}
 
 			// add additional space
-			if (vm.program.length > 8) {
+			if (vm.program.length > 9) {
 				$('.program-inner').css('height', '256px');
 			} else {
 				$('.program-inner').css('height', '128px');
@@ -132,19 +142,36 @@
 		}
 
 		function remove(ins) {
+			logger.log('removing ins', ins);
 			if (ins.toElement) {
 				var i = instructionFactory.getInstruction(ins.toElement.id);
 				programService.removeInstruction(i);
 
 				if (i > -1) {
 					vm.program.splice(i, 1);
+					vm.refresh();
 				}
 			}
 		}
 
 		function removeFromProgram(index) {
+			// if dropped on the bin
+			if (!index) {
+				index = vm.currentIndex;
+			}
 			programService.removeInstruction(index);
-			vm.refresh();
+		}
+
+		function setIndex(index) {
+			vm.currentIndex = index;
+		}
+
+		function setMax() {
+			vm.max = vm.instructions.length;
+		}
+
+		function toggleBin() {
+			$('#bin').toggle();
 		}
 	}
 })();

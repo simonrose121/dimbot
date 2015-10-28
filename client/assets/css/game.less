@@ -40,11 +40,35 @@
     }
 }
 
+#bin {
+    .back-img('bin');
+    .standard-img-size;
+    position: absolute;
+    bottom: 158px; // 15px + 128px + 15px
+    display: none;
+    z-index: 1;
+
+    ul {
+        min-height: 128px;
+    }
+}
+
 #instructions {
+    position: absolute;
+    bottom: 15px;
+    right: 0px;
+
     .instructions-inner {
         background: #73DCFF;
         border-radius: 5px;
         width: 128px;
+        float: right;
+    }
+
+    #blockly-inner {
+        border-radius: 5px;
+        height: 570px;
+        width: 450px;
         float: right;
     }
 
@@ -56,6 +80,7 @@
         float: right;
         clear: right;
         .standard-img-size;
+        cursor: move;
     }
 }
 
@@ -73,7 +98,7 @@
     .program-inner {
         background: #73FFB9;
         border-radius: 5px;
-        height: 256px;
+        height: 128px;
         width: 100%;
         display: block;
         margin-left: auto;
@@ -93,17 +118,48 @@
     .highlight {
         border: solid thick #FFF;
     }
+
+    // angular drag drop lists styling
+
+    ul[dnd-list],
+    ul[dnd-list] > li {
+    	position: relative;
+    }
+
+    ul[dnd-list] li {
+        position: relative;
+        display: block;
+    }
+
+    ul[dnd-list] .dndDraggingSource {
+        display: none;
+    }
+
+    .dndDragging {
+        opacity: 0.7;
+    }
+
+    .itemlist {
+        min-height: 128px !important;
+    }
+
+    .itemlist li {
+        border: none;
+        color: #fff;
+        float: left;
+        height: 128px;
+        text-align: center;
+        width: 128px;
+        cursor: move;
+    }
 }
 
 #next {
     display: none;
     z-index: 1;
     position: absolute;
-    margin: auto;
     top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    left: 500px;
     .back-img('forward-button');
     width: 256px;
     height: 256px;

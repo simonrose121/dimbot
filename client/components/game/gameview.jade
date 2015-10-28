@@ -3,29 +3,38 @@
     #reset
     #level-no
     #status.play
+#bin.col-md-1
+    ul( dnd-list='' 
+        dnd-external-sources="true" 
+        dnd-drop='vm.removeFromProgram()')
 #level.col-md-10
     .level-inner
         dim-grid-directive
 #instructions.col-md-2
     .instructions-inner
-        ul
-          li(ng-repeat='ins in vm.instructions') 
+        ul( dnd-list="vm.instructions"
+            dnd-disable-if="vm.instructions.length >= vm.max")
+          li(ng-repeat='ins in vm.instructions'
+             dnd-draggable="ins"
+             dnd-effect-allowed="copyMove") 
             img(id='{{ins.name}}' 
                 ng-src='{{ins.src}}' 
-                ng-click='vm.addToProgram(ins)' 
-                data-drag='true' 
-                index='{{$index}}' 
-                jqyoui-draggable="{onStart:'vm.replace'}")
-#program.col-md-10
-    .program-inner(data-drop="true" 
-                    jqyoui-droppable="{onDrop:'vm.addToProgram'}")
-        ul
-            li(ng-repeat='ins in vm.program track by $index') 
+                ng-click='vm.addToProgram(ins)'
+                index='{{$index}}')
+#program.col-md-11
+    .program-inner
+        ul( dnd-list="vm.program"
+            dnd-external-sources="true"
+            dnd-horizontal-list="true"
+            class="itemlist")
+            li( ng-repeat='ins in vm.program track by $index'
+                dnd-draggable='ins'
+                dnd-moved="vm.program.splice($index, 1)"
+                dnd-effect-allowed="move"
+                dnd-dragstart="vm.toggleBin(); vm.setIndex($index)"
+                dnd-dragend="vm.toggleBin()") 
                 img(class='{{ins.name}}' 
                     id='{{$index}}' 
-                    data-drag='true' 
                     ng-src='{{ins.src}}' 
-                    ng-click='vm.removeFromProgram($index)' 
-                    jqyoui-draggable="{onDrop:'vm.remove'}")
+                    ng-click='vm.removeFromProgram($index)')
 #next
-                

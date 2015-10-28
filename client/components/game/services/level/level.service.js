@@ -10,7 +10,7 @@
 
 		vm.level = [];
 		vm.instructions = [];
-		vm.maxLevel = 5;
+		vm.maxLevel = 6;
 		vm.levelNo = 1;
 
 		vm.levels = {
@@ -76,17 +76,18 @@
 			4: {
 				'lvl': [
 					3, 3, 3, 3, 3,
-				 	3, 1, 4, 2, 3,
+				 	3, 0, 0, 0, 3,
 					3, 0, 0, 0, 3,
-					3, 0, 0, 0, 3,
+					3, 1, 4, 2, 3,
 					3, 3, 3, 3, 3
 				],
 				'ins': [
 					'fw',
+					'rr',
 					'rl',
 					'lt'
 				],
-				'dir': 's',
+				'dir': 'n',
 				'width': 3,
 				'height': 3,
 				'mwidth': 5,
@@ -97,7 +98,7 @@
 				'lvl': [
 					3, 3, 3, 3, 3,
 				 	3, 1, 4, 2, 3,
-					3, 0, 4, 0, 3,
+					3, 0, 0, 0, 3,
 					3, 0, 0, 0, 3,
 					3, 3, 3, 3, 3
 				],
@@ -108,6 +109,27 @@
 					'lt'
 				],
 				'dir': 's',
+				'width': 3,
+				'height': 3,
+				'mwidth': 5,
+				'mheight': 5,
+				'limit': 8
+			},
+			6: {
+				'lvl': [
+					3, 3, 3, 3, 3,
+				 	3, 0, 0, 0, 3,
+					3, 0, 4, 0, 3,
+					3, 1, 4, 2, 3,
+					3, 3, 3, 3, 3
+				],
+				'ins': [
+					'fw',
+					'rl',
+					'rr',
+					'lt'
+				],
+				'dir': 'n',
 				'width': 3,
 				'height': 3,
 				'mwidth': 5,
@@ -174,6 +196,7 @@
 		}
 
 		function getStartingDirection() {
+			logger.log('starting dir', vm.levels[vm.levelNo].dir);
 			return vm.levels[vm.levelNo].dir;
 		}
 
