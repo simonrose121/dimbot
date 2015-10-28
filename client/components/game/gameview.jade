@@ -30,7 +30,7 @@
             li( ng-repeat='ins in vm.program track by $index'
                 dnd-draggable='ins'
                 dnd-moved="vm.program.splice($index, 1)"
-                dnd-effect-allowed="move"
+                dnd-effect-allowed="copyMove"
                 dnd-dragstart="vm.toggleBin(); vm.setIndex($index)"
                 dnd-dragend="vm.toggleBin()") 
                 img(class='{{ins.name}}' 

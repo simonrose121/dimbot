@@ -24,7 +24,6 @@
 		vm.bind = bind;
 		vm.instructions = levelService.getInstructions();
 		vm.refresh = refresh;
-		vm.replace = replace;
 		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
 		vm.setIndex = setIndex;
@@ -121,26 +120,6 @@
 			}
 		}
 
-		function replace(ins) {
-			vm.beingDragged = true;
-
-			logger.info('toElement', ins.toElement);
-			var id = ins.toElement.id;
-
-			// get index
-			var index = $('#' + id).attr('index');
-
-			// remove this from array
-			if (index > -1) {
-				vm.instructions.splice(index, 1);
-			}
-
-			var instruction = instructionFactory.getInstruction(id);
-			logger.info('instruction', instruction);
-			vm.instructions.splice(index, 0, instruction);
-			logger.info('instructions array', vm.instructions);
-		}
-
 		function remove(ins) {
 			logger.log('removing ins', ins);
 			if (ins.toElement) {
@@ -163,6 +142,7 @@
 		}
 
 		function setIndex(index) {
+			logger.info('setting index', index);
 			vm.currentIndex = index;
 		}
 
@@ -171,6 +151,8 @@
 		}
 
 		function toggleBin() {
+			logger.info('program is', vm.program);
+
 			$('#bin').toggle();
 		}
 	}
