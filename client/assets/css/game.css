@@ -35,6 +35,11 @@
   text-align: center;
   width: 78%;
 }
+#instructions {
+  position: absolute;
+  bottom: 15px;
+  right: 0px;
+}
 #instructions .instructions-inner {
   background: #73DCFF;
   border-radius: 5px;
@@ -43,8 +48,8 @@
 }
 #instructions #blockly-inner {
   border-radius: 5px;
-  height: 530px;
-  width: 400px;
+  height: 570px;
+  width: 450px;
   float: right;
 }
 #instructions ul {
