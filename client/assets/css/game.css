@@ -41,6 +41,12 @@
   width: 128px;
   float: right;
 }
+#instructions #blockly-inner {
+  border-radius: 5px;
+  height: 530px;
+  width: 400px;
+  float: right;
+}
 #instructions ul {
   list-style: none;
 }

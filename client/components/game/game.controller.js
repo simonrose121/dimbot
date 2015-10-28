@@ -5,10 +5,11 @@
 
 	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
 		'movementService','levelService', 'imageService',
-		'instructionFactory', 'state'];
+		'instructionFactory', 'state', 'ENV'];
 
 	function Game($http, $scope, $compile, logger, programService,
-		movementService, levelService, imageService, instructionFactory, state) {
+		movementService, levelService, imageService, instructionFactory, state,
+		ENV) {
 		var vm = this;
 
 		levelService.setInstructions();
@@ -58,11 +59,15 @@
 			// used to bind play and reset buttons
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
+					if (ENV.ins == 'blockly') {
+						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
+						eval(code);
+					}
 					movementService.run();
 				} else if ($('#status').hasClass('stop')) {
 					movementService.stop();
 				} else if ($('#status').hasClass('rewind')) {
-					movementService.rewind();
+					movementService.reset();
 					imageService.removeNext();
 				}
 			});
