@@ -58,11 +58,13 @@
 			// used to bind play and reset buttons
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
+					var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
+					eval(code);
 					movementService.run();
 				} else if ($('#status').hasClass('stop')) {
 					movementService.stop();
 				} else if ($('#status').hasClass('rewind')) {
-					movementService.rewind();
+					movementService.reset();
 					imageService.removeNext();
 				}
 			});

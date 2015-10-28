@@ -35,10 +35,15 @@
   text-align: center;
   width: 78%;
 }
-#instructions .instructions-inner {
+#instructions #instructions-inner {
   background: #73DCFF;
   border-radius: 5px;
   width: 128px;
+}
+#instructions #blockly-inner {
+  border-radius: 5px;
+  height: 530px;
+  width: 400px;
   float: right;
 }
 #instructions ul {

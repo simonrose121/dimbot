@@ -7,7 +7,7 @@
     .level-inner
         dim-grid-directive
 #instructions.col-md-2
-    .instructions-inner
+    #instructions-inner
         ul( dnd-list="vm.instructions"
             dnd-disable-if="vm.instructions.length >= vm.max")
           li(ng-repeat='ins in vm.instructions'
@@ -32,4 +32,3 @@
                     ng-src='{{ins.src}}' 
                     ng-click='vm.removeFromProgram($index)')
 #next
-                
