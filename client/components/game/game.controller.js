@@ -160,7 +160,6 @@
 				index = vm.currentIndex;
 			}
 			programService.removeInstruction(index);
-			vm.refresh();
 		}
 
 		function setIndex(index) {
