@@ -11,6 +11,7 @@
     .level-inner
         dim-grid-directive
 #instructions.col-md-2
+    h4 Instructions
     .instructions-inner
         ul( dnd-list="vm.instructions"
             dnd-disable-if="vm.instructions.length >= vm.max")
@@ -22,6 +23,7 @@
                     ng-click='vm.addToProgram(ins)'
                     index='{{$index}}')
 #program.col-md-2
+    h4 Program
     .program-inner
         ul( dnd-list="vm.program"
             dnd-external-sources="true"

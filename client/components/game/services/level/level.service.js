@@ -31,7 +31,7 @@
 				'height': 3,
 				'mwidth': 5,
 				'mheight': 5,
-				'limit': 5
+				'limit': 4
 			},
 			2: {
 				'lvl': [

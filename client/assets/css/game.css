@@ -50,6 +50,11 @@
 #instructions {
   position: relative;
 }
+#instructions h4 {
+  width: 128px;
+  text-align: center;
+  float: right;
+}
 #instructions .instructions-inner {
   background: #73DCFF;
   border-radius: 5px;
@@ -78,6 +83,11 @@
 }
 #program {
   position: relative;
+}
+#program h4 {
+  width: 128px;
+  text-align: center;
+  float: right;
 }
 #program .program-inner {
   background: #73FFB9;
