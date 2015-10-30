@@ -19,13 +19,12 @@
 		vm.selected = null;
 		vm.max = 0;
 		vm.currentIndex = null;
+		vm.instructions = levelService.getInstructions();
+		vm.program = programService.getProgram();
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
-		vm.instructions = levelService.getInstructions();
 		vm.refresh = refresh;
-		vm.replace = replace;
-		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
 		vm.setIndex = setIndex;
 		vm.setMax = setMax;
@@ -45,23 +44,27 @@
 					if (ins.toElement) {
 						// if drag and drop
 						var i = instructionFactory.getInstruction(ins.toElement.id);
+						logger.info('added to program', i);
+
 						// get instruction and add
-						programService.addInstruction(i);
+						vm.program.push(i);
 						vm.beingDragged = false;
 					}
 				} else {
+					var i = instructionFactory.getInstruction(ins.name);
+					logger.info('added to program', i);
 					// if click
 					// remove instruction to prevent drags adding
-					programService.addInstruction(ins);
+					vm.program.push(i);
 				}
 			}
-			vm.refresh();
 		}
 
 		function bind() {
 			// used to bind play and reset buttons
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
+					vm.refresh();
 					if (ENV.ins == 'blockly') {
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
@@ -100,8 +103,6 @@
 
 		// ensure that DOM always matches program in program service
 		function refresh() {
-			vm.program = programService.getProgram();
-
 			// set program width
 			var width;
 			var limit = programService.getLimit();
@@ -121,49 +122,21 @@
 			}
 		}
 
-		function replace(ins) {
-			vm.beingDragged = true;
-
-			logger.info('toElement', ins.toElement);
-			var id = ins.toElement.id;
-
-			// get index
-			var index = $('#' + id).attr('index');
-
-			// remove this from array
-			if (index > -1) {
-				vm.instructions.splice(index, 1);
-			}
-
-			var instruction = instructionFactory.getInstruction(id);
-			logger.info('instruction', instruction);
-			vm.instructions.splice(index, 0, instruction);
-			logger.info('instructions array', vm.instructions);
-		}
-
-		function remove(ins) {
-			logger.log('removing ins', ins);
-			if (ins.toElement) {
-				var i = instructionFactory.getInstruction(ins.toElement.id);
-				programService.removeInstruction(i);
-
-				if (i > -1) {
-					vm.program.splice(i, 1);
-					vm.refresh();
-				}
-			}
-		}
-
 		function removeFromProgram(index) {
 			// if dropped on the bin
 			if (!index) {
 				index = vm.currentIndex;
 			}
-			programService.removeInstruction(index);
+			if (index > -1) {
+				vm.program.splice(index, 1);
+			}
 		}
 
 		function setIndex(index) {
+			logger.info('setting index', index);
 			vm.currentIndex = index;
+
+
 		}
 
 		function setMax() {
@@ -171,6 +144,8 @@
 		}
 
 		function toggleBin() {
+			logger.info('program is', vm.program);
+
 			$('#bin').toggle();
 		}
 	}
