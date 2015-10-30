@@ -122,42 +122,37 @@
     // angular drag drop lists styling
 
     ul[dnd-list],
-    ul[dnd-list] > li {
-    	position: relative;
-    }
+    ul[dnd-list] {
+        > li {
+    	    position: relative;
+        }
 
-    ul[dnd-list] li {
-        position: relative;
-        display: block;
-    }
+        li {
+            position: relative;
+            display: block;
+        }
 
-    ul[dnd-list] .dndPlaceholder {
-        background-color: #ddd !important;
-        min-height: 128px;
-        display: block;
-        position: relative;
-    }
+        .dndDraggingSource {
+            display: none;
+        }
 
-    ul[dnd-list] .dndDraggingSource {
-        display: none;
-    }
+        .dndDragging {
+            opacity: 0.7;
+        }
 
-    .dndDragging {
-        opacity: 0.7;
-    }
+        .itemlist {
+            min-height: 128px !important;
+        }
 
-    .itemlist {
-        min-height: 128px !important;
-    }
-
-    .itemlist li {
-        border: none;
-        color: #fff;
-        float: left;
-        height: 128px;
-        text-align: center;
-        width: 128px;
-        cursor: move;
+        .itemlist li {
+            border: none;
+            color: #fff;
+            float: left;
+            height: 128px;
+            text-align: center;
+            width: 128px;
+            cursor: move;
+        }
     }
 }
 
