@@ -108,10 +108,10 @@
 			var height;
 			var limit = programService.getLimit();
 			if (limit <= 9) {
-				height = limit * 128;
+				height = limit * 64;
 				$('.program-inner').css('height', height);
 			} else {
-				height = 9 * 128;
+				height = 9 * 64;
 				$('.program-inner').css('height', height);
 			}
 
