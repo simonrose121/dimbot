@@ -3,10 +3,6 @@
     #reset
     #level-no
     #status.play
-#bin.col-md-1
-    ul( dnd-list='' 
-        dnd-external-sources="true" 
-        dnd-drop='vm.removeFromProgram()')
 #level.col-md-8
     .level-inner
         dim-grid-directive
@@ -40,4 +36,8 @@
                     id='{{$index}}' 
                     ng-src='{{ins.src}}' 
                     ng-click='vm.removeFromProgram($index)')
+#bin.col-md-12
+    ul( dnd-list='' 
+        dnd-external-sources="true" 
+        dnd-drop='vm.removeFromProgram()')
 #next

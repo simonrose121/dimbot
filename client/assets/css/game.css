@@ -44,12 +44,14 @@
   width: 128px;
   height: 128px;
   position: absolute;
-  bottom: 158px;
+  right: 15px;
+  bottom: 15px;
   display: none;
   z-index: 1;
 }
 #bin ul {
   min-height: 128px;
+  color: #00BFFF;
 }
 #instructions {
   position: relative;
