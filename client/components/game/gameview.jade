@@ -7,7 +7,7 @@
     ul( dnd-list='' 
         dnd-external-sources="true" 
         dnd-drop='vm.removeFromProgram()')
-#level.col-md-10
+#level.col-md-8
     .level-inner
         dim-grid-directive
 #instructions.col-md-2
@@ -21,11 +21,11 @@
                     ng-src='{{ins.src}}' 
                     ng-click='vm.addToProgram(ins)'
                     index='{{$index}}')
-#program.col-md-11
+#program.col-md-2
     .program-inner
         ul( dnd-list="vm.program"
             dnd-external-sources="true"
-            dnd-horizontal-list="true"
+            dnd-horizontal-list="false"
             class="itemlist")
             li( ng-repeat='ins in vm.program track by $id(ins)'
                 dnd-draggable='ins'

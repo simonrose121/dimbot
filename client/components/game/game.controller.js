@@ -39,11 +39,12 @@
 
 		function addToProgram(ins) {
 			// if instruction exists
+			var i = null;
 			if (ins) {
 				if (vm.beingDragged) {
 					if (ins.toElement) {
 						// if drag and drop
-						var i = instructionFactory.getInstruction(ins.toElement.id);
+						i = instructionFactory.getInstruction(ins.toElement.id);
 						logger.info('added to program', i);
 
 						// get instruction and add
@@ -51,7 +52,7 @@
 						vm.beingDragged = false;
 					}
 				} else {
-					var i = instructionFactory.getInstruction(ins.name);
+					i = instructionFactory.getInstruction(ins.name);
 					logger.info('added to program', i);
 					// if click
 					// remove instruction to prevent drags adding
@@ -103,23 +104,23 @@
 
 		// ensure that DOM always matches program in program service
 		function refresh() {
-			// set program width
-			var width;
+			// set program height
+			var height;
 			var limit = programService.getLimit();
 			if (limit <= 9) {
-				width = limit * 128;
-				$('.program-inner').css('width', width);
+				height = limit * 128;
+				$('.program-inner').css('height', height);
 			} else {
-				width = 9 * 128;
-				$('.program-inner').css('width', width);
+				height = 9 * 128;
+				$('.program-inner').css('height', height);
 			}
 
-			// add additional space
-			if (vm.program.length > 9) {
-				$('.program-inner').css('height', '256px');
-			} else {
-				$('.program-inner').css('height', '128px');
-			}
+			// // add additional space
+			// if (vm.program.length > 9) {
+			// 	$('.program-inner').css('height', '256px');
+			// } else {
+			// 	$('.program-inner').css('height', '128px');
+			// }
 		}
 
 		function removeFromProgram(index) {

@@ -54,9 +54,9 @@
 }
 
 #instructions {
-    position: absolute;
-    bottom: 15px;
-    right: 0px;
+    position: relative;
+    //bottom: 15px;
+    //right: 0px;
 
     .instructions-inner {
         background: #73DCFF;
@@ -92,17 +92,14 @@
 }
 
 #program {
-    position: absolute;
-    bottom: 15px;
+    position: relative;
 
     .program-inner {
         background: #73FFB9;
         border-radius: 5px;
-        height: 128px;
-        width: 100%;
+        width: 128px;
         display: block;
-        margin-left: auto;
-        margin-right: auto;
+        float: right;
 
         ul {
             list-style: none;
