@@ -19,12 +19,12 @@
 		vm.selected = null;
 		vm.max = 0;
 		vm.currentIndex = null;
+		vm.instructions = levelService.getInstructions();
+		vm.program = programService.getProgram();
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
-		vm.instructions = levelService.getInstructions();
 		vm.refresh = refresh;
-		vm.remove = remove;
 		vm.removeFromProgram = removeFromProgram;
 		vm.setIndex = setIndex;
 		vm.setMax = setMax;
@@ -45,13 +45,13 @@
 						// if drag and drop
 						var i = instructionFactory.getInstruction(ins.toElement.id);
 						// get instruction and add
-						programService.addInstruction(i);
+						vm.program.push(i);
 						vm.beingDragged = false;
 					}
 				} else {
 					// if click
 					// remove instruction to prevent drags adding
-					programService.addInstruction(ins);
+					vm.program.push(ins);
 				}
 			}
 			vm.refresh();
@@ -61,6 +61,7 @@
 			// used to bind play and reset buttons
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
+					vm.refresh();
 					if (ENV.ins == 'blockly') {
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
@@ -99,8 +100,6 @@
 
 		// ensure that DOM always matches program in program service
 		function refresh() {
-			vm.program = programService.getProgram();
-
 			// set program width
 			var width;
 			var limit = programService.getLimit();
@@ -120,25 +119,14 @@
 			}
 		}
 
-		function remove(ins) {
-			logger.log('removing ins', ins);
-			if (ins.toElement) {
-				var i = instructionFactory.getInstruction(ins.toElement.id);
-				programService.removeInstruction(i);
-
-				if (i > -1) {
-					vm.program.splice(i, 1);
-					vm.refresh();
-				}
-			}
-		}
-
 		function removeFromProgram(index) {
 			// if dropped on the bin
 			if (!index) {
 				index = vm.currentIndex;
 			}
-			programService.removeInstruction(index);
+			if (index > -1) {
+				vm.program.splice(index, 1);
+			}
 		}
 
 		function setIndex(index) {

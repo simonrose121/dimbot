@@ -53,6 +53,10 @@
 			}
 		}
 
+		function setProgram(program) {
+			vm.program = program;
+		}
+
 		function setLimit(limit) {
 			vm.limit = limit;
 		}
