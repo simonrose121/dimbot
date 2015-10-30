@@ -2,6 +2,10 @@
   width: 128px;
   height: 128px;
 }
+.standard-ins-size {
+  width: 128px;
+  height: 64px;
+}
 #navigation #back {
   float: left;
   background: url('../img/back-button.png');
@@ -74,7 +78,7 @@
   float: right;
   clear: right;
   width: 128px;
-  height: 128px;
+  height: 64px;
   cursor: move;
 }
 #level .level-inner {
@@ -103,7 +107,7 @@
 #program .program-inner li img {
   float: left;
   width: 128px;
-  height: 128px;
+  height: 64px;
 }
 #program .highlight {
   border: solid thick #FFF;
@@ -123,13 +127,13 @@
   opacity: 0.7;
 }
 #program .itemlist {
-  min-height: 128px !important;
+  min-height: 64px !important;
 }
 #program .itemlist li {
   border: none;
   color: #fff;
   float: left;
-  height: 128px;
+  height: 64px;
   text-align: center;
   width: 128px;
   cursor: move;
