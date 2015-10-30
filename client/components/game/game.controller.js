@@ -24,7 +24,6 @@
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
-		vm.refresh = refresh;
 		vm.removeFromProgram = removeFromProgram;
 		vm.setIndex = setIndex;
 		vm.setMax = setMax;
@@ -34,7 +33,6 @@
 		state.current = state.COMPOSING;
 
 		// call update to add default instructions
-		vm.refresh();
 		vm.bind();
 
 		function addToProgram(ins) {
@@ -65,7 +63,6 @@
 			// used to bind play and reset buttons
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
-					vm.refresh();
 					if (ENV.ins == 'blockly') {
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
@@ -81,9 +78,6 @@
 			$('#reset').bind('click', function() {
 				movementService.reset();
 				imageService.removeNext();
-				$scope.$apply(function() {
-					vm.refresh();
-				});
 			});
 			$('#next').bind('click', function() {
 				levelService.nextLevel();
@@ -91,7 +85,6 @@
 				imageService.removeNext();
 
 				$scope.$apply(function() {
-					vm.refresh();
 					levelService.setInstructions();
 					programService.empty();
 
@@ -100,27 +93,6 @@
 					$('.level-inner').append(newElement);
 				});
 			});
-		}
-
-		// ensure that DOM always matches program in program service
-		function refresh() {
-			// set program height
-			var height;
-			var limit = programService.getLimit();
-			if (limit <= 9) {
-				height = limit * 64;
-				$('.program-inner').css('height', height);
-			} else {
-				height = 9 * 64;
-				$('.program-inner').css('height', height);
-			}
-
-			// // add additional space
-			// if (vm.program.length > 9) {
-			// 	$('.program-inner').css('height', '256px');
-			// } else {
-			// 	$('.program-inner').css('height', '128px');
-			// }
 		}
 
 		function removeFromProgram(index) {

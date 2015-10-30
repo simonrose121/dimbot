@@ -54,18 +54,21 @@
   color: #00BFFF;
 }
 #instructions {
-  position: relative;
+  display: inline-block;
+  float: right;
+  margin-right: 15px;
 }
 #instructions h4 {
   width: 128px;
   text-align: center;
-  float: right;
+  float: left;
 }
 #instructions .instructions-inner {
   background: #73DCFF;
   border-radius: 5px;
   width: 128px;
-  float: right;
+  clear: left;
+  float: left;
 }
 #instructions #blockly-inner {
   border-radius: 5px;
@@ -88,19 +91,24 @@
   padding: 5px;
 }
 #program {
+  display: inline-block;
+  float: right;
   position: relative;
 }
 #program h4 {
   width: 128px;
   text-align: center;
+  clear: both;
   float: right;
 }
 #program .program-inner {
+  clear: both;
   background: #73FFB9;
   border-radius: 5px;
   width: 128px;
   display: block;
   float: right;
+  height: 586px;
 }
 #program .program-inner ul {
   list-style: none;

@@ -56,21 +56,22 @@
 }
 
 #instructions {
-    position: relative;
-    //bottom: 15px;
-    //right: 0px;
+    display: inline-block;
+    float: right;
+    margin-right: 15px;
 
     h4 {
         width: 128px;
         text-align: center;
-        float: right;
+        float: left;
     }
 
     .instructions-inner {
         background: #73DCFF;
         border-radius: 5px;
         width: 128px;
-        float: right;
+        clear: left;
+        float: left;
     }
 
     #blockly-inner {
@@ -100,20 +101,25 @@
 }
 
 #program {
+    display: inline-block;
+    float: right;
     position: relative;
 
     h4 {
         width: 128px;
         text-align: center;
+        clear: both;
         float: right;
     }
 
     .program-inner {
+        clear: both;
         background: #73FFB9;
         border-radius: 5px;
         width: 128px;
         display: block;
         float: right;
+        height: 586px;
 
         ul {
             list-style: none;
