@@ -24,7 +24,6 @@
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
-		vm.refresh = refresh;
 		vm.removeFromProgram = removeFromProgram;
 		vm.setIndex = setIndex;
 		vm.setMax = setMax;
@@ -34,16 +33,16 @@
 		state.current = state.COMPOSING;
 
 		// call update to add default instructions
-		vm.refresh();
 		vm.bind();
 
 		function addToProgram(ins) {
 			// if instruction exists
+			var i = null;
 			if (ins) {
 				if (vm.beingDragged) {
 					if (ins.toElement) {
 						// if drag and drop
-						var i = instructionFactory.getInstruction(ins.toElement.id);
+						i = instructionFactory.getInstruction(ins.toElement.id);
 						logger.info('added to program', i);
 
 						// get instruction and add
@@ -51,7 +50,7 @@
 						vm.beingDragged = false;
 					}
 				} else {
-					var i = instructionFactory.getInstruction(ins.name);
+					i = instructionFactory.getInstruction(ins.name);
 					logger.info('added to program', i);
 					// if click
 					// remove instruction to prevent drags adding
@@ -64,7 +63,6 @@
 			// used to bind play and reset buttons
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
-					vm.refresh();
 					if (ENV.ins == 'blockly') {
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
@@ -80,9 +78,6 @@
 			$('#reset').bind('click', function() {
 				movementService.reset();
 				imageService.removeNext();
-				$scope.$apply(function() {
-					vm.refresh();
-				});
 			});
 			$('#next').bind('click', function() {
 				levelService.nextLevel();
@@ -90,7 +85,6 @@
 				imageService.removeNext();
 
 				$scope.$apply(function() {
-					vm.refresh();
 					levelService.setInstructions();
 					programService.empty();
 
@@ -99,27 +93,6 @@
 					$('.level-inner').append(newElement);
 				});
 			});
-		}
-
-		// ensure that DOM always matches program in program service
-		function refresh() {
-			// set program width
-			var width;
-			var limit = programService.getLimit();
-			if (limit <= 9) {
-				width = limit * 128;
-				$('.program-inner').css('width', width);
-			} else {
-				width = 9 * 128;
-				$('.program-inner').css('width', width);
-			}
-
-			// add additional space
-			if (vm.program.length > 9) {
-				$('.program-inner').css('height', '256px');
-			} else {
-				$('.program-inner').css('height', '128px');
-			}
 		}
 
 		function removeFromProgram(index) {
