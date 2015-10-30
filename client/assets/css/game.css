@@ -103,29 +103,30 @@
 #program .highlight {
   border: solid thick #FFF;
 }
-#program ul[dnd-list] > li,
+#program ul[dnd-list],
 #program ul[dnd-list] > li {
   position: relative;
 }
-#program ul[dnd-list] li,
 #program ul[dnd-list] li {
   position: relative;
   display: block;
 }
-#program ul[dnd-list] .dndDraggingSource,
+#program ul[dnd-list] .dndPlaceholder {
+  background-color: #ddd !important;
+  min-height: 128px;
+  display: block;
+  position: relative;
+}
 #program ul[dnd-list] .dndDraggingSource {
   display: none;
 }
-#program ul[dnd-list] .dndDragging,
-#program ul[dnd-list] .dndDragging {
+#program .dndDragging {
   opacity: 0.7;
 }
-#program ul[dnd-list] .itemlist,
-#program ul[dnd-list] .itemlist {
+#program .itemlist {
   min-height: 128px !important;
 }
-#program ul[dnd-list] .itemlist li,
-#program ul[dnd-list] .itemlist li {
+#program .itemlist li {
   border: none;
   color: #fff;
   float: left;
