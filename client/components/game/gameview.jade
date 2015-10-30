@@ -14,21 +14,22 @@
     .instructions-inner
         ul( dnd-list="vm.instructions"
             dnd-disable-if="vm.instructions.length >= vm.max")
-          li(ng-repeat='ins in vm.instructions'
-             dnd-draggable="ins"
-             dnd-effect-allowed="copyMove") 
-            img(id='{{ins.name}}' 
-                ng-src='{{ins.src}}' 
-                ng-click='vm.addToProgram(ins)'
-                index='{{$index}}')
+            li( ng-repeat='ins in vm.instructions'
+                dnd-draggable="ins"
+                dnd-effect-allowed="copyMove") 
+                img(id='{{ins.name}}' 
+                    ng-src='{{ins.src}}' 
+                    ng-click='vm.addToProgram(ins)'
+                    index='{{$index}}')
 #program.col-md-11
     .program-inner
         ul( dnd-list="vm.program"
             dnd-external-sources="true"
             dnd-horizontal-list="true"
             class="itemlist")
-            li( ng-repeat='ins in vm.program track by $index'
+            li( ng-repeat='ins in vm.program track by $id(ins)'
                 dnd-draggable='ins'
+                dnd-type="'insType'"
                 dnd-moved="vm.program.splice($index, 1)"
                 dnd-effect-allowed="copyMove"
                 dnd-dragstart="vm.toggleBin(); vm.setIndex($index)"

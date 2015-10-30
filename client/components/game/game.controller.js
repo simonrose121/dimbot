@@ -44,17 +44,20 @@
 					if (ins.toElement) {
 						// if drag and drop
 						var i = instructionFactory.getInstruction(ins.toElement.id);
+						logger.info('added to program', i);
+
 						// get instruction and add
 						vm.program.push(i);
 						vm.beingDragged = false;
 					}
 				} else {
+					var i = instructionFactory.getInstruction(ins.name);
+					logger.info('added to program', i);
 					// if click
 					// remove instruction to prevent drags adding
-					vm.program.push(ins);
+					vm.program.push(i);
 				}
 			}
-			vm.refresh();
 		}
 
 		function bind() {
@@ -132,6 +135,8 @@
 		function setIndex(index) {
 			logger.info('setting index', index);
 			vm.currentIndex = index;
+
+
 		}
 
 		function setMax() {

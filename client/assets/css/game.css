@@ -111,6 +111,12 @@
   position: relative;
   display: block;
 }
+#program ul[dnd-list] .dndPlaceholder {
+  background-color: #ddd !important;
+  min-height: 128px;
+  display: block;
+  position: relative;
+}
 #program ul[dnd-list] .dndDraggingSource {
   display: none;
 }

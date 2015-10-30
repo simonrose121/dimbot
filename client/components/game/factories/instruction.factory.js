@@ -6,6 +6,7 @@
 	instructionFactory.$Inject = ['logger'];
 
 	function instructionFactory(logger) {
+
 		var Instruction = function(name, src) {
 			this.name = name;
 			this.src = src;
