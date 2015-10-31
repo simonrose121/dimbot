@@ -73,16 +73,28 @@
 				} else if ($('#status').hasClass('rewind')) {
 					movementService.reset();
 					imageService.removeNext();
+					if (ENV.ins == 'blockly') {
+						// clear blockly interface
+						Blockly.mainWorkspace.clear();
+					}
 				}
 			});
 			$('#reset').bind('click', function() {
 				movementService.reset();
 				imageService.removeNext();
+				if (ENV.ins == 'blockly') {
+					// clear blockly interface
+					Blockly.mainWorkspace.clear();
+				}
 			});
 			$('#next').bind('click', function() {
 				levelService.nextLevel();
 				imageService.play();
 				imageService.removeNext();
+				if (ENV.ins == 'blockly') {
+					// clear blockly interface
+					Blockly.mainWorkspace.clear();
+				}
 
 				$scope.$apply(function() {
 					levelService.setInstructions();
