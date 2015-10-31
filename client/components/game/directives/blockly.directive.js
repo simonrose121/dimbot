@@ -64,6 +64,17 @@
 						this.setColour(260);
 				  	}
 				};
+				Blockly.Blocks.start = {
+					init: function() {
+						this.appendDummyInput()
+							.appendField('Start')
+							.appendField(new Blockly.FieldImage(
+								'../../img/play-button.png', 30, 30));
+						this.setPreviousStatement(false);
+						this.setNextStatement(true);
+						this.setColour(65);
+					}
+				}
 			}
 
 			function generators() {
