@@ -18,6 +18,7 @@
 		vm.x = 0;
 		vm.direction = null;
 		vm.index = null;
+		vm.start = false;
 
 		// set starting direction
 		setStartingDirection();
@@ -28,6 +29,7 @@
 			getMesh: getMesh,
 			loop: loop,
 			light: light,
+			hasStart: hasStart,
 			perform: perform,
 			reset: reset,
 			rewind: rewind,
@@ -84,6 +86,15 @@
 			return vm.direction;
 		}
 
+		function getMesh() {
+			return vm.mesh;
+		}
+
+		function hasStart(val) {
+			vm.start = val;
+			logger.debug('has start', vm.start);
+		}
+
 		function light(callback) {
 			var x = vm.mesh.position.x;
 			var y = vm.mesh.position.y;
@@ -100,10 +111,6 @@
 			}
 			timer.sleep(1000);
 			callback();
-		}
-
-		function getMesh() {
-			return vm.mesh;
 		}
 
 		function reset() {
@@ -138,6 +145,8 @@
 
 			// turn off light
 			lightService.turnOff();
+
+			service.hasStart(false);
 		}
 
 		function rotate(deg, callback) {
@@ -172,7 +181,7 @@
 			logger.info('running program', program);
 
 			// when program is started
-			if (program.length > 0) {
+			if (program.length > 0 && vm.start) {
 				state.current = state.RUNNING;
 
 				// set imageService index to 0

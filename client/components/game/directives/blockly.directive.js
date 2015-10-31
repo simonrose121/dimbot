@@ -90,11 +90,16 @@
 				Blockly.JavaScript.lt = function(block) {
 					return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 				};
+				Blockly.JavaScript.start = function(block) {
+					return 'movementService.hasStart(' + true + ');';
+				};
 			}
 
 			function init() {
 				vm.workspace = Blockly.inject('blockly-inner',
 					{toolbox: document.getElementById('toolbox')});
+
+				Blockly.BlockSvg.START_HAT = true;
 			}
 		}
 	}
