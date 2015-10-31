@@ -53,6 +53,12 @@
   min-height: 128px;
   color: #00BFFF;
 }
+#blockly #blockly-inner {
+  border-radius: 5px;
+  height: 570px;
+  width: 450px;
+  float: right;
+}
 #instructions {
   display: inline-block;
   float: right;
@@ -69,12 +75,6 @@
   width: 128px;
   clear: left;
   float: left;
-}
-#instructions #blockly-inner {
-  border-radius: 5px;
-  height: 570px;
-  width: 450px;
-  float: right;
 }
 #instructions ul {
   list-style: none;
