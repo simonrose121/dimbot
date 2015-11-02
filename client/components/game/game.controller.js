@@ -5,11 +5,11 @@
 
 	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
 		'movementService','levelService', 'imageService', 'logService',
-		'instructionFactory', 'state', 'ENV'];
+		'instructionFactory', 'screenshot', 'state', 'ENV'];
 
 	function Game($http, $scope, $compile, logger, programService,
 		movementService, levelService, imageService, logService,
-		instructionFactory, state, ENV) {
+		instructionFactory, screenshot, state, ENV) {
 		var vm = this;
 
 		levelService.setInstructions();
@@ -25,6 +25,7 @@
 		vm.bind = bind;
 		vm.logMove = logMove;
 		vm.removeFromProgram = removeFromProgram;
+		vm.removeFromProgramOnDrop = removeFromProgramOnDrop;
 		vm.setIndex = setIndex;
 		vm.setMax = setMax;
 		vm.spliceProgram = spliceProgram;
@@ -55,9 +56,14 @@
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
 					if (ENV.ins == 'blockly') {
+						var url = screenshot.captureSvg('.blocklySvg', 'file');
+						logService.saveScreenshot(url, 'blockly');
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
 					} else {
+						screenshot.capture('.program-inner', 'file', function(url) {
+							logService.saveScreenshot(url, 'lightbot');
+						});
 						// set has start if it's the lightbot version
 						movementService.hasStart(true);
 					}
@@ -111,14 +117,23 @@
 			return item;
 		}
 
-		function removeFromProgram(event, index, item, aindex) {
+		function removeFromProgram(index, ins) {
 			// if dropped on the bin
-			if (!aindex) {
-				aindex = vm.currentIndex;
+			if (!index) {
+				index = vm.currentIndex;
 			}
-			if (aindex > -1) {
-				logService.removedInstruction(item, aindex);
-				vm.program.splice(aindex, 1);
+			if (index > -1) {
+				logService.removedInstruction(ins, index);
+				vm.program.splice(index, 1);
+			}
+		}
+
+		function removeFromProgramOnDrop(event, index, item) {
+			index = vm.currentIndex;
+
+			if (index > -1) {
+				logService.removedInstruction(item, index);
+				vm.program.splice(index, 1);
 				vm.toggleBin();
 			}
 		}

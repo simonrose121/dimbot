@@ -8,16 +8,15 @@
 	function logService(logger, $http) {
 		// private methods
 		function postLog(log) {
-			$http.post('/log/', log).error(function(data) {
-				console.log('Error: ' + data);
-			});
+			$http.post('/log/', log);
 		}
 
 		var service = {
 			addedInstruction: addedInstruction,
 			buttonPress: buttonPress,
 			movedInstruction: movedInstruction,
-			removedInstruction: removedInstruction
+			removedInstruction: removedInstruction,
+			saveScreenshot: saveScreenshot
 		};
 
 		return service;
@@ -65,6 +64,18 @@
 
 			var log = {
 				type: 'instruction',
+				message: message
+			};
+
+			postLog(log);
+		}
+
+		function saveScreenshot(url, type) {
+			var message = 'Saved ' + type +
+				' with url: ' + url;
+
+			var log = {
+				type: 'screenshot',
 				message: message
 			};
 
