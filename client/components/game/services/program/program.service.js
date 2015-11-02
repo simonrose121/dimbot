@@ -3,9 +3,9 @@
 			.module('dimbot.game')
 			.service('programService', programService);
 
-	programService.$inject = ['logger'];
+	programService.$inject = ['logger', 'logService'];
 
-	function programService(logger) {
+	function programService(logger, logService) {
 		// capture "this"
 		var vm = this;
 

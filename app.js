@@ -3,7 +3,12 @@
 // includes
 var express = require('express');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 var app = express();
+
+var logController = require('./server/controllers/log.controller.js');
+
+mongoose.connect('mongodb://localhost:27017/dimbot');
 
 // config files
 var port = process.env.PORT || 8079;
@@ -35,6 +40,9 @@ app.use('/css', express.static(__dirname + '/client/assets/css'));
 app.use('/img', express.static(__dirname + '/client/assets/img'));
 app.use('/mdls', express.static(__dirname + '/client/assets/mdls'));
 app.use('/client', express.static(__dirname + '/client/'));
+
+// api routes
+app.post('/log/', logController.post);
 
 app.listen(port);
 

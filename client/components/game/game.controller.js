@@ -4,12 +4,12 @@
         .controller('Game', Game);
 
 	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
-		'movementService','levelService', 'imageService',
+		'movementService','levelService', 'imageService', 'logService',
 		'instructionFactory', 'state', 'ENV'];
 
 	function Game($http, $scope, $compile, logger, programService,
-		movementService, levelService, imageService, instructionFactory, state,
-		ENV) {
+		movementService, levelService, imageService, logService,
+		instructionFactory, state, ENV) {
 		var vm = this;
 
 		levelService.setInstructions();
@@ -48,6 +48,8 @@
 						// get instruction and add
 						vm.program.push(i);
 						vm.beingDragged = false;
+
+						logService.instructionMovement(i);
 					}
 				} else {
 					i = instructionFactory.getInstruction(ins.name);
@@ -55,6 +57,8 @@
 					// if click
 					// remove instruction to prevent drags adding
 					vm.program.push(i);
+
+					logService.instructionMovement(i);
 				}
 			}
 		}
