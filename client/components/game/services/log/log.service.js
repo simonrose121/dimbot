@@ -8,9 +8,7 @@
 	function logService(logger, $http) {
 		// private methods
 		function postLog(log) {
-			$http.post('/log/', log).error(function(data) {
-				console.log('Error: ' + data);
-			});
+			$http.post('/log/', log);
 		}
 
 		var service = {
