@@ -56,11 +56,14 @@
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
 					if (ENV.ins == 'blockly') {
-						screenshot.captureSvg('.blocklySvg', 'file');
+						var url = screenshot.captureSvg('.blocklySvg', 'file');
+						logService.saveScreenshot(url, 'blockly');
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
 					} else {
-						screenshot.capture('.program-inner', 'file');
+						screenshot.capture('.program-inner', 'file', function(url) {
+							logService.saveScreenshot(url, 'lightbot');
+						});
 						// set has start if it's the lightbot version
 						movementService.hasStart(true);
 					}

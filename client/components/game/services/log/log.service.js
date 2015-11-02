@@ -15,7 +15,8 @@
 			addedInstruction: addedInstruction,
 			buttonPress: buttonPress,
 			movedInstruction: movedInstruction,
-			removedInstruction: removedInstruction
+			removedInstruction: removedInstruction,
+			saveScreenshot: saveScreenshot
 		};
 
 		return service;
@@ -63,6 +64,18 @@
 
 			var log = {
 				type: 'instruction',
+				message: message
+			};
+
+			postLog(log);
+		}
+
+		function saveScreenshot(url, type) {
+			var message = 'Saved ' + type +
+				' with url: ' + url;
+
+			var log = {
+				type: 'screenshot',
 				message: message
 			};
 
