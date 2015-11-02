@@ -95,6 +95,7 @@ describe('Movement Service', function() {
 		// act
 		programService.setLimit(8);
 		programService.addInstruction(ins);
+		service.hasStart(true);
 		var program = programService.getProgram();
 
 		service.run();
