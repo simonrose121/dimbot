@@ -11,7 +11,7 @@
 		vm.level = [];
 		vm.instructions = [];
 		vm.maxLevel = 6;
-		vm.levelNo = 1;
+		vm.levelNo = 7;
 
 		vm.levels = {
 			1: {
@@ -119,6 +119,27 @@
 				'lvl': [
 					3, 3, 3, 3, 3,
 				 	3, 0, 0, 0, 3,
+					3, 0, 4, 0, 3,
+					3, 1, 4, 2, 3,
+					3, 3, 3, 3, 3
+				],
+				'ins': [
+					'fw',
+					'rl',
+					'rr',
+					'lt'
+				],
+				'dir': 'n',
+				'width': 3,
+				'height': 3,
+				'mwidth': 5,
+				'mheight': 5,
+				'limit': 10
+			},
+			7: {
+				'lvl': [
+					3, 3, 3, 3, 3,
+				 	3, 0, 2, 0, 3,
 					3, 0, 4, 0, 3,
 					3, 1, 4, 2, 3,
 					3, 3, 3, 3, 3

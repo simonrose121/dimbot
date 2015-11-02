@@ -8,7 +8,7 @@
 	function lightService() {
 		var vm = this;
 
-		vm.light = null;
+		vm.lights = [];
 		vm.offHex = 0x183ba6;
 		vm.onHex = 0xffe600;
 		vm.onVal = 'ffe600';
