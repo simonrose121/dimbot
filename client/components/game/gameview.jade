@@ -13,18 +13,19 @@
             ul( dnd-list="vm.program"
                 dnd-external-sources="true"
                 dnd-horizontal-list="false"
+                dnd-drop="vm.logMove(event, index, item)"
                 class="itemlist")
                 li( ng-repeat='ins in vm.program track by $id(ins)'
                     dnd-draggable='ins'
                     dnd-type="'insType'"
-                    dnd-moved="vm.program.splice($index, 1)"
+                    dnd-moved="vm.spliceProgram($index, ins)"
                     dnd-effect-allowed="copyMove"
                     dnd-dragstart="vm.toggleBin(); vm.setIndex($index)"
                     dnd-dragend="vm.toggleBin()") 
                     img(class='{{ins.name}}' 
                         id='{{$index}}' 
                         ng-src='{{ins.src}}' 
-                        ng-click='vm.removeFromProgram($index)')
+                        ng-click='vm.removeFromProgram(event, index, item, $index)')
     #instructions
         h4 Instructions
         .instructions-inner
@@ -40,5 +41,5 @@
 #bin.col-md-12
     ul( dnd-list='' 
         dnd-external-sources="true" 
-        dnd-drop='vm.removeFromProgram()')
+        dnd-drop='vm.removeFromProgram(event, index, item)')
 #next

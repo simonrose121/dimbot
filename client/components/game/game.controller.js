@@ -15,7 +15,6 @@
 		levelService.setInstructions();
 		levelService.resetLevel();
 
-		vm.beingDragged = false;
 		vm.selected = null;
 		vm.max = 0;
 		vm.currentIndex = null;
@@ -24,9 +23,11 @@
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
+		vm.logMove = logMove;
 		vm.removeFromProgram = removeFromProgram;
 		vm.setIndex = setIndex;
 		vm.setMax = setMax;
+		vm.spliceProgram = spliceProgram;
 		vm.toggleBin = toggleBin;
 
 		// set current state
@@ -39,27 +40,13 @@
 			// if instruction exists
 			var i = null;
 			if (ins) {
-				if (vm.beingDragged) {
-					if (ins.toElement) {
-						// if drag and drop
-						i = instructionFactory.getInstruction(ins.toElement.id);
-						logger.info('added to program', i);
+				i = instructionFactory.getInstruction(ins.name);
+				logger.info('added to program', i);
+				// if click
+				// remove instruction to prevent drags adding
+				vm.program.push(i);
 
-						// get instruction and add
-						vm.program.push(i);
-						vm.beingDragged = false;
-
-						logService.instructionMovement(i);
-					}
-				} else {
-					i = instructionFactory.getInstruction(ins.name);
-					logger.info('added to program', i);
-					// if click
-					// remove instruction to prevent drags adding
-					vm.program.push(i);
-
-					logService.instructionMovement(i);
-				}
+				logService.addedInstruction(i, 'click', vm.program.indexOf(i));
 			}
 		}
 
@@ -75,11 +62,14 @@
 						movementService.hasStart(true);
 					}
 					movementService.run();
+					logService.buttonPress('play');
 				} else if ($('#status').hasClass('stop')) {
 					movementService.stop();
+					logService.buttonPress('stop');
 				} else if ($('#status').hasClass('rewind')) {
 					movementService.reset();
 					imageService.removeNext();
+					logService.buttonPress('rewind');
 					if (ENV.ins == 'blockly') {
 						// clear blockly interface
 						Blockly.mainWorkspace.clear();
@@ -89,6 +79,7 @@
 			$('#reset').bind('click', function() {
 				movementService.reset();
 				imageService.removeNext();
+				logService.buttonPress('reset');
 				if (ENV.ins == 'blockly') {
 					// clear blockly interface
 					Blockly.mainWorkspace.clear();
@@ -98,6 +89,7 @@
 				levelService.nextLevel();
 				imageService.play();
 				imageService.removeNext();
+				logService.buttonPress('next');
 				if (ENV.ins == 'blockly') {
 					// clear blockly interface
 					Blockly.mainWorkspace.clear();
@@ -114,25 +106,36 @@
 			});
 		}
 
-		function removeFromProgram(index) {
+		function logMove(event, index, item) {
+			logService.addedInstruction(item, 'drag', index);
+			return item;
+		}
+
+		function removeFromProgram(event, index, item, aindex) {
 			// if dropped on the bin
-			if (!index) {
-				index = vm.currentIndex;
+			if (!aindex) {
+				aindex = vm.currentIndex;
 			}
-			if (index > -1) {
-				vm.program.splice(index, 1);
+			if (aindex > -1) {
+				logService.removedInstruction(item, aindex);
+				vm.program.splice(aindex, 1);
+				vm.toggleBin();
 			}
 		}
 
 		function setIndex(index) {
 			logger.info('setting index', index);
 			vm.currentIndex = index;
-
-
 		}
 
 		function setMax() {
 			vm.max = vm.instructions.length;
+		}
+
+		function spliceProgram(index, ins) {
+			vm.program.splice(index, 1);
+
+			logService.movedInstruction(ins, vm.currentIndex, index);
 		}
 
 		function toggleBin() {
