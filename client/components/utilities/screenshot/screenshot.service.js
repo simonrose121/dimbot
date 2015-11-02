@@ -15,6 +15,7 @@
 			html2canvas($(id), {
 	            onrendered: function(canvas) {
 					var img = canvas.toDataURL("image/png");
+					console.log(img);
 					callback(img);
 	            }
 	        });
@@ -43,6 +44,7 @@
 			var url = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(source);
 
 			//set url value to a element's href attribute.
+			console.log(url);
 			return url;
 		}
 	}
