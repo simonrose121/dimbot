@@ -13,12 +13,14 @@
 
 		var vm = this;
 
+		// private variables
 		vm.selected = null;
 		vm.max = 0;
 		vm.currentIndex = null;
 		vm.instructions = levelService.getInstructions();
 		vm.program = programService.getProgram();
 
+		// public methods
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
 		vm.logMove = logMove;
