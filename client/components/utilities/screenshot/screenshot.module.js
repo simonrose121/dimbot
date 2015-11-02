@@ -1,3 +1,3 @@
 (function() {
-	angular.module('utils.timer', []);
+	angular.module('utils.screenshot', []);
 })();
