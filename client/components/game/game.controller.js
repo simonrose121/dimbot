@@ -62,11 +62,14 @@
 						movementService.hasStart(true);
 					}
 					movementService.run();
+					logService.buttonPress('play');
 				} else if ($('#status').hasClass('stop')) {
 					movementService.stop();
+					logService.buttonPress('stop');
 				} else if ($('#status').hasClass('rewind')) {
 					movementService.reset();
 					imageService.removeNext();
+					logService.buttonPress('rewind');
 					if (ENV.ins == 'blockly') {
 						// clear blockly interface
 						Blockly.mainWorkspace.clear();
@@ -76,6 +79,7 @@
 			$('#reset').bind('click', function() {
 				movementService.reset();
 				imageService.removeNext();
+				logService.buttonPress('reset');
 				if (ENV.ins == 'blockly') {
 					// clear blockly interface
 					Blockly.mainWorkspace.clear();
@@ -85,6 +89,7 @@
 				levelService.nextLevel();
 				imageService.play();
 				imageService.removeNext();
+				logService.buttonPress('next');
 				if (ENV.ins == 'blockly') {
 					// clear blockly interface
 					Blockly.mainWorkspace.clear();
