@@ -25,7 +25,7 @@
                     img(class='{{ins.name}}' 
                         id='{{$index}}' 
                         ng-src='{{ins.src}}' 
-                        ng-click='vm.removeFromProgram($index)')
+                        ng-click='vm.removeFromProgram(event, index, item, $index)')
     #instructions
         h4 Instructions
         .instructions-inner
@@ -41,5 +41,5 @@
 #bin.col-md-12
     ul( dnd-list='' 
         dnd-external-sources="true" 
-        dnd-drop='vm.removeFromProgram()')
+        dnd-drop='vm.removeFromProgram(event, index, item)')
 #next

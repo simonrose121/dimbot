@@ -106,13 +106,15 @@
 			return item;
 		}
 
-		function removeFromProgram(index) {
+		function removeFromProgram(event, index, item, aindex) {
 			// if dropped on the bin
-			if (!index) {
-				index = vm.currentIndex;
+			if (!aindex) {
+				aindex = vm.currentIndex;
 			}
-			if (index > -1) {
-				vm.program.splice(index, 1);
+			if (aindex > -1) {
+				logService.removedInstruction(item, aindex);
+				vm.program.splice(aindex, 1);
+				vm.toggleBin();
 			}
 		}
 
