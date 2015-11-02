@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var logSchema = mongoose.Schema({
 	type: String,
 	message: String,
-	timestamp: Date
+	timestamp: { type: Date, default: Date.now }
 });
 
-module.exports.log = mongoose.model('Log', logSchema);
+module.exports = mongoose.model('Log', logSchema);

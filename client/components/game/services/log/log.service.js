@@ -15,7 +15,7 @@
 		function instructionMovement(ins) {
 			logger.debug('posting instruction to db', ins);
 
-			var message = 'Moved instruction ' + ins.name + 'to program';
+			var message = 'Moved instruction ' + ins.name + ' to program';
 
 			var log = {
 				type: 'instruction',
