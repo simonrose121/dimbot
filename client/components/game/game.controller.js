@@ -15,7 +15,6 @@
 		levelService.setInstructions();
 		levelService.resetLevel();
 
-		vm.beingDragged = false;
 		vm.selected = null;
 		vm.max = 0;
 		vm.currentIndex = null;
@@ -24,9 +23,11 @@
 
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
+		vm.logMove = logMove;
 		vm.removeFromProgram = removeFromProgram;
 		vm.setIndex = setIndex;
 		vm.setMax = setMax;
+		vm.spliceProgram = spliceProgram;
 		vm.toggleBin = toggleBin;
 
 		// set current state
@@ -39,17 +40,13 @@
 			// if instruction exists
 			var i = null;
 			if (ins) {
-				if (vm.beingDragged) {
-					// if drag and drop
-					i = instructionFactory.getInstruction(ins.toElement.id);
-					//logger.info('added to program', i);
+				i = instructionFactory.getInstruction(ins.name);
+				logger.info('added to program', i);
+				// if click
+				// remove instruction to prevent drags adding
+				vm.program.push(i);
 
-					// get instruction and add
-					vm.program.push(i);
-					vm.beingDragged = false;
-
-					logService.addedInstruction(i, 'drag', vm.program.indexOf(i));
-				}
+				logService.addedInstruction(i, 'click', vm.program.indexOf(i));
 			}
 		}
 
@@ -60,6 +57,9 @@
 					if (ENV.ins == 'blockly') {
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
+					} else {
+						// set has start if it's the lightbot version
+						movementService.hasStart(true);
 					}
 					movementService.run();
 				} else if ($('#status').hasClass('stop')) {
@@ -101,6 +101,11 @@
 			});
 		}
 
+		function logMove(event, index, item) {
+			logService.addedInstruction(item, 'drag', index);
+			return item;
+		}
+
 		function removeFromProgram(index) {
 			// if dropped on the bin
 			if (!index) {
@@ -118,6 +123,12 @@
 
 		function setMax() {
 			vm.max = vm.instructions.length;
+		}
+
+		function spliceProgram(index, ins) {
+			vm.program.splice(index, 1);
+
+			logService.movedInstruction(ins, vm.currentIndex, index);
 		}
 
 		function toggleBin() {
