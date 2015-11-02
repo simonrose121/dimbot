@@ -14,9 +14,8 @@
 		function capture(id, filename) {
 			html2canvas($(id), {
 	            onrendered: function(canvas) {
-	                canvas.toBlob(function(blob) {
-	                    saveAs(blob, filename + ".png");
-	                });
+					var img = canvas.toDataURL("image/png");
+					console.log(img);
 	            }
 	        });
 		}
