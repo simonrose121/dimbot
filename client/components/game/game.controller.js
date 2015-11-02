@@ -55,12 +55,13 @@
 			$('#status').bind('click', function() {
 				if ($('#status').hasClass('play')) {
 					if (ENV.ins == 'blockly') {
+						screenshot.captureSvg('.blocklySvg', 'file');
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
 					} else {
 						screenshot.capture('.program-inner', 'file');
 						// set has start if it's the lightbot version
-						movementService.hasStart(true);	
+						movementService.hasStart(true);
 					}
 					movementService.run();
 					logService.buttonPress('play');
