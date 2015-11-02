@@ -40,25 +40,15 @@
 			var i = null;
 			if (ins) {
 				if (vm.beingDragged) {
-					if (ins.toElement) {
-						// if drag and drop
-						i = instructionFactory.getInstruction(ins.toElement.id);
-						logger.info('added to program', i);
+					// if drag and drop
+					i = instructionFactory.getInstruction(ins.toElement.id);
+					//logger.info('added to program', i);
 
-						// get instruction and add
-						vm.program.push(i);
-						vm.beingDragged = false;
-
-						logService.instructionMovement(i);
-					}
-				} else {
-					i = instructionFactory.getInstruction(ins.name);
-					logger.info('added to program', i);
-					// if click
-					// remove instruction to prevent drags adding
+					// get instruction and add
 					vm.program.push(i);
+					vm.beingDragged = false;
 
-					logService.instructionMovement(i);
+					logService.addedInstruction(i, 'drag', vm.program.indexOf(i));
 				}
 			}
 		}
@@ -70,9 +60,6 @@
 					if (ENV.ins == 'blockly') {
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
-					} else {
-						// set has start if it's the lightbot version
-						movementService.hasStart(true);
 					}
 					movementService.run();
 				} else if ($('#status').hasClass('stop')) {
@@ -127,8 +114,6 @@
 		function setIndex(index) {
 			logger.info('setting index', index);
 			vm.currentIndex = index;
-
-
 		}
 
 		function setMax() {
