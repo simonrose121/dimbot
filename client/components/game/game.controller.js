@@ -66,6 +66,9 @@
 					if (ENV.ins == 'blockly') {
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
+					} else {
+						// set has start if it's the lightbot version
+						movementService.hasStart(true);
 					}
 					movementService.run();
 				} else if ($('#status').hasClass('stop')) {
