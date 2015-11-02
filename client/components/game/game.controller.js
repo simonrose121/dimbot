@@ -57,10 +57,10 @@
 					if (ENV.ins == 'blockly') {
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
-						screenshot.capture('blockly-inner', 'file');
 					} else {
+						screenshot.capture('.program-inner', 'file');
 						// set has start if it's the lightbot version
-						movementService.hasStart(true);
+						movementService.hasStart(true);	
 					}
 					movementService.run();
 					logService.buttonPress('play');

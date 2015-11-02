@@ -11,10 +11,8 @@
 		return service;
 
 		function capture(id, filename) {
-			html2canvas($("#" + id), {
+			html2canvas($(id), {
 	            onrendered: function(canvas) {
-					console.log(canvas);
-
 	                canvas.toBlob(function(blob) {
 	                    saveAs(blob, filename + ".png");
 	                });
