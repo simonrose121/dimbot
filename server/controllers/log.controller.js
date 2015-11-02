@@ -13,6 +13,6 @@ module.exports.post = function(req, res) {
 			res.send(err);
 		}
 
-		res.send(doc);
+		res.status(200).send(doc);
 	});
 };
