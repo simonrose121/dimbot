@@ -39,6 +39,7 @@ app.use('/libs', express.static(__dirname + '/client/assets/libs'));
 app.use('/css', express.static(__dirname + '/client/assets/css'));
 app.use('/img', express.static(__dirname + '/client/assets/img'));
 app.use('/mdls', express.static(__dirname + '/client/assets/mdls'));
+app.use('/lvls', express.static(__dirname + '/client/assets/lvls'));
 app.use('/client', express.static(__dirname + '/client/'));
 
 // api routes

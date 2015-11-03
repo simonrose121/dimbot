@@ -32,8 +32,10 @@
 		vm.toggleBin = toggleBin;
 
 		// perform initial controller methods to setup level
+		levelService.loadLevels();
 		levelService.setInstructions();
 		levelService.resetLevel();
+		movementService.setStartingDirection();
 
 		// set current state
 		state.current = state.COMPOSING;

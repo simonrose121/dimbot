@@ -27,6 +27,9 @@ describe('Movement Service', function() {
 		mesh = new THREE.Mesh( geometry, material );
 		mesh.position.set(100 * 1, 100 * 1, 0);
 		service.setMesh(mesh);
+
+		levelService.loadLevels();
+		service.setStartingDirection();
 	});
 
 	beforeEach(function() {
