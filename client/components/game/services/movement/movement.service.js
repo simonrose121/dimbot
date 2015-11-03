@@ -20,9 +20,6 @@
 		vm.index = null;
 		vm.start = false;
 
-		// set starting direction
-		setStartingDirection();
-
 		var service = {
 			forward: forward,
 			getDirection: getDirection,
