@@ -76,7 +76,7 @@
 								// add test object
 								var lightColour = lightService.getOffHex();
 								mesh = vm.addMesh(100, lightColour, x, y, -100, false);
-								lightService.setLight(mesh);
+								lightService.addLight(mesh);
 								break;
 							case 3:
 								break;
