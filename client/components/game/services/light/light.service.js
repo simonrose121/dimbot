@@ -16,6 +16,7 @@
 		var service = {
 			addLight: addLight,
 			allLightsOn: allLightsOn,
+			getAllLights: getAllLights,
 			getColour: getColour,
 			getLight: getLight,
 			getOffHex: getOffHex,
@@ -47,6 +48,10 @@
 				return true;
 			}
 			return false;
+		}
+
+		function getAllLights() {
+			return vm.lights;
 		}
 
 		function getColour(index) {
