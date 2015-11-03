@@ -14,35 +14,43 @@
 		vm.onVal = 'ffe600';
 
 		var service = {
-			checkPositionMatch: checkPositionMatch,
+			addLight: addLight,
+			allLightsOn: allLightsOn,
 			getColour: getColour,
 			getLight: getLight,
 			getOffHex: getOffHex,
+			getIndexFromPosition: getIndexFromPosition,
 			isLightOn: isLightOn,
-			setLight: setLight,
 			turnOff: turnOff,
+			turnOffAll: turnOffAll,
 			turnOn: turnOn
 		};
 
 		return service;
 
-		function checkPositionMatch(x, y) {
-			if (x == vm.light.position.x &&
-				y == vm.light.position.y) {
+		function addLight(mesh) {
+			vm.lights.push(mesh);
+		}
+
+		function allLightsOn() {
+			// iterate through lights to check if any are off
+			for (var i = 0; i < vm.lights.length; i++) {
+				if (!isLightOn(i)) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		function isLightOn(index) {
+			if (getColour(index) == vm.onVal) {
 				return true;
 			}
 			return false;
 		}
 
-		function isLightOn() {
-			if (getColour() == vm.onVal) {
-				return true;
-			}
-			return false;
-		}
-
-		function getColour() {
-			return vm.light.material.color.getHex().toString(16);
+		function getColour(index) {
+			return vm.lights[index].material.color.getHex().toString(16);
 		}
 
 		function getOffHex() {
@@ -53,16 +61,31 @@
 			return vm.light;
 		}
 
-		function setLight(mesh) {
-			vm.light = mesh;
+		function getIndexFromPosition(x, y) {
+			for (var i = 0; i < vm.lights.length; i++) {
+				var light = vm.lights[i];
+
+				if (x == light.position.x &&
+					y == light.position.y) {
+					return vm.lights.indexOf(light);
+				}
+			}
+
+			return -1;
 		}
 
-		function turnOff() {
-			vm.light.material.color.setHex(vm.offHex);
+		function turnOff(index) {
+			vm.lights[index].material.color.setHex(vm.offHex);
 		}
 
-		function turnOn() {
-			vm.light.material.color.setHex(vm.onHex);
+		function turnOffAll() {
+			for (var i = 0; i < vm.lights.length; i++) {
+				vm.lights[i].material.color.setHex(vm.offHex);
+			}
+		}
+
+		function turnOn(index) {
+			vm.lights[index].material.color.setHex(vm.onHex);
 		}
 	}
 })();
