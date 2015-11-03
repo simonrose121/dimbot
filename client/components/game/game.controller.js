@@ -5,10 +5,10 @@
 
 	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
 		'movementService','levelService', 'imageService', 'logService',
-		'instructionFactory', 'screenshot', 'state', 'ENV'];
+		'lightService', 'instructionFactory', 'screenshot', 'state', 'ENV'];
 
 	function Game($http, $scope, $compile, logger, programService,
-		movementService, levelService, imageService, logService,
+		movementService, levelService, imageService, logService, lightService,
 		instructionFactory, screenshot, state, ENV) {
 
 		var vm = this;
@@ -198,6 +198,9 @@
 
 				// empty program
 				programService.empty();
+
+				// empty lights
+				lightService.removeAllLights();
 
 				if (ENV.ins == 'blockly') {
 					// clear blockly interface
