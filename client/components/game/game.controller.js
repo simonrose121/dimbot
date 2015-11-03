@@ -4,165 +4,94 @@
         .controller('Game', Game);
 
 	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
-		'movementService','levelService', 'imageService',
-		'instructionFactory', 'state', 'ENV'];
+		'movementService','levelService', 'imageService', 'logService',
+		'instructionFactory', 'screenshot', 'state', 'ENV'];
 
 	function Game($http, $scope, $compile, logger, programService,
-		movementService, levelService, imageService, instructionFactory, state,
-		ENV) {
+		movementService, levelService, imageService, logService,
+		instructionFactory, screenshot, state, ENV) {
+
 		var vm = this;
 
-		levelService.setInstructions();
-		levelService.resetLevel();
-
-		vm.beingDragged = false;
+		// private variables
 		vm.selected = null;
 		vm.max = 0;
 		vm.currentIndex = null;
+		vm.instructions = levelService.getInstructions();
+		vm.program = programService.getProgram();
 
+		// public methods
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
-		vm.instructions = levelService.getInstructions();
-		vm.refresh = refresh;
-		vm.replace = replace;
-		vm.remove = remove;
+		vm.logMove = logMove;
 		vm.removeFromProgram = removeFromProgram;
+		vm.removeFromProgramOnDrop = removeFromProgramOnDrop;
 		vm.setIndex = setIndex;
 		vm.setMax = setMax;
+		vm.spliceProgram = spliceProgram;
 		vm.toggleBin = toggleBin;
+
+		// perform initial controller methods to setup level
+		levelService.loadLevels();
+		levelService.setInstructions();
+		levelService.resetLevel();
+		movementService.setStartingDirection();
 
 		// set current state
 		state.current = state.COMPOSING;
 
 		// call update to add default instructions
-		vm.refresh();
 		vm.bind();
 
+		// public
 		function addToProgram(ins) {
 			// if instruction exists
+			var i = null;
 			if (ins) {
-				if (vm.beingDragged) {
-					if (ins.toElement) {
-						// if drag and drop
-						var i = instructionFactory.getInstruction(ins.toElement.id);
-						// get instruction and add
-						programService.addInstruction(i);
-						vm.beingDragged = false;
-					}
-				} else {
-					// if click
-					// remove instruction to prevent drags adding
-					programService.addInstruction(ins);
-				}
+				i = instructionFactory.getInstruction(ins.name);
+				logger.info('added to program', i);
+				// if click
+				// remove instruction to prevent drags adding
+				vm.program.push(i);
+
+				logService.addedInstruction(i, 'click', vm.program.indexOf(i));
 			}
-			vm.refresh();
 		}
 
 		function bind() {
-			// used to bind play and reset buttons
-			$('#status').bind('click', function() {
-				if ($('#status').hasClass('play')) {
-					if (ENV.ins == 'blockly') {
-						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
-						eval(code);
-					}
-					movementService.run();
-				} else if ($('#status').hasClass('stop')) {
-					movementService.stop();
-				} else if ($('#status').hasClass('rewind')) {
-					movementService.reset();
-					imageService.removeNext();
-				}
-			});
-			$('#reset').bind('click', function() {
-				movementService.reset();
-				imageService.removeNext();
-				$scope.$apply(function() {
-					vm.refresh();
-				});
-			});
-			$('#next').bind('click', function() {
-				levelService.nextLevel();
-				imageService.play();
-				imageService.removeNext();
-
-				$scope.$apply(function() {
-					vm.refresh();
-					levelService.setInstructions();
-					programService.empty();
-
-					$('.level-inner').html('');
-					var newElement = $compile("<dim-grid-directive></dim-grid-directive>")($scope);
-					$('.level-inner').append(newElement);
-				});
-			});
+			bindActionButton();
+			bindResetButton();
+			bindNextButton();
 		}
 
-		// ensure that DOM always matches program in program service
-		function refresh() {
-			vm.program = programService.getProgram();
-
-			// set program width
-			var width;
-			var limit = programService.getLimit();
-			if (limit <= 9) {
-				width = limit * 128;
-				$('.program-inner').css('width', width);
-			} else {
-				width = 9 * 128;
-				$('.program-inner').css('width', width);
-			}
-
-			// add additional space
-			if (vm.program.length > 9) {
-				$('.program-inner').css('height', '256px');
-			} else {
-				$('.program-inner').css('height', '128px');
-			}
+		function logMove(event, index, item) {
+			logService.addedInstruction(item, 'drag', index);
+			return item;
 		}
 
-		function replace(ins) {
-			vm.beingDragged = true;
-
-			logger.info('toElement', ins.toElement);
-			var id = ins.toElement.id;
-
-			// get index
-			var index = $('#' + id).attr('index');
-
-			// remove this from array
-			if (index > -1) {
-				vm.instructions.splice(index, 1);
-			}
-
-			var instruction = instructionFactory.getInstruction(id);
-			logger.info('instruction', instruction);
-			vm.instructions.splice(index, 0, instruction);
-			logger.info('instructions array', vm.instructions);
-		}
-
-		function remove(ins) {
-			logger.log('removing ins', ins);
-			if (ins.toElement) {
-				var i = instructionFactory.getInstruction(ins.toElement.id);
-				programService.removeInstruction(i);
-
-				if (i > -1) {
-					vm.program.splice(i, 1);
-					vm.refresh();
-				}
-			}
-		}
-
-		function removeFromProgram(index) {
+		function removeFromProgram(index, ins) {
 			// if dropped on the bin
 			if (!index) {
 				index = vm.currentIndex;
 			}
-			programService.removeInstruction(index);
+			if (index > -1) {
+				logService.removedInstruction(ins, index);
+				vm.program.splice(index, 1);
+			}
+		}
+
+		function removeFromProgramOnDrop(event, index, item) {
+			index = vm.currentIndex;
+
+			if (index > -1) {
+				logService.removedInstruction(item, index);
+				vm.program.splice(index, 1);
+				vm.toggleBin();
+			}
 		}
 
 		function setIndex(index) {
+			logger.info('setting index', index);
 			vm.currentIndex = index;
 		}
 
@@ -170,8 +99,118 @@
 			vm.max = vm.instructions.length;
 		}
 
+		function spliceProgram(index, ins) {
+			vm.program.splice(index, 1);
+
+			logService.movedInstruction(ins, vm.currentIndex, index);
+		}
+
 		function toggleBin() {
+			logger.info('program is', vm.program);
+
 			$('#bin').toggle();
+		}
+
+		// private
+		function bindActionButton() {
+			$('#status').bind('click', function() {
+				if ($('#status').hasClass('play')) {
+					if (ENV.ins == 'blockly') {
+						// capture screenshot
+						var url = screenshot.captureSvg('blockly-inner', 'file');
+
+						// log screenshot data to database
+						logService.saveScreenshot(url, 'blockly');
+
+						// capture blockly and run generated code
+						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
+						eval(code);
+					} else {
+						// capture screenshot and save to database
+						screenshot.capture('.program-inner', 'file', function(url) {
+							logService.saveScreenshot(url, 'lightbot');
+						});
+
+						// set has start if it's the lightbot version
+						movementService.hasStart(true);
+					}
+
+					// run program
+					movementService.run();
+
+					// log button press
+					logService.buttonPress('play');
+
+				} else if ($('#status').hasClass('stop')) {
+
+					// stop program
+					movementService.stop();
+
+					// log button press
+					logService.buttonPress('stop');
+
+				} else if ($('#status').hasClass('rewind')) {
+
+					// reset movement
+					movementService.reset();
+
+					// remove next image
+					imageService.removeNext();
+
+					// log button press
+					logService.buttonPress('rewind');
+				}
+			});
+		}
+
+		function bindResetButton() {
+			$('#reset').bind('click', function() {
+
+				// reset movement
+				movementService.reset();
+
+				// remove next image
+				imageService.removeNext();
+
+				// log button press to db
+				logService.buttonPress('reset');
+
+				if (ENV.ins == 'blockly') {
+					// clear blockly interface
+					Blockly.mainWorkspace.clear();
+				}
+			});
+		}
+
+		function bindNextButton() {
+			$('#next').bind('click', function() {
+
+				// set level service to next level
+				levelService.nextLevel();
+				levelService.setInstructions();
+
+				// change action button to play and remove next button
+				imageService.play();
+				imageService.removeNext();
+
+				// log button press
+				logService.buttonPress('next');
+
+				// empty program
+				programService.empty();
+
+				if (ENV.ins == 'blockly') {
+					// clear blockly interface
+					Blockly.mainWorkspace.clear();
+				}
+
+				// reset the grid directive to reload level
+				$scope.$apply(function() {
+					$('.level-inner').html('');
+					var newElement = $compile("<dim-grid-directive></dim-grid-directive>")($scope);
+					$('.level-inner').append(newElement);
+				});
+			});
 		}
 	}
 })();

@@ -64,26 +64,76 @@
 						this.setColour(260);
 				  	}
 				};
+				Blockly.Blocks.start = {
+					init: function() {
+						this.appendDummyInput()
+							.appendField('Start')
+							.appendField(new Blockly.FieldImage(
+								'../../img/play-button.png', 30, 30));
+						this.setPreviousStatement(false);
+						this.setNextStatement(true);
+						this.setColour(65);
+						this.isTopLevel = true;
+					}
+				};
 			}
 
 			function generators() {
 				Blockly.JavaScript.fw = function(block) {
-				  	return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
+					if (!block.getInheritedDisabled()) {
+						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
+					} else {
+						return '';
+					}
 				};
 				Blockly.JavaScript.rr = function(block) {
-				  	return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
+					if (!block.getInheritedDisabled()) {
+						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
+					} else {
+						return '';
+					}
 				};
 				Blockly.JavaScript.rl = function(block) {
-				  	return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
+					if (!block.getInheritedDisabled()) {
+						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
+					} else {
+						return '';
+					}
 				};
 				Blockly.JavaScript.lt = function(block) {
-					return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
+					if (!block.getInheritedDisabled()) {
+						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
+					} else {
+						return '';
+					}
+				};
+				Blockly.JavaScript.start = function(block) {
+					return 'movementService.hasStart(' + true + ');';
 				};
 			}
 
 			function init() {
 				vm.workspace = Blockly.inject('blockly-inner',
 					{toolbox: document.getElementById('toolbox')});
+
+				Blockly.BlockSvg.START_HAT = true;
+
+				Blockly.Block.prototype.getInheritedDisabled = function() {
+				  	var block = this;
+				  	while (true) {
+					    var lastBlock = block;
+					    block = block.getSurroundParent();
+					    if (!block) {
+					      // Ran off the top.
+					      // We need to check the block at the top of the stack
+					      while (lastBlock.previousConnection !== null &&
+					            lastBlock.previousConnection.targetConnection !== null) {
+					        	lastBlock = lastBlock.previousConnection.targetConnection.sourceBlock_;
+					      }
+					      return !(lastBlock.isTopLevel || lastBlock.isInFlyout);
+					    }
+				  	}
+			 	};
 			}
 		}
 	}

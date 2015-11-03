@@ -3,143 +3,24 @@
 		.module('dimbot.game')
 		.service('levelService', levelService);
 
-	levelService.$Inject = ['logger', 'programService', 'instructionFactory'];
+	levelService.$Inject = ['$http', 'logger', 'programService',
+		'instructionFactory', 'levels'];
 
-	function levelService(logger, programService, instructionFactory) {
+	function levelService($http, logger, programService, instructionFactory,
+		levels) {
 		var vm = this;
 
 		vm.level = [];
 		vm.instructions = [];
 		vm.maxLevel = 6;
 		vm.levelNo = 1;
+		vm.levels = {};
 
-		vm.levels = {
-			1: {
-				'lvl': [
-					3, 3, 3, 3, 3,
-				 	3, 0, 0, 0, 3,
-					3, 1, 0, 2, 3,
-					3, 0, 0, 0, 3,
-					3, 3, 3, 3, 3
-				],
-				'ins': [
-					'fw',
-					'lt'
-				],
-				'dir': 'e',
-				'width': 3,
-				'height': 3,
-				'mwidth': 5,
-				'mheight': 5,
-				'limit': 5
-			},
-			2: {
-				'lvl': [
-					3, 3, 3, 3, 3,
-				 	3, 0, 0, 2, 3,
-					3, 1, 0, 0, 3,
-					3, 0, 0, 0, 3,
-					3, 3, 3, 3, 3
-				],
-				'ins': [
-					'fw',
-					'rl',
-					'lt'
-				],
-				'dir': 'e',
-				'width': 3,
-				'height': 3,
-				'mwidth': 5,
-				'mheight': 5,
-				'limit': 7
-			},
-			3: {
-				'lvl': [
-					3, 3, 3, 3, 3,
-				 	3, 1, 0, 0, 3,
-					3, 0, 4, 2, 3,
-					3, 0, 0, 0, 3,
-					3, 3, 3, 3, 3
-				],
-				'ins': [
-					'fw',
-					'rr',
-					'lt'
-				],
-				'dir': 'e',
-				'width': 3,
-				'height': 3,
-				'mwidth': 5,
-				'mheight': 5,
-				'limit': 8
-			},
-			4: {
-				'lvl': [
-					3, 3, 3, 3, 3,
-				 	3, 0, 0, 0, 3,
-					3, 0, 0, 0, 3,
-					3, 1, 4, 2, 3,
-					3, 3, 3, 3, 3
-				],
-				'ins': [
-					'fw',
-					'rr',
-					'rl',
-					'lt'
-				],
-				'dir': 'n',
-				'width': 3,
-				'height': 3,
-				'mwidth': 5,
-				'mheight': 5,
-				'limit': 8
-			},
-			5: {
-				'lvl': [
-					3, 3, 3, 3, 3,
-				 	3, 1, 4, 2, 3,
-					3, 0, 0, 0, 3,
-					3, 0, 0, 0, 3,
-					3, 3, 3, 3, 3
-				],
-				'ins': [
-					'fw',
-					'rl',
-					'rr',
-					'lt'
-				],
-				'dir': 's',
-				'width': 3,
-				'height': 3,
-				'mwidth': 5,
-				'mheight': 5,
-				'limit': 8
-			},
-			6: {
-				'lvl': [
-					3, 3, 3, 3, 3,
-				 	3, 0, 0, 0, 3,
-					3, 0, 4, 0, 3,
-					3, 1, 4, 2, 3,
-					3, 3, 3, 3, 3
-				],
-				'ins': [
-					'fw',
-					'rl',
-					'rr',
-					'lt'
-				],
-				'dir': 'n',
-				'width': 3,
-				'height': 3,
-				'mwidth': 5,
-				'mheight': 5,
-				'limit': 10
-			}
-		};
+		// load levels on app init
 
 		var service = {
 			checkMove: checkMove,
+			loadLevels: loadLevels,
 			getHeight: getHeight,
 			getInstructions: getInstructions,
 			getStartingDirection: getStartingDirection,
@@ -185,6 +66,10 @@
 
 			// return bool
 			return true;
+		}
+
+		function loadLevels(callback) {
+			vm.levels = levels;
 		}
 
 		function getHeight() {

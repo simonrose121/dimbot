@@ -18,9 +18,7 @@
 		vm.x = 0;
 		vm.direction = null;
 		vm.index = null;
-
-		// set starting direction
-		setStartingDirection();
+		vm.start = false;
 
 		var service = {
 			forward: forward,
@@ -28,6 +26,7 @@
 			getMesh: getMesh,
 			loop: loop,
 			light: light,
+			hasStart: hasStart,
 			perform: perform,
 			reset: reset,
 			rewind: rewind,
@@ -84,26 +83,36 @@
 			return vm.direction;
 		}
 
+		function getMesh() {
+			return vm.mesh;
+		}
+
+		function hasStart(val) {
+			vm.start = val;
+			logger.debug('has start', vm.start);
+		}
+
 		function light(callback) {
 			var x = vm.mesh.position.x;
 			var y = vm.mesh.position.y;
 
+			var index = lightService.getIndexFromPosition(x, y);
+
 			// check position
-			if (lightService.checkPositionMatch(x, y)) {
-				if (lightService.isLightOn()) {
+			if (index > -1) {
+				if (lightService.isLightOn(index)) {
 					// change mesh colour
-					lightService.turnOff();
+					lightService.turnOff(index);
 				} else {
-					lightService.turnOn();
-					state.current = state.COMPLETE;
+					lightService.turnOn(index);
+
+					if (lightService.allLightsOn()) {
+						state.current = state.COMPLETE;
+					}
 				}
 			}
 			timer.sleep(1000);
 			callback();
-		}
-
-		function getMesh() {
-			return vm.mesh;
 		}
 
 		function reset() {
@@ -137,7 +146,9 @@
 			imageService.play();
 
 			// turn off light
-			lightService.turnOff();
+			lightService.turnOffAll();
+
+			service.hasStart(false);
 		}
 
 		function rotate(deg, callback) {
@@ -172,7 +183,7 @@
 			logger.info('running program', program);
 
 			// when program is started
-			if (program.length > 0) {
+			if (program.length > 0 && vm.start) {
 				state.current = state.RUNNING;
 
 				// set imageService index to 0

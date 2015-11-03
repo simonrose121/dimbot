@@ -27,6 +27,9 @@ describe('Movement Service', function() {
 		mesh = new THREE.Mesh( geometry, material );
 		mesh.position.set(100 * 1, 100 * 1, 0);
 		service.setMesh(mesh);
+
+		levelService.loadLevels();
+		service.setStartingDirection();
 	});
 
 	beforeEach(function() {
@@ -37,7 +40,7 @@ describe('Movement Service', function() {
 		var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
 		light = new THREE.Mesh( geometry, material );
 		light.position.set(size * 0, size * 0, -100);
-		lightService.setLight(light);
+		lightService.addLight(light);
 	});
 
 	it('Movement service is initialised', function() {
@@ -95,6 +98,7 @@ describe('Movement Service', function() {
 		// act
 		programService.setLimit(8);
 		programService.addInstruction(ins);
+		service.hasStart(true);
 		var program = programService.getProgram();
 
 		service.run();
