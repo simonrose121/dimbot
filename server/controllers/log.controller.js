@@ -2,6 +2,7 @@ var log = require('../models/log.schema.js');
 
 module.exports.post = function(req, res) {
 	var entry = {
+		user_id: req.body.user_id,
 		type: req.body.type,
 		message: req.body.message
 	};
