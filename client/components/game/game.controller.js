@@ -115,7 +115,7 @@
 				if ($('#status').hasClass('play')) {
 					if (ENV.ins == 'blockly') {
 						// capture screenshot
-						var url = screenshot.captureSvg('.blocklySvg', 'file');
+						var url = screenshot.captureSvg('blockly-inner', 'file');
 
 						// log screenshot data to database
 						logService.saveScreenshot(url, 'blockly');

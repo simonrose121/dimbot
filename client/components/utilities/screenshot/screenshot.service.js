@@ -23,7 +23,7 @@
 
 		function captureSvg(id, filename) {
 			//get svg element.
-			var svg = document.getElementById('blockly-inner');
+			var svg = document.getElementById(id);
 
 			//get svg source.
 			var serializer = new XMLSerializer();
