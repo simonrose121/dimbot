@@ -11,6 +11,8 @@ describe('Light Service', function() {
 		expect(service).toBeDefined();
 	});
 
+	var index;
+
 	beforeEach(function() {
 		var size = 100;
 		var color = 0x0000FF;
@@ -18,20 +20,47 @@ describe('Light Service', function() {
 		var geometry = new THREE.BoxGeometry(size, size, size);
 		var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
 		var light = new THREE.Mesh( geometry, material );
-		light.position.set(size * 0, size * 0, -100);
-		service.setLight(light);
+		var x = 0;
+		var y = 0;
+
+		light.position.set(size * x, size * y, -100);
+		service.addLight(light);
+		index = service.getIndexFromPosition(x, y);
+	});
+
+	it('Can add multiple lights', function() {
+		// arrange
+		var size = 100;
+		var color = 0x0000FF;
+		var wireframe = false;
+		var geometry = new THREE.BoxGeometry(size, size, size);
+		var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
+		var light = new THREE.Mesh( geometry, material );
+		var x = 0;
+		var y = 0;
+
+		light.position.set(size * x, size * y, -100);
+		service.addLight(light);
+
+		// act
+		var lights = service.getAllLights();
+
+		// assert
+		expect(lights.length).toEqual(2);
 	});
 
 	it('Can get light', function() {
 		// arrange
 		var x = 0;
+		var y = 0;
 
 		// act
-		var light = service.getLight();
+		var light = service.getLight(index);
 
 		// assert
 		expect(light).toBeDefined();
-		expect(light.position.x).toEqual(0);
+		expect(light.position.x).toEqual(x);
+		expect(light.position.y).toEqual(y);
 	});
 
 	it('Can check light status', function() {
@@ -39,8 +68,8 @@ describe('Light Service', function() {
 		var expected = true;
 
 		// act
-		service.turnOn();
-		var status = service.isLightOn();
+		service.turnOn(index);
+		var status = service.isLightOn(index);
 
 		// assert
 		expect(status).toEqual(expected);
@@ -51,7 +80,7 @@ describe('Light Service', function() {
 		var expected = 'ff';
 
 		// act
-		var colour = service.getColour();
+		var colour = service.getColour(index);
 
 		// assert
 		expect(colour).toEqual(expected);
@@ -62,23 +91,10 @@ describe('Light Service', function() {
 		var expected = 0x183ba6;
 
 		// act
-		var colour = service.getOffHex();
+		var colour = service.getOffHex(index);
 
 		// assert
 		expect(colour).toEqual(expected);
-	});
-
-	it('Can check position of light matches expected position', function() {
-		// arrange
-		var expected = true;
-		var y = 0;
-		var x = 0;
-
-		// act
-		var isMatching = service.checkPositionMatch(x, y);
-
-		// assert
-		expect(isMatching).toEqual(expected);
 	});
 
 	it('Can turn light on', function() {
@@ -86,8 +102,36 @@ describe('Light Service', function() {
 		var expected = true;
 
 		// act
-		service.turnOn();
-		var status = service.isLightOn();
+		service.turnOn(index);
+		var status = service.isLightOn(index);
+
+		// assert
+		expect(status).toEqual(expected);
+	});
+
+	it('Can turn multiple lights on', function() {
+		// arrange
+		var expected = true;
+
+		var size = 100;
+		var color = 0x0000FF;
+		var wireframe = false;
+		var geometry = new THREE.BoxGeometry(size, size, size);
+		var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
+		var light = new THREE.Mesh( geometry, material );
+		var x = 100;
+		var y = 100;
+
+		light.position.set(size * 1, size * 1, -100);
+		service.addLight(light);
+
+		var index2 = service.getIndexFromPosition(x, y);
+
+		// act
+		service.turnOn(index);
+		service.turnOn(index2);
+
+		var status = service.allLightsOn();
 
 		// assert
 		expect(status).toEqual(expected);
@@ -98,8 +142,8 @@ describe('Light Service', function() {
 		var expected = false;
 
 		// act
-		service.turnOff();
-		var status = service.isLightOn();
+		service.turnOff(index);
+		var status = service.isLightOn(index);
 
 		// assert
 		expect(status).toEqual(expected);

@@ -99,14 +99,19 @@
 			var x = vm.mesh.position.x;
 			var y = vm.mesh.position.y;
 
+			var index = lightService.getIndexFromPosition(x, y);
+
 			// check position
-			if (lightService.checkPositionMatch(x, y)) {
-				if (lightService.isLightOn()) {
+			if (index > -1) {
+				if (lightService.isLightOn(index)) {
 					// change mesh colour
-					lightService.turnOff();
+					lightService.turnOff(index);
 				} else {
-					lightService.turnOn();
-					state.current = state.COMPLETE;
+					lightService.turnOn(index);
+
+					if (lightService.allLightsOn()) {
+						state.current = state.COMPLETE;
+					}
 				}
 			}
 			timer.sleep(1000);
@@ -144,7 +149,7 @@
 			imageService.play();
 
 			// turn off light
-			lightService.turnOff();
+			lightService.turnOffAll();
 
 			service.hasStart(false);
 		}
