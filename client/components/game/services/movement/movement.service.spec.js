@@ -37,7 +37,7 @@ describe('Movement Service', function() {
 		var material = new THREE.MeshBasicMaterial( { color: color, wireframe: wireframe } );
 		light = new THREE.Mesh( geometry, material );
 		light.position.set(size * 0, size * 0, -100);
-		lightService.setLight(light);
+		lightService.addLight(light);
 	});
 
 	it('Movement service is initialised', function() {

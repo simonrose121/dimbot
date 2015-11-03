@@ -57,8 +57,8 @@
 			return vm.offHex;
 		}
 
-		function getLight() {
-			return vm.light;
+		function getLight(index) {
+			return vm.lights[index];
 		}
 
 		function getIndexFromPosition(x, y) {
