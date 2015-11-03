@@ -7,7 +7,7 @@ describe('Level Service', function() {
 		directionService = $injector.get('directionService');
 		service = $injector.get('levelService');
 		instructionFactory = $injector.get('instructionFactory');
-
+		service.loadLevels();
 		service.resetLevel();
 	}));
 

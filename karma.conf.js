@@ -32,7 +32,7 @@ module.exports = function(config) {
       'client/components/**/**/*.service.js',
       'client/components/**/**/*.factory.js',
       'client/components/**/**/*.directive.js',
-      'client/components/**/**/*.module.js'
+      'client/components/**/**/*.module.js',
     ],
 
 

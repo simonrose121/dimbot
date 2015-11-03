@@ -4,9 +4,10 @@
 		.service('levelService', levelService);
 
 	levelService.$Inject = ['$http', 'logger', 'programService',
-		'instructionFactory'];
+		'instructionFactory', 'levels'];
 
-	function levelService($http, logger, programService, instructionFactory) {
+	function levelService($http, logger, programService, instructionFactory,
+		levels) {
 		var vm = this;
 
 		vm.level = [];
@@ -68,12 +69,7 @@
 		}
 
 		function loadLevels(callback) {
-			console.log('hit outside');
-			$http.get('lvls/levels.json').success(function(data) {
-				console.log(data);
-			   	vm.levels = data;
-				callback();
-			});
+			vm.levels = levels;
 		}
 
 		function getHeight() {

@@ -32,22 +32,16 @@
 		vm.toggleBin = toggleBin;
 
 		// perform initial controller methods to setup level
-		levelService.loadLevels(function() {
-			levelService.setInstructions();
-			levelService.resetLevel();
-			movementService.setStartingDirection();
+		levelService.loadLevels();
+		levelService.setInstructions();
+		levelService.resetLevel();
+		movementService.setStartingDirection();
 
-			// reset the grid directive to reload level
-			$('.level-inner').html('');
-			var newElement = $compile("<dim-grid-directive></dim-grid-directive>")($scope);
-			$('.level-inner').append(newElement);
+		// set current state
+		state.current = state.COMPOSING;
 
-			// set current state
-			state.current = state.COMPOSING;
-
-			// call update to add default instructions
-			vm.bind();
-		});
+		// call update to add default instructions
+		vm.bind();
 
 		// public
 		function addToProgram(ins) {
