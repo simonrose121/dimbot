@@ -20,7 +20,7 @@
 
 		return service;
 
-		function addedInstruction(user, ins, type, index) {
+		function addedInstruction(ins, type, index) {
 			logger.debug('posting instruction to db', ins);
 
 			var message = 'Added instruction ' + ins.name +
