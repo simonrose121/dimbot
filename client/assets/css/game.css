@@ -12,12 +12,6 @@
   width: 128px;
   height: 128px;
 }
-#navigation #reset {
-  float: left;
-  background: url('../img/reset-button.png');
-  width: 128px;
-  height: 128px;
-}
 #navigation #status {
   float: right;
   width: 128px;
@@ -32,19 +26,29 @@
 #navigation .stop {
   background: url('../img/stop-button.png');
 }
+#navigation #reset {
+  float: right;
+  background: url('../img/reset-button.png');
+  width: 128px;
+  height: 128px;
+  margin-right: 15px;
+}
 #navigation #level-no {
+  height: 128px;
+  background: url('../img/outline.png');
   float: left;
-  font-size: 30px;
+  font-size: 80px;
   color: #FFF;
   text-align: center;
-  width: 78%;
+  width: 128px;
+  padding: 5px 0px 0px 4px;
 }
 #bin {
   background: url('../img/bin.png');
   width: 128px;
   height: 128px;
   position: absolute;
-  right: 15px;
+  right: 143px;
   bottom: 15px;
   display: none;
   z-index: 1;
@@ -87,7 +91,7 @@
   cursor: move;
 }
 #level .level-inner {
-  height: 62vh;
+  height: 80vh;
   padding: 5px;
 }
 #program {
@@ -153,8 +157,8 @@
   z-index: 1;
   position: absolute;
   top: 0;
-  left: 500px;
+  left: 15px;
   background: url('../img/forward-button.png');
-  width: 256px;
-  height: 256px;
+  width: 128px;
+  height: 128px;
 }

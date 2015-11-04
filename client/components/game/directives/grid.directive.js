@@ -4,10 +4,10 @@
 		.directive('dimGridDirective', dimGridDirective);
 
 	dimGridDirective.$Inject = ['movementService', 'levelService',
-		'lightService', 'logger'];
+		'lightService', 'logger', 'common'];
 
 	function dimGridDirective(movementService, levelService, lightService,
-		directionService, logger) {
+		directionService, logger, common) {
 
 		var directive = {
 			restrict: 'E',
@@ -49,7 +49,7 @@
 				for (var x = -1; x < width-1; x++) {
 					for (var y = -1; y < height-1; y++) {
 						// add a box in the correct spot
-						vm.addMesh(100, 0xCCCCCC, x, y, -100, true);
+						vm.addMesh(common.gridSize, 0xCCCCCC, x, y, -common.gridSize, true);
 					}
 				}
 			}
@@ -75,13 +75,13 @@
 							case 2:
 								// add test object
 								var lightColour = lightService.getOffHex();
-								mesh = vm.addMesh(100, lightColour, x, y, -100, false);
+								mesh = vm.addMesh(common.gridSize, lightColour, x, y, -common.gridSize, false);
 								lightService.addLight(mesh);
 								break;
 							case 3:
 								break;
 							case 4:
-								vm.addMesh(100, 0x000000, x, y, 0, false);
+								vm.addMesh(common.gridSize, 0x000000, x, y, 0, false);
 								break;
 						}
 						count++;
@@ -112,7 +112,7 @@
 					var dir = directionService.getDirectionByName(dirName);
 					mesh.rotation.y = dir.rot;
 
-					mesh.position.set(100 * x, 100 * y, 0);
+					mesh.position.set(common.gridSize * x, common.gridSize * y, 0);
 					vm.scene.add(mesh);
 					movementService.setMesh(mesh);
 				});

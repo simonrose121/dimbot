@@ -1,10 +1,11 @@
 describe('Direction Service', function() {
 	beforeEach(module('dimbot'));
 
-	var service;
+	var service, common;
 
 	beforeEach(inject(function($injector) {
 		service = $injector.get('directionService');
+		common = $injector.get('common');
 	}));
 
 	it('Direction service is initialised', function() {
@@ -19,7 +20,7 @@ describe('Direction Service', function() {
 		var direction;
 		var expectedDirection = {
 			name: 'w',
-			x: -100,
+			x: -common.gridSize,
 			y: 0,
 			rot: -(Math.PI / 2)
 		};
@@ -40,7 +41,7 @@ describe('Direction Service', function() {
 		var expectedDirection = {
 			name: 'n',
 			x: 0,
-			y: 100,
+			y: common.gridSize,
 			rot: (Math.PI)
 		};
 
@@ -58,7 +59,7 @@ describe('Direction Service', function() {
 		var direction;
 		var expectedDirection = {
 			name: 'e',
-			x: 100,
+			x: common.gridSize,
 			y: 0,
 			rot: (Math.PI / 2)
 		};

@@ -102,7 +102,7 @@
 
 		function resetLevel() {
 			vm.level = vm.levels[vm.levelNo].lvl.slice();
-			$('#level-no').html('Level ' + vm.levelNo);
+			$('#level-no').html(vm.levelNo);
 			programService.setLimit(vm.levels[vm.levelNo].limit);
 		}
 
