@@ -70,12 +70,11 @@
 		}
 
 		function removeFromProgram(index, ins) {
-			// if dropped on the bin
 			if (!index) {
 				index = vm.currentIndex;
 			}
 			if (index > -1) {
-				logService.removedInstruction(ins, index);
+				logService.removedInstruction(ins, 'click', index);
 				vm.program.splice(index, 1);
 			}
 		}
@@ -84,7 +83,7 @@
 			index = vm.currentIndex;
 
 			if (index > -1) {
-				logService.removedInstruction(item, index);
+				logService.removedInstruction(item, 'drag', index);
 				vm.program.splice(index, 1);
 				vm.toggleBin();
 			}

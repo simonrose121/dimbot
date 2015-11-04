@@ -60,9 +60,9 @@
 			postLog(log);
 		}
 
-		function removedInstruction(ins, index) {
+		function removedInstruction(ins, type, index) {
 			var message = 'Removed instruction ' + ins.name +
-				' from index: ' + index;
+				' using ' + type + ' from index: ' + index;
 
 			var log = {
 				user_id: vm.userId,
