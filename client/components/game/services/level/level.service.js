@@ -13,7 +13,7 @@
 		vm.level = [];
 		vm.instructions = [];
 		vm.maxLevel = 8;
-		vm.levelNo = 3;
+		vm.levelNo = 1;
 		vm.levels = {};
 
 		// load levels on app init
