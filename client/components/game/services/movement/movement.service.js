@@ -111,7 +111,7 @@
 					}
 				}
 			}
-			timer.sleep(1000);
+			
 			callback();
 		}
 
