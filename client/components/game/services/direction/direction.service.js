@@ -3,33 +3,33 @@
 		.module('dimbot.game')
 		.service('directionService', directionService);
 
-	directionService.$Inject = ['logger'];
+	directionService.$Inject = ['logger', 'common'];
 
-	function directionService(logger) {
+	function directionService(logger, common) {
 		var vm = this;
 
 		vm.directions = [
 			{
 				name: 'n',
 				x: 0,
-				y: 100,
+				y: common.gridSize,
 				rot: (Math.PI)
 			},
 			{
 				name: 'e',
-				x: 100,
+				x: common.gridSize,
 				y: 0,
 				rot: (Math.PI / 2)
 			},
 			{
 				name: 's',
 				x: 0,
-				y: -100,
+				y: -common.gridSize,
 				rot: 0
 			},
 			{
 				name: 'w',
-				x: -100,
+				x: -common.gridSize,
 				y: 0,
 				rot: -(Math.PI / 2)
 			}

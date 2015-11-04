@@ -2,6 +2,6 @@
 	angular
 		.module('dimbot.game')
 		.constant('common', {
-			gridSize: 100
+			gridSize: 150
 		});
 })();
