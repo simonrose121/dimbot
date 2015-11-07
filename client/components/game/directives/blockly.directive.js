@@ -23,6 +23,7 @@
 			vm.imgSize = 40;
 			vm.blockColour = 230;
 
+			vm.checkTopLevel = checkTopLevel;
 			vm.customBlocks = customBlocks;
 			vm.generators = generators;
 			vm.init = init;
@@ -40,7 +41,7 @@
 						this.setPreviousStatement(true);
 	      				this.setNextStatement(true);
 					    this.setColour(vm.blockColour);
-				  	}
+				  	},
 				};
 				Blockly.Blocks.rr = {
 				  	init: function() {
@@ -85,30 +86,46 @@
 				};
 			}
 
+			function checkTopLevel(block) {
+				while (true) {
+					var lastBlock = block;
+					block = block.getSurroundParent();
+					if (!block) {
+						// Ran off the top.
+						// We need to check the block at the top of the stack
+						while (lastBlock.previousConnection !== null &&
+							lastBlock.previousConnection.targetConnection !== null) {
+							lastBlock = lastBlock.previousConnection.targetConnection.sourceBlock_;
+						}
+						return (lastBlock.isTopLevel || lastBlock.isInFlyout);
+					}
+				}
+			}
+
 			function generators() {
 				Blockly.JavaScript.fw = function(block) {
-					if (!block.getInheritedDisabled()) {
+					if (checkTopLevel(block)) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
 					}
 				};
 				Blockly.JavaScript.rr = function(block) {
-					if (!block.getInheritedDisabled()) {
+					if (block.getSurroundParent()) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
 					}
 				};
 				Blockly.JavaScript.rl = function(block) {
-					if (!block.getInheritedDisabled()) {
+					if (block.getSurroundParent()) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
 					}
 				};
 				Blockly.JavaScript.lt = function(block) {
-					if (!block.getInheritedDisabled()) {
+					if (block.getSurroundParent()) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
@@ -124,23 +141,6 @@
 					{toolbox: document.getElementById('toolbox')});
 
 				Blockly.BlockSvg.START_HAT = true;
-
-				Blockly.Block.prototype.getInheritedDisabled = function() {
-				  	var block = this;
-				  	while (true) {
-					    var lastBlock = block;
-					    block = block.getSurroundParent();
-					    if (!block) {
-					      // Ran off the top.
-					      // We need to check the block at the top of the stack
-					      while (lastBlock.previousConnection !== null &&
-					            lastBlock.previousConnection.targetConnection !== null) {
-					        	lastBlock = lastBlock.previousConnection.targetConnection.sourceBlock_;
-					      }
-					      return !(lastBlock.isTopLevel || lastBlock.isInFlyout);
-					    }
-				  	}
-			 	};
 			}
 		}
 	}

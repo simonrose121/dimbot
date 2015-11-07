@@ -153,6 +153,11 @@
 					// rewind movement
 					movementService.rewind();
 
+					// if blockly then empty program to be recreated later
+					if (ENV.ins == 'blockly') {
+						programService.empty();
+					}
+
 					// remove next image
 					imageService.removeNext();
 
