@@ -18,7 +18,10 @@
 
 			vm.workspace = null;
 			vm.code = null;
+
+			// config constants
 			vm.imgSize = 40;
+			vm.blockColour = 230;
 
 			vm.customBlocks = customBlocks;
 			vm.generators = generators;
@@ -36,7 +39,7 @@
 								'../../img/blockly-forwards.png', vm.imgSize, vm.imgSize));
 						this.setPreviousStatement(true);
 	      				this.setNextStatement(true);
-					    this.setColour(260);
+					    this.setColour(vm.blockColour);
 				  	}
 				};
 				Blockly.Blocks.rr = {
@@ -46,7 +49,7 @@
 								'../../img/blockly-rotateright.png', vm.imgSize, vm.imgSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(260);
+						this.setColour(vm.blockColour);
 				  	}
 				};
 				Blockly.Blocks.rl = {
@@ -56,7 +59,7 @@
 								'../../img/blockly-rotateleft.png', vm.imgSize, vm.imgSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(260);
+						this.setColour(vm.blockColour);
 				  	}
 				};
 				Blockly.Blocks.lt = {
@@ -66,7 +69,7 @@
 								'../../img/blockly-lightbulb.png', vm.imgSize, vm.imgSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(260);
+						this.setColour(vm.blockColour);
 				  	}
 				};
 				Blockly.Blocks.start = {
