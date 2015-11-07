@@ -9,6 +9,7 @@ MongoClient.connect('mongodb://localhost:27017/dimbot', function(err, db) {
 	// capture id from command arguments
 	var args = process.argv.slice(2);
 	var id = parseInt(args[0]);
+	var type = args[1];
 
 	// capture collection
 	var data = db.collection('logs');
@@ -24,8 +25,12 @@ MongoClient.connect('mongodb://localhost:27017/dimbot', function(err, db) {
 		if (doc === null) {
 			return db.close();
 		} else {
-			// output each activity
-			console.dir(doc.timestamp + ', ' + doc.type + ', ' + doc.message);
+			if (type === 'json') {
+				console.dir(doc);
+			} else if (type == 'text') {
+				// output each activity
+				console.dir(doc.timestamp + ', ' + doc.type + ', ' + doc.message);
+			}
 		}
 	});
 });
