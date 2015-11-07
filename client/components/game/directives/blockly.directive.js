@@ -18,6 +18,7 @@
 
 			vm.workspace = null;
 			vm.code = null;
+			vm.imgSize = 40;
 
 			vm.customBlocks = customBlocks;
 			vm.generators = generators;
@@ -31,7 +32,8 @@
 				Blockly.Blocks.fw = {
 				  	init: function() {
 						this.appendDummyInput()
-        					.appendField('Forward');
+							.appendField(new Blockly.FieldImage(
+								'../../img/blockly-forwards.png', vm.imgSize, vm.imgSize));
 						this.setPreviousStatement(true);
 	      				this.setNextStatement(true);
 					    this.setColour(260);
@@ -40,7 +42,8 @@
 				Blockly.Blocks.rr = {
 				  	init: function() {
 					  	this.appendDummyInput()
-  							.appendField('Rotate right');
+							.appendField(new Blockly.FieldImage(
+								'../../img/blockly-rotateright.png', vm.imgSize, vm.imgSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
 						this.setColour(260);
@@ -49,7 +52,8 @@
 				Blockly.Blocks.rl = {
 				  	init: function() {
 					  	this.appendDummyInput()
-  							.appendField('Rotate left');
+							.appendField(new Blockly.FieldImage(
+								'../../img/blockly-rotateleft.png', vm.imgSize, vm.imgSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
 						this.setColour(260);
@@ -58,7 +62,8 @@
 				Blockly.Blocks.lt = {
 				  	init: function() {
 					  	this.appendDummyInput()
-  							.appendField('Lightbulb');
+							.appendField(new Blockly.FieldImage(
+								'../../img/blockly-lightbulb.png', vm.imgSize, vm.imgSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
 						this.setColour(260);
@@ -67,9 +72,8 @@
 				Blockly.Blocks.start = {
 					init: function() {
 						this.appendDummyInput()
-							.appendField('Start')
 							.appendField(new Blockly.FieldImage(
-								'../../img/play-button.png', 30, 30));
+								'../../img/play-button.png', vm.imgSize, vm.imgSize));
 						this.setPreviousStatement(false);
 						this.setNextStatement(true);
 						this.setColour(65);
