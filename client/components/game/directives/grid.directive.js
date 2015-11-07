@@ -104,7 +104,7 @@
 
 			function addRobot(x, y) {
 				var jsonLoader = new THREE.JSONLoader();
-			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry, material) {
+			   	jsonLoader.load("../../mdls/androrobot.js", function(geometry, material) {
 					var mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial(material));
 					mesh.rotation.x = (Math.PI / 2);
 
