@@ -150,8 +150,8 @@
 
 				} else if ($('#status').hasClass('rewind')) {
 
-					// reset movement
-					movementService.reset();
+					// rewind movement
+					movementService.rewind();
 
 					// remove next image
 					imageService.removeNext();
