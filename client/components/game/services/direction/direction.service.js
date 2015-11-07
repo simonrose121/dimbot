@@ -13,25 +13,25 @@
 				name: 'n',
 				x: 0,
 				y: common.gridSize,
-				rot: (Math.PI)
+				rot: -(Math.PI / 2)
 			},
 			{
 				name: 'e',
 				x: common.gridSize,
 				y: 0,
-				rot: (Math.PI / 2)
+				rot: (Math.PI)
 			},
 			{
 				name: 's',
 				x: 0,
 				y: -common.gridSize,
-				rot: 0
+				rot: (Math.PI / 2)
 			},
 			{
 				name: 'w',
 				x: -common.gridSize,
 				y: 0,
-				rot: -(Math.PI / 2)
+				rot: 0
 			}
 		];
 
