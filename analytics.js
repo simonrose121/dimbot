@@ -6,12 +6,26 @@ MongoClient.connect('mongodb://localhost:27017/dimbot', function(err, db) {
 		throw err;
 	}
 
+	// capture id from command arguments
+	var args = process.argv.slice(2);
+	var id = parseInt(args[0]);
+
+	// capture collection
 	var data = db.collection('logs');
 
-	var studentCount = 3;
+	// get cursor
+	var cursor = data.find({"user_id": id});
 
-	for (var i = 1; i <= studentCount; i++) {
-		var cursor = data.find({'user_id': i});
-		console.dir(cursor);
-	}
+	cursor.each(function(err, doc) {
+		if (err) {
+			throw err;
+		}
+
+		if (doc === null) {
+			return db.close();
+		} else {
+			// output each activity
+			console.dir(doc.timestamp + ', ' + doc.type + ', ' + doc.message);
+		}
+	});
 });
