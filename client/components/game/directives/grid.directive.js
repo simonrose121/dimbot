@@ -50,6 +50,9 @@
 					for (var y = -1; y < height-1; y++) {
 						// add a box in the correct spot
 						vm.addMesh(common.gridSize, 0xCCCCCC, x, y, -common.gridSize, true);
+						var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
+						light.position.set( x, y, 800 );
+						vm.scene.add(light);
 					}
 				}
 			}
@@ -105,7 +108,9 @@
 			function addRobot(x, y) {
 				var jsonLoader = new THREE.JSONLoader();
 			   	jsonLoader.load("../../mdls/androrobot.js", function(geometry, material) {
-					var mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial(material));
+					var material = new THREE.MeshNormalMaterial(material);
+					//var material = new THREE.MeshPhongMaterial( { color: 0x2194CE, shininess: 100, shading: THREE.SmoothShading } );
+					var mesh = new THREE.Mesh(geometry, material);
 					mesh.rotation.x = (Math.PI / 2);
 
 					var dirName = levelService.getStartingDirection();
