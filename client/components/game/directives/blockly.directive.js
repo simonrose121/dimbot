@@ -111,21 +111,21 @@
 					}
 				};
 				Blockly.JavaScript.rr = function(block) {
-					if (block.getSurroundParent()) {
+					if (checkTopLevel(block)) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
 					}
 				};
 				Blockly.JavaScript.rl = function(block) {
-					if (block.getSurroundParent()) {
+					if (checkTopLevel(block)) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
 					}
 				};
 				Blockly.JavaScript.lt = function(block) {
-					if (block.getSurroundParent()) {
+					if (checkTopLevel(block)) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
