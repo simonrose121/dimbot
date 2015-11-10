@@ -107,7 +107,7 @@
 
 			function addRobot(x, y) {
 				var jsonLoader = new THREE.JSONLoader();
-			   	jsonLoader.load("../../mdls/androrobot.js", function(geometry, material) {
+			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry, material) {
 					var material = new THREE.MeshNormalMaterial(material);
 					//var material = new THREE.MeshPhongMaterial( { color: 0x2194CE, shininess: 100, shading: THREE.SmoothShading } );
 					var mesh = new THREE.Mesh(geometry, material);
