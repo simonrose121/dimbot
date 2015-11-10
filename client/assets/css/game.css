@@ -148,6 +148,14 @@
 #program ul[dnd-list] .dndDraggingSource {
   display: none;
 }
+#program .dndPlaceholder {
+  background-color: #FFF !important;
+  padding: 5px;
+  border-radius: 5px;
+  min-height: 64px;
+  display: block;
+  position: relative;
+}
 #program .dndDragging {
   opacity: 0.7;
 }

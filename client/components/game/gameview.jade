@@ -12,12 +12,10 @@
         .program-inner
             ul( dnd-list="vm.program"
                 dnd-external-sources="true"
-                dnd-horizontal-list="false"
                 dnd-drop="vm.logMove(event, index, item)"
                 class="itemlist")
                 li( ng-repeat='ins in vm.program track by $id(ins)'
                     dnd-draggable='ins'
-                    dnd-type="'insType'"
                     dnd-moved="vm.spliceProgram($index, ins)"
                     dnd-effect-allowed="copyMove"
                     dnd-dragstart="vm.toggleBin(); vm.setIndex($index)"
