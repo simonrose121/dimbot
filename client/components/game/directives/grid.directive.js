@@ -7,7 +7,7 @@
 		'lightService', 'logger', 'common'];
 
 	function dimGridDirective(movementService, levelService, lightService,
-		directionService, logger, common) {
+		directionService, imageService, logger, common) {
 
 		var directive = {
 			restrict: 'E',
@@ -17,7 +17,7 @@
 		return directive;
 
 		function link(scope, elem) {
-			console.log('called link');
+
 			var vm = this;
 
 			// variables
@@ -50,9 +50,6 @@
 					for (var y = -1; y < height-1; y++) {
 						// add a box in the correct spot
 						vm.addMesh(common.gridSize, 0xCCCCCC, x, y, -common.gridSize, true);
-						var light = new THREE.PointLight(0xFFFFFF, 1, 1000);
-						light.position.set( x, y, 800 );
-						vm.scene.add(light);
 					}
 				}
 			}
@@ -107,9 +104,13 @@
 
 			function addRobot(x, y) {
 				var jsonLoader = new THREE.JSONLoader();
-			   	jsonLoader.load("../../mdls/androrobot.js", function(geometry, material) {
-					var material = new THREE.MeshNormalMaterial(material);
-					//var material = new THREE.MeshPhongMaterial( { color: 0x2194CE, shininess: 100, shading: THREE.SmoothShading } );
+			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry) {
+					//var material = new THREE.MeshNormalMaterial(material);
+					var material = new THREE.MeshPhongMaterial({
+						color: common.robotColour,
+						shininess: 100,
+						shading: THREE.SmoothShading
+					});
 					var mesh = new THREE.Mesh(geometry, material);
 					mesh.rotation.x = (Math.PI / 2);
 
@@ -120,6 +121,11 @@
 					mesh.position.set(common.gridSize * x, common.gridSize * y, 0);
 					vm.scene.add(mesh);
 					movementService.setMesh(mesh);
+
+					// calculate required position of arrow
+					var deg = dir.rot * (180/Math.PI);
+					imageService.rotateDirection(deg);
+					imageService.showDirection();
 				});
 			}
 
@@ -144,11 +150,17 @@
 					FAR
 				);
 
+				// add ambient light
+				var light = new THREE.HemisphereLight(0x12044a, common.robotColour, 1);
+
 				// create scene
 				vm.scene = new THREE.Scene();
 
 				// add the camera to the scene
 				vm.scene.add(camera);
+
+				// add light to scene
+				vm.scene.add(light);
 
 				// start the renderer
 				vm.renderer.setSize(WIDTH, HEIGHT);

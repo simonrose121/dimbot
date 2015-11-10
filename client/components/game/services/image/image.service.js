@@ -9,20 +9,28 @@
 		var vm = this;
 
 		vm.id = '#status';
+		vm.dir = '.direction';
 		vm.index = 0;
 
 		var service = {
+			hideDirection: hideDirection,
 			highlight: highlight,
 			play: play,
 			next: next,
 			rewind: rewind,
 			removeNext: removeNext,
+			rotateDirection: rotateDirection,
 			setIndex: setIndex,
+			showDirection: showDirection,
 			stop: stop,
 			unhighlight: unhighlight
 		};
 
 		return service;
+
+		function hideDirection() {
+			$(vm.dir).hide();
+		}
 
 		function highlight(ins) {
 			$('#' + vm.index).addClass('highlight');
@@ -44,6 +52,16 @@
 
 		function removeNext() {
 			$('#next').hide();
+		}
+
+		function rotateDirection(deg) {
+			$('.direction').css({
+				transform:'translate(-50%, -50%) rotate(' + deg + 'deg)'
+			});
+		}
+
+		function showDirection() {
+			$(vm.dir).show();
 		}
 
 		function stop() {

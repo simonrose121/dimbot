@@ -94,6 +94,17 @@
   height: 80vh;
   padding: 5px;
 }
+#level .direction {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 256px;
+  height: 256px;
+  background: url('../img/direction.png');
+  z-index: 1;
+}
 #program {
   display: inline-block;
   float: right;
