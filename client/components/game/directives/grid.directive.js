@@ -121,6 +121,8 @@
 					mesh.position.set(common.gridSize * x, common.gridSize * y, 0);
 					vm.scene.add(mesh);
 					movementService.setMesh(mesh);
+
+					// calculate required position of arrow
 				});
 			}
 
