@@ -111,7 +111,7 @@
 					}
 				}
 			}
-			
+
 			callback();
 		}
 
@@ -197,6 +197,9 @@
 
 				// set stop button
 				imageService.stop();
+
+
+				$('.direction').hide();
 			}
 		}
 

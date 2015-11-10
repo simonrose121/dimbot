@@ -123,6 +123,9 @@
 					movementService.setMesh(mesh);
 
 					// calculate required position of arrow
+					var deg = dir.rot * (180/Math.PI);
+					$('.direction').css({transform:'translate(-50%, -50%) rotate(' + deg + 'deg)'});
+					$('.direction').show();
 				});
 			}
 
