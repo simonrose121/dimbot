@@ -4,10 +4,10 @@
 		.directive('dimGridDirective', dimGridDirective);
 
 	dimGridDirective.$Inject = ['movementService', 'levelService',
-		'lightService', 'logger'];
+		'lightService', 'logger', 'common'];
 
 	function dimGridDirective(movementService, levelService, lightService,
-		directionService, logger) {
+		directionService, imageService, logger, common) {
 
 		var directive = {
 			restrict: 'E',
@@ -17,7 +17,7 @@
 		return directive;
 
 		function link(scope, elem) {
-			console.log('called link');
+
 			var vm = this;
 
 			// variables
@@ -49,7 +49,7 @@
 				for (var x = -1; x < width-1; x++) {
 					for (var y = -1; y < height-1; y++) {
 						// add a box in the correct spot
-						vm.addMesh(100, 0xCCCCCC, x, y, -100, true);
+						vm.addMesh(common.gridSize, 0xCCCCCC, x, y, -common.gridSize, true);
 					}
 				}
 			}
@@ -75,13 +75,13 @@
 							case 2:
 								// add test object
 								var lightColour = lightService.getOffHex();
-								mesh = vm.addMesh(100, lightColour, x, y, -100, false);
+								mesh = vm.addMesh(common.gridSize, lightColour, x, y, -common.gridSize, false);
 								lightService.addLight(mesh);
 								break;
 							case 3:
 								break;
 							case 4:
-								vm.addMesh(100, 0x000000, x, y, 0, false);
+								vm.addMesh(common.gridSize, 0x000000, x, y, 0, false);
 								break;
 						}
 						count++;
@@ -104,17 +104,28 @@
 
 			function addRobot(x, y) {
 				var jsonLoader = new THREE.JSONLoader();
-			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry, material) {
-					var mesh = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial(material));
+			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry) {
+					//var material = new THREE.MeshNormalMaterial(material);
+					var material = new THREE.MeshPhongMaterial({
+						color: common.robotColour,
+						shininess: 100,
+						shading: THREE.SmoothShading
+					});
+					var mesh = new THREE.Mesh(geometry, material);
 					mesh.rotation.x = (Math.PI / 2);
 
 					var dirName = levelService.getStartingDirection();
 					var dir = directionService.getDirectionByName(dirName);
 					mesh.rotation.y = dir.rot;
 
-					mesh.position.set(100 * x, 100 * y, 0);
+					mesh.position.set(common.gridSize * x, common.gridSize * y, 0);
 					vm.scene.add(mesh);
 					movementService.setMesh(mesh);
+
+					// calculate required position of arrow
+					var deg = dir.rot * (180/Math.PI);
+					imageService.rotateDirection(deg);
+					imageService.showDirection();
 				});
 			}
 
@@ -139,11 +150,17 @@
 					FAR
 				);
 
+				// add ambient light
+				var light = new THREE.HemisphereLight(0x12044a, common.robotColour, 1);
+
 				// create scene
 				vm.scene = new THREE.Scene();
 
 				// add the camera to the scene
 				vm.scene.add(camera);
+
+				// add light to scene
+				vm.scene.add(light);
 
 				// start the renderer
 				vm.renderer.setSize(WIDTH, HEIGHT);

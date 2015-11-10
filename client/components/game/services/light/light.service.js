@@ -22,6 +22,7 @@
 			getOffHex: getOffHex,
 			getIndexFromPosition: getIndexFromPosition,
 			isLightOn: isLightOn,
+			removeAllLights: removeAllLights,
 			turnOff: turnOff,
 			turnOffAll: turnOffAll,
 			turnOn: turnOn
@@ -77,6 +78,10 @@
 			}
 
 			return -1;
+		}
+
+		function removeAllLights() {
+			vm.lights.length = 0;
 		}
 
 		function turnOff(index) {

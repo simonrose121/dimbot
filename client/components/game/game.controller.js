@@ -5,10 +5,10 @@
 
 	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
 		'movementService','levelService', 'imageService', 'logService',
-		'instructionFactory', 'screenshot', 'state', 'ENV'];
+		'lightService', 'instructionFactory', 'screenshot', 'state', 'ENV'];
 
 	function Game($http, $scope, $compile, logger, programService,
-		movementService, levelService, imageService, logService,
+		movementService, levelService, imageService, logService, lightService,
 		instructionFactory, screenshot, state, ENV) {
 
 		var vm = this;
@@ -70,12 +70,11 @@
 		}
 
 		function removeFromProgram(index, ins) {
-			// if dropped on the bin
 			if (!index) {
 				index = vm.currentIndex;
 			}
 			if (index > -1) {
-				logService.removedInstruction(ins, index);
+				logService.removedInstruction(ins, 'click', index);
 				vm.program.splice(index, 1);
 			}
 		}
@@ -84,7 +83,7 @@
 			index = vm.currentIndex;
 
 			if (index > -1) {
-				logService.removedInstruction(item, index);
+				logService.removedInstruction(item, 'drag', index);
 				vm.program.splice(index, 1);
 				vm.toggleBin();
 			}
@@ -151,8 +150,13 @@
 
 				} else if ($('#status').hasClass('rewind')) {
 
-					// reset movement
-					movementService.reset();
+					// rewind movement
+					movementService.rewind();
+
+					// if blockly then empty program to be recreated later
+					if (ENV.ins == 'blockly') {
+						programService.empty();
+					}
 
 					// remove next image
 					imageService.removeNext();
@@ -198,6 +202,9 @@
 
 				// empty program
 				programService.empty();
+
+				// empty lights
+				lightService.removeAllLights();
 
 				if (ENV.ins == 'blockly') {
 					// clear blockly interface

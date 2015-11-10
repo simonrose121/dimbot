@@ -6,15 +6,9 @@
 	logService.$Inject = ['logger', '$http'];
 
 	function logService(logger, $http) {
-		// private methods
-		function postLog(log) {
-			$http.post('/log/', log).success(function(data) {
-				console.log(data);
-				return data;
-			}).error(function(data) {
-				console.log('Error' + data);
-			});
-		}
+		var vm = this;
+
+		vm.userId = 1;
 
 		var service = {
 			addedInstruction: addedInstruction,
@@ -33,6 +27,7 @@
 				' to program using ' + type + ' at index: ' + index;
 
 			var log = {
+				user_id: vm.userId,
 				type: 'instruction',
 				message: message
 			};
@@ -44,6 +39,7 @@
 			var message = 'Pressed ' + button;
 
 			var log = {
+				user_id: vm.userId,
 				type: 'button_press',
 				message: message
 			};
@@ -56,6 +52,7 @@
 				' from index: ' + oldIndex + ' to index: ' + newIndex;
 
 			var log = {
+				user_id: vm.userId,
 				type: 'instruction',
 				message: message
 			};
@@ -63,11 +60,12 @@
 			postLog(log);
 		}
 
-		function removedInstruction(ins, index) {
+		function removedInstruction(ins, type, index) {
 			var message = 'Removed instruction ' + ins.name +
-				' from index: ' + index;
+				' using ' + type + ' from index: ' + index;
 
 			var log = {
+				user_id: vm.userId,
 				type: 'instruction',
 				message: message
 			};
@@ -80,11 +78,22 @@
 				' with url: ' + url;
 
 			var log = {
+				user_id: vm.userId,
 				type: 'screenshot',
 				message: message
 			};
 
 			postLog(log);
+		}
+
+		// private
+		function postLog(log) {
+			$http.post('/log/', log).success(function(data) {
+				console.log(data);
+				return data;
+			}).error(function(data) {
+				console.log('Error' + data);
+			});
 		}
 	}
 })();

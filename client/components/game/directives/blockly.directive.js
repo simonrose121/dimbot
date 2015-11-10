@@ -19,6 +19,11 @@
 			vm.workspace = null;
 			vm.code = null;
 
+			// config constants
+			vm.imgSize = 40;
+			vm.blockColour = 230;
+
+			vm.checkTopLevel = checkTopLevel;
 			vm.customBlocks = customBlocks;
 			vm.generators = generators;
 			vm.init = init;
@@ -31,45 +36,48 @@
 				Blockly.Blocks.fw = {
 				  	init: function() {
 						this.appendDummyInput()
-        					.appendField('Forward');
+							.appendField(new Blockly.FieldImage(
+								'../../img/blockly-forwards.png', vm.imgSize, vm.imgSize));
 						this.setPreviousStatement(true);
 	      				this.setNextStatement(true);
-					    this.setColour(260);
-				  	}
+					    this.setColour(vm.blockColour);
+				  	},
 				};
 				Blockly.Blocks.rr = {
 				  	init: function() {
 					  	this.appendDummyInput()
-  							.appendField('Rotate right');
+							.appendField(new Blockly.FieldImage(
+								'../../img/blockly-rotateright.png', vm.imgSize, vm.imgSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(260);
+						this.setColour(vm.blockColour);
 				  	}
 				};
 				Blockly.Blocks.rl = {
 				  	init: function() {
 					  	this.appendDummyInput()
-  							.appendField('Rotate left');
+							.appendField(new Blockly.FieldImage(
+								'../../img/blockly-rotateleft.png', vm.imgSize, vm.imgSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(260);
+						this.setColour(vm.blockColour);
 				  	}
 				};
 				Blockly.Blocks.lt = {
 				  	init: function() {
 					  	this.appendDummyInput()
-  							.appendField('Lightbulb');
+							.appendField(new Blockly.FieldImage(
+								'../../img/blockly-lightbulb.png', vm.imgSize, vm.imgSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(260);
+						this.setColour(vm.blockColour);
 				  	}
 				};
 				Blockly.Blocks.start = {
 					init: function() {
 						this.appendDummyInput()
-							.appendField('Start')
 							.appendField(new Blockly.FieldImage(
-								'../../img/play-button.png', 30, 30));
+								'../../img/play-button.png', vm.imgSize, vm.imgSize));
 						this.setPreviousStatement(false);
 						this.setNextStatement(true);
 						this.setColour(65);
@@ -78,30 +86,46 @@
 				};
 			}
 
+			function checkTopLevel(block) {
+				while (true) {
+					var lastBlock = block;
+					block = block.getSurroundParent();
+					if (!block) {
+						// Ran off the top.
+						// We need to check the block at the top of the stack
+						while (lastBlock.previousConnection !== null &&
+							lastBlock.previousConnection.targetConnection !== null) {
+							lastBlock = lastBlock.previousConnection.targetConnection.sourceBlock_;
+						}
+						return (lastBlock.isTopLevel || lastBlock.isInFlyout);
+					}
+				}
+			}
+
 			function generators() {
 				Blockly.JavaScript.fw = function(block) {
-					if (!block.getInheritedDisabled()) {
+					if (checkTopLevel(block)) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
 					}
 				};
 				Blockly.JavaScript.rr = function(block) {
-					if (!block.getInheritedDisabled()) {
+					if (checkTopLevel(block)) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
 					}
 				};
 				Blockly.JavaScript.rl = function(block) {
-					if (!block.getInheritedDisabled()) {
+					if (checkTopLevel(block)) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
 					}
 				};
 				Blockly.JavaScript.lt = function(block) {
-					if (!block.getInheritedDisabled()) {
+					if (checkTopLevel(block)) {
 						return 'programService.addInstruction(instructionFactory.getInstruction(\x27' + block.type + '\x27));';
 					} else {
 						return '';
@@ -117,23 +141,6 @@
 					{toolbox: document.getElementById('toolbox')});
 
 				Blockly.BlockSvg.START_HAT = true;
-
-				Blockly.Block.prototype.getInheritedDisabled = function() {
-				  	var block = this;
-				  	while (true) {
-					    var lastBlock = block;
-					    block = block.getSurroundParent();
-					    if (!block) {
-					      // Ran off the top.
-					      // We need to check the block at the top of the stack
-					      while (lastBlock.previousConnection !== null &&
-					            lastBlock.previousConnection.targetConnection !== null) {
-					        	lastBlock = lastBlock.previousConnection.targetConnection.sourceBlock_;
-					      }
-					      return !(lastBlock.isTopLevel || lastBlock.isInFlyout);
-					    }
-				  	}
-			 	};
 			}
 		}
 	}
