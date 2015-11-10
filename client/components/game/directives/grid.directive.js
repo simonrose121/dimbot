@@ -124,7 +124,6 @@
 
 					// calculate required position of arrow
 					var deg = dir.rot * (180/Math.PI);
-					alert(dir.name + ' ' + deg);
 					imageService.rotateDirection(deg);
 					imageService.showDirection();
 				});
