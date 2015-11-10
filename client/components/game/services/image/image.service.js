@@ -56,7 +56,7 @@
 
 		function rotateDirection(deg) {
 			$('.direction').css({
-				transform:'translate(-50%, -50%) rotate(' + deg + 'deg)'
+				transform:'translate(-50%, -50%) rotate(-' + deg + 'deg)'
 			});
 		}
 
