@@ -7,7 +7,7 @@
 		'lightService', 'logger', 'common'];
 
 	function dimGridDirective(movementService, levelService, lightService,
-		directionService, logger, common) {
+		directionService, imageService, logger, common) {
 
 		var directive = {
 			restrict: 'E',
@@ -124,8 +124,8 @@
 
 					// calculate required position of arrow
 					var deg = dir.rot * (180/Math.PI);
-					$('.direction').css({transform:'translate(-50%, -50%) rotate(' + deg + 'deg)'});
-					$('.direction').show();
+					imageService.rotateDirection(deg);
+					imageService.showDirection();
 				});
 			}
 

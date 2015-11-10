@@ -149,6 +149,8 @@
 			lightService.turnOffAll();
 
 			service.hasStart(false);
+
+			imageService.showDirection();
 		}
 
 		function rotate(deg, callback) {
@@ -198,8 +200,8 @@
 				// set stop button
 				imageService.stop();
 
-
-				$('.direction').hide();
+				// hide direction button
+				imageService.hideDirection();
 			}
 		}
 
