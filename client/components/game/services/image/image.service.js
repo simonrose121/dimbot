@@ -13,6 +13,7 @@
 		vm.index = 0;
 
 		var service = {
+			adjustDirectionPosition: adjustDirectionPosition,
 			hideDirection: hideDirection,
 			highlight: highlight,
 			play: play,
@@ -27,6 +28,15 @@
 		};
 
 		return service;
+
+		function adjustDirectionPosition(x, y) {
+			$(vm.dir).css({
+			    'margin-left': x + 'px',
+				'margin-top': -y + 'px'
+			});
+
+			console.log($(vm.dir).css('margin-left'));
+		}
 
 		function hideDirection() {
 			$(vm.dir).hide();

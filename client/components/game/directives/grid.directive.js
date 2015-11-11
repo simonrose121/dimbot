@@ -118,13 +118,17 @@
 					var dir = directionService.getDirectionByName(dirName);
 					mesh.rotation.y = dir.rot;
 
-					mesh.position.set(common.gridSize * x, common.gridSize * y, 0);
+					var fullX = common.gridSize * x;
+					var fullY = common.gridSize * y;
+
+					mesh.position.set(fullX, fullY, 0);
 					vm.scene.add(mesh);
 					movementService.setMesh(mesh);
 
 					// calculate required position of arrow
 					var deg = dir.rot * (180/Math.PI);
 					imageService.rotateDirection(deg);
+					imageService.adjustDirectionPosition(fullX, fullY);
 					imageService.showDirection();
 				});
 			}
