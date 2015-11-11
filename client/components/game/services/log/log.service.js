@@ -29,6 +29,7 @@
 			var log = {
 				user_id: vm.userId,
 				type: 'instruction',
+				summary: 'instruction add ' + type,
 				message: message
 			};
 
@@ -41,6 +42,7 @@
 			var log = {
 				user_id: vm.userId,
 				type: 'button_press',
+				summary: 'button ' + button,
 				message: message
 			};
 
@@ -54,6 +56,7 @@
 			var log = {
 				user_id: vm.userId,
 				type: 'instruction',
+				summary: 'instruction move',
 				message: message
 			};
 
@@ -67,6 +70,7 @@
 			var log = {
 				user_id: vm.userId,
 				type: 'instruction',
+				summary: 'instruction removed',
 				message: message
 			};
 
@@ -80,6 +84,7 @@
 			var log = {
 				user_id: vm.userId,
 				type: 'screenshot',
+				summary: 'screenshot ' + type,
 				message: message
 			};
 

@@ -4,6 +4,7 @@ module.exports.post = function(req, res) {
 	var entry = {
 		user_id: req.body.user_id,
 		type: req.body.type,
+		summary: req.body.summary,
 		message: req.body.message
 	};
 
