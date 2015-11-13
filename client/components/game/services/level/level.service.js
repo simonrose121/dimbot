@@ -3,10 +3,11 @@
 		.module('dimbot.game')
 		.service('levelService', levelService);
 
-	levelService.$Inject = ['$http', 'logger', 'programService',
+	levelService.$Inject = ['$http', 'logger', 'programService', 'logService',
 		'instructionFactory', 'levels'];
 
-	function levelService($http, logger, programService, instructionFactory,
+	function levelService($http, logger, programService, logService,
+		instructionFactory,
 		levels) {
 		var vm = this;
 
@@ -91,6 +92,7 @@
 
 		function nextLevel() {
 			if (vm.levelNo <= vm.maxLevel) {
+				logService.movedLevel(vm.levelNo);
 				vm.levelNo++;
 				service.resetLevel();
 			}

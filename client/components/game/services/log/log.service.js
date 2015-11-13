@@ -13,6 +13,7 @@
 		var service = {
 			addedInstruction: addedInstruction,
 			buttonPress: buttonPress,
+			movedLevel: movedLevel,
 			movedInstruction: movedInstruction,
 			removedInstruction: removedInstruction,
 			saveScreenshot: saveScreenshot
@@ -43,6 +44,22 @@
 				user_id: vm.userId,
 				type: 'button_press',
 				summary: 'button ' + button,
+				message: message
+			};
+
+			postLog(log);
+		}
+
+		function movedLevel(level) {
+			var newLevel = level + 1;
+
+			var message = 'Finished level: ' + level + ' Starting level: ' +
+				newLevel;
+
+			var log = {
+				user_id: vm.userId,
+				type: 'new_level',
+				summary: 'level ' + level + ' complete',
 				message: message
 			};
 
