@@ -184,11 +184,8 @@
 			var program = programService.getProgram();
 			logger.info('running program', program);
 
-			//TODO: Remove hack
-			var lightfirst = program[0].name == instructionFactory.getInstruction('lt').name;
-
 			// when program is started
-			if (program.length > 0 && vm.start && !lightfirst) {
+			if (program.length > 0 && vm.start) {
 				state.current = state.RUNNING;
 
 				// set imageService index to 0
@@ -197,11 +194,11 @@
 				// set rotation index back to 0
 				service.setStartingDirection();
 
-				// start program
-				service.loop(program);
-
 				// set stop button
 				imageService.stop();
+
+				// start program
+				service.loop(program);
 
 				// hide direction button
 				imageService.hideDirection();
