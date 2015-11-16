@@ -24,7 +24,7 @@
 			setIndex: setIndex,
 			showDirection: showDirection,
 			stop: stop,
-			toggleBin, toggleBin,
+			toggleBin: toggleBin,
 			unhighlight: unhighlight
 		};
 

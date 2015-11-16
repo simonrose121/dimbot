@@ -4,10 +4,10 @@
 		.directive('dimBlocklyDirective', dimBlocklyDirective);
 
 	dimBlocklyDirective.$Inject = ['programService', 'movementService',
-		'logService', 'instrutionFactory', 'logger'];
+		'logBlocklyService', 'instrutionFactory', 'logger'];
 
 	function dimBlocklyDirective(programService, movementService,
-		logService, instructionFactory, logger) {
+		logBlocklyService, instructionFactory, logger) {
 		var directive = {
 			restrict: 'E',
 			link: link
@@ -47,11 +47,11 @@
 				var count = vm.count;
 				vm.blockCount();
 				if (count > vm.count) {
-					logService.removedInstruction(vm.current);
+					logBlocklyService.removedInstruction(vm.current);
 				} else if (count == vm.count) {
-					logService.movedInstruction(vm.current);
+					logBlocklyService.movedInstruction(vm.current);
 				} else if (count < vm.count) {
-					logService.addedInstruction(vm.current, 'blockly')
+					logBlocklyService.addedInstruction(vm.current);
 				}
 			}
 
