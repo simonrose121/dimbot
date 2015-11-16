@@ -3,12 +3,12 @@
 		.module('dimbot.game')
 		.service('logService', logService);
 
-	logService.$Inject = ['logger', '$http'];
+	logService.$Inject = ['logger', '$http', 'common'];
 
-	function logService(logger, $http) {
+	function logService(logger, $http, common) {
 		var vm = this;
 
-		vm.userId = 1;
+		vm.userId = common.userId;
 
 		var service = {
 			addedInstruction: addedInstruction,
