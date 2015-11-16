@@ -18,8 +18,8 @@
                     dnd-draggable='ins'
                     dnd-moved="vm.spliceProgram($index, ins)"
                     dnd-effect-allowed="copyMove"
-                    dnd-dragstart="vm.toggleBin(); vm.setIndex($index)"
-                    dnd-dragend="vm.toggleBin()") 
+                    dnd-dragstart="vm.toggleBin(false); vm.setIndex($index)"
+                    dnd-dragend="vm.toggleBin(true)") 
                     img(class='{{ins.name}}' 
                         id='{{$index}}' 
                         ng-src='{{ins.src}}' 

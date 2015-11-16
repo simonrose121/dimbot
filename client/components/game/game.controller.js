@@ -85,7 +85,7 @@
 			if (index > -1) {
 				logService.removedInstruction(item, 'drag', index);
 				vm.program.splice(index, 1);
-				vm.toggleBin();
+				vm.toggleBin(true);
 			}
 		}
 
@@ -104,10 +104,8 @@
 			logService.movedInstruction(ins, vm.currentIndex, index);
 		}
 
-		function toggleBin() {
-			logger.info('program is', vm.program);
-
-			$('#bin').toggle();
+		function toggleBin(isVisible) {
+			imageService.toggleBin(isVisible);
 		}
 
 		// private

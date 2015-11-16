@@ -24,6 +24,7 @@
 			setIndex: setIndex,
 			showDirection: showDirection,
 			stop: stop,
+			toggleBin, toggleBin,
 			unhighlight: unhighlight
 		};
 
@@ -77,6 +78,14 @@
 		function stop() {
 			$(vm.id).removeClass();
 			$(vm.id).addClass('stop');
+		}
+
+		function toggleBin(isVisible) {
+			if (isVisible) {
+				$('#bin').hide();
+			} else {
+				$('#bin').show();
+			}
 		}
 
 		function unhighlight(ins) {
