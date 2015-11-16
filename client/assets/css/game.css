@@ -127,12 +127,12 @@
 }
 #program .program-inner ul {
   list-style: none;
-  margin-left: -40px;
 }
 #program .program-inner li img {
   float: left;
   width: 128px;
   height: 64px;
+  margin-left: -40px;
 }
 #program .highlight {
   border: solid thick #FFF;
