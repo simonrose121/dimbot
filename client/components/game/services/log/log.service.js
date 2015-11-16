@@ -21,6 +21,21 @@
 
 		return service;
 
+		function saveScreenshot(url, type) {
+			var message = 'Saved ' + type +
+				' with url: ' + url;
+
+			var log = {
+				user_id: vm.userId,
+				type: 'screenshot',
+				summary: 'screenshot ' + type,
+				message: message
+			};
+
+			postLog(log);
+		}
+
+		// lightbot
 		function addedInstruction(ins, type, index) {
 			logger.debug('posting instruction to db', ins);
 
@@ -94,14 +109,45 @@
 			postLog(log);
 		}
 
-		function saveScreenshot(url, type) {
-			var message = 'Saved ' + type +
-				' with url: ' + url;
+		// blockly
+		function addedInstruction(ins) {
+			logger.debug('posting instruction to db', ins);
+
+			var message = 'Added instruction ' + ins.name +
+				' to blocky program';
 
 			var log = {
 				user_id: vm.userId,
-				type: 'screenshot',
-				summary: 'screenshot ' + type,
+				type: 'instruction',
+				summary: 'instruction add',
+				message: message
+			};
+
+			postLog(log);
+		}
+
+		function movedInstruction(ins) {
+			var message = 'Moved instruction ' + ins.name +
+				' around blocky program';
+
+			var log = {
+				user_id: vm.userId,
+				type: 'instruction',
+				summary: 'instruction move',
+				message: message
+			};
+
+			postLog(log);
+		}
+
+		function removedInstruction(ins) {
+			var message = 'Removed instruction ' + ins.name +
+				' from blocky program';
+
+			var log = {
+				user_id: vm.userId,
+				type: 'instruction',
+				summary: 'instruction removed',
 				message: message
 			};
 

@@ -19,7 +19,6 @@
 		return factory;
 
 		function getInstruction(type) {
-			logger.info('adding instruction', type);
 			switch(type) {
 				case 'fw':
 					return new Instruction("fw",
