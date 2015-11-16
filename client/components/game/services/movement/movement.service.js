@@ -4,11 +4,11 @@
 		.service('movementService', movementService);
 
 	movementService.$Inject = ['programService', 'levelService',
-		'directionService', 'imageService', 'lightService', 'logger', 'timer',
-		'state'];
+		'directionService', 'imageService', 'lightService',
+		'instructionFactory', 'logger', 'timer', 'state'];
 
 	function movementService(programService, levelService, directionService,
-			imageService, lightService, logger, timer, state) {
+			imageService, lightService, instructionFactory, logger, timer, state) {
 		var vm = this;
 
 		// keep track of mesh positions and colours
@@ -184,8 +184,11 @@
 			var program = programService.getProgram();
 			logger.info('running program', program);
 
+			//TODO: Remove hack
+			var lightfirst = program[0].name == instructionFactory.getInstruction('lt').name;
+
 			// when program is started
-			if (program.length > 0 && vm.start) {
+			if (program.length > 0 && vm.start && !lightfirst) {
 				state.current = state.RUNNING;
 
 				// set imageService index to 0
