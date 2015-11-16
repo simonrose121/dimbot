@@ -5,11 +5,11 @@
 
 	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
 		'movementService','levelService', 'imageService', 'logService',
-		'lightService', 'instructionFactory', 'screenshot', 'state', 'ENV'];
+		'lightService', 'instructionFactory', 'capture', 'state', 'ENV'];
 
 	function Game($http, $scope, $compile, logger, programService,
 		movementService, levelService, imageService, logService, lightService,
-		instructionFactory, screenshot, state, ENV) {
+		instructionFactory, capture, state, ENV) {
 
 		var vm = this;
 
@@ -114,18 +114,18 @@
 				if ($('#status').hasClass('play')) {
 					if (ENV.ins == 'blockly') {
 						// capture screenshot
-						var url = screenshot.captureSvg('blockly-inner', 'file');
+						var url = capture.captureXml();
 
 						// log screenshot data to database
-						logService.saveScreenshot(url, 'blockly');
+						logService.saveCapture(url, 'blockly');
 
 						// capture blockly and run generated code
 						var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 						eval(code);
 					} else {
 						// capture screenshot and save to database
-						screenshot.capture('.program-inner', 'file', function(url) {
-							logService.saveScreenshot(url, 'lightbot');
+						capture.capturePng('.program-inner', 'file', function(url) {
+							logService.saveCapture(url, 'lightbot');
 						});
 
 						// set has start if it's the lightbot version

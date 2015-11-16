@@ -16,26 +16,11 @@
 			movedLevel: movedLevel,
 			movedInstruction: movedInstruction,
 			removedInstruction: removedInstruction,
-			saveScreenshot: saveScreenshot
+			saveCapture: saveCapture
 		};
 
 		return service;
 
-		function saveScreenshot(url, type) {
-			var message = 'Saved ' + type +
-				' with url: ' + url;
-
-			var log = {
-				user_id: vm.userId,
-				type: 'screenshot',
-				summary: 'screenshot ' + type,
-				message: message
-			};
-
-			postLog(log);
-		}
-
-		// lightbot
 		function addedInstruction(ins, type, index) {
 			logger.debug('posting instruction to db', ins);
 
@@ -103,6 +88,27 @@
 				user_id: vm.userId,
 				type: 'instruction',
 				summary: 'instruction removed',
+				message: message
+			};
+
+			postLog(log);
+		}
+
+		function saveCapture(url, type) {
+			var message = '';
+
+			if (type == 'blockly') {
+				message = 'Saved ' + type +
+					' to xml: ' + url;
+			} else if (type == 'lightbot') {
+				message = 'Saved ' + type +
+					' to png: ' + url;
+			}
+
+			var log = {
+				user_id: vm.userId,
+				type: 'screenshot',
+				summary: 'screenshot ' + type,
 				message: message
 			};
 
