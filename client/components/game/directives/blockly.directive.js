@@ -3,9 +3,11 @@
 		.module('dimbot.game')
 		.directive('dimBlocklyDirective', dimBlocklyDirective);
 
-	dimBlocklyDirective.$Inject = ['programService', 'movementService', 'instrutionFactory', 'logger'];
+	dimBlocklyDirective.$Inject = ['programService', 'movementService',
+		'logBlocklyService', 'instrutionFactory', 'logger'];
 
-	function dimBlocklyDirective(programService, movementService, instructionFactory, logger) {
+	function dimBlocklyDirective(programService, movementService,
+		logBlocklyService, instructionFactory, logger) {
 		var directive = {
 			restrict: 'E',
 			link: link
@@ -22,7 +24,11 @@
 			// config constants
 			vm.imgSize = 40;
 			vm.blockColour = 230;
+			vm.count = 0;
+			vm.current = null;
 
+			vm.blockCount = blockCount;
+			vm.changed = changed;
 			vm.checkTopLevel = checkTopLevel;
 			vm.customBlocks = customBlocks;
 			vm.generators = generators;
@@ -31,6 +37,23 @@
 			vm.customBlocks();
 			vm.generators();
 			vm.init();
+			vm.blockCount();
+
+			function blockCount() {
+				vm.count = vm.workspace.getAllBlocks().length;
+			}
+
+			function changed() {
+				var count = vm.count;
+				vm.blockCount();
+				if (count > vm.count) {
+					logBlocklyService.removedInstruction(vm.current);
+				} else if (count == vm.count) {
+					logBlocklyService.movedInstruction(vm.current);
+				} else if (count < vm.count) {
+					logBlocklyService.addedInstruction(vm.current);
+				}
+			}
 
 			function customBlocks() {
 				Blockly.Blocks.fw = {
@@ -42,6 +65,9 @@
 	      				this.setNextStatement(true);
 					    this.setColour(vm.blockColour);
 				  	},
+					onchange: function(ev) {
+						vm.current = instructionFactory.getInstruction('fw');
+					}
 				};
 				Blockly.Blocks.rr = {
 				  	init: function() {
@@ -51,7 +77,10 @@
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
 						this.setColour(vm.blockColour);
-				  	}
+				  	},
+					onchange: function(ev) {
+						vm.current = instructionFactory.getInstruction('rr');
+					}
 				};
 				Blockly.Blocks.rl = {
 				  	init: function() {
@@ -61,7 +90,10 @@
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
 						this.setColour(vm.blockColour);
-				  	}
+				  	},
+					onchange: function(ev) {
+						vm.current = instructionFactory.getInstruction('rl');
+					}
 				};
 				Blockly.Blocks.lt = {
 				  	init: function() {
@@ -71,7 +103,10 @@
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
 						this.setColour(vm.blockColour);
-				  	}
+				  	},
+					onchange: function(ev) {
+						vm.current = instructionFactory.getInstruction('lt');
+					}
 				};
 				Blockly.Blocks.start = {
 					init: function() {
@@ -82,6 +117,11 @@
 						this.setNextStatement(true);
 						this.setColour(65);
 						this.isTopLevel = true;
+					},
+					onchange: function(ev) {
+						vm.current = {
+							name: 'start'
+						};
 					}
 				};
 			}
@@ -137,10 +177,12 @@
 			}
 
 			function init() {
-				vm.workspace = Blockly.inject('blockly-inner',
-					{toolbox: document.getElementById('toolbox')});
+				vm.workspace = Blockly.inject('blockly-inner', {
+					toolbox: document.getElementById('toolbox')
+				});
 
 				Blockly.BlockSvg.START_HAT = true;
+				vm.workspace.addChangeListener(vm.changed);
 			}
 		}
 	}
