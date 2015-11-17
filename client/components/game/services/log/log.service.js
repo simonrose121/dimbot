@@ -118,7 +118,6 @@
 		// private
 		function postLog(log) {
 			$http.post('/log/', log).success(function(data) {
-				console.log(data);
 				return data;
 			}).error(function(data) {
 				console.log('Error' + data);
