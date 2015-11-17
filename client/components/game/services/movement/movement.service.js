@@ -5,10 +5,11 @@
 
 	movementService.$Inject = ['programService', 'levelService',
 		'directionService', 'imageService', 'lightService',
-		'instructionFactory', 'logger', 'timer', 'state'];
+		'instructionFactory', 'logger', 'timer', 'state', 'common'];
 
 	function movementService(programService, levelService, directionService,
-			imageService, lightService, instructionFactory, logger, timer, state) {
+			imageService, lightService, instructionFactory, logger, timer,
+			common, state) {
 		var vm = this;
 
 		// keep track of mesh positions and colours
@@ -60,14 +61,13 @@
 				logger.info('moving mesh from', position);
 				logger.info('moving mesh to', target);
 
-				var tween = new TWEEN.Tween(position).to(target);
+				var tween = new TWEEN.Tween(position).to(target, common.speed);
 
 				tween.onUpdate(function() {
 					vm.mesh.position.x = position.x;
 					vm.mesh.position.y = position.y;
 				});
 				tween.onComplete(function() {
-					timer.sleep(1000);
 					callback();
 				});
 
@@ -158,10 +158,9 @@
 
 			var tween = new TWEEN.Tween(vm.mesh.rotation).to({
 				y: vm.mesh.rotation.y + rad
-			});
+			}, common.speed);
 
 			tween.onComplete(function() {
-				timer.sleep(1000);
 				callback();
 			});
 
@@ -215,6 +214,7 @@
 
 				if (state.current == state.RUNNING) {
 					if (vm.x < arr.length) {
+						timer.sleep(1000);
 						service.loop(arr);
 					} else {
 						imageService.rewind();
