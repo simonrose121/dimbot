@@ -3,7 +3,9 @@
 		.module('utils.capture')
 		.factory('capture', capture);
 
-	function capture() {
+	capture.$Inject = ['logger'];
+
+	function capture(logger) {
 		var service = {
 			capturePng: capturePng,
 			captureXml: captureXml
@@ -15,7 +17,7 @@
 			html2canvas($(id), {
 	            onrendered: function(canvas) {
 					var img = canvas.toDataURL("image/png");
-					console.log(img);
+					logger.info('Program url', img);
 					callback(img);
 	            }
 	        });
@@ -24,7 +26,7 @@
 		function captureXml() {
 			var xml = Blockly.Xml.workspaceToDom(workspace);
 			var xml_text = Blockly.Xml.domToText(xml);
-			console.log(Blockly.Xml.domToPrettyText(xml));
+			logger.info('Blockly xml', Blockly.Xml.domToPrettyText(xml));
 			return xml_text;
 		}
 	}

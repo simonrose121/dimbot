@@ -220,10 +220,9 @@
 						imageService.rewind();
 					}
 				} else if (state.current == state.COMPLETE) {
-					imageService.next();
-					imageService.rewind();
+					imageService.background(true);
 				} else {
-					rewind();
+					service.rewind();
 					state.current = state.COMPOSING;
 				}
 			});

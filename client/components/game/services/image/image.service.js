@@ -14,6 +14,7 @@
 
 		var service = {
 			adjustDirectionPosition: adjustDirectionPosition,
+			background: background,
 			hideDirection: hideDirection,
 			highlight: highlight,
 			play: play,
@@ -35,8 +36,21 @@
 			    'margin-left': x + 'px',
 				'margin-top': -y + 'px'
 			});
+		}
 
-			console.log($(vm.dir).css('margin-left'));
+		function background(complete) {
+			if (complete) {
+				$('html').animate({
+					backgroundColor: '#fff'
+				}, 1500, function() {
+					$('html').animate({
+						backgroundColor: '#00BFFF'
+					}, 1500, function() {
+						service.rewind();
+						service.next();
+					});
+				});
+			}
 		}
 
 		function hideDirection() {
