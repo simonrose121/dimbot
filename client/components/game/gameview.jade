@@ -8,7 +8,6 @@
         dim-grid-directive
 .col-md-3
     #program
-        h4 Program
         .program-inner
             ul( dnd-list="vm.program"
                 dnd-external-sources="true"
@@ -17,7 +16,7 @@
                 li( ng-repeat='ins in vm.program track by $id(ins)'
                     dnd-draggable='ins'
                     dnd-moved="vm.spliceProgram($index, ins)"
-                    dnd-effect-allowed="copyMove"
+                    dnd-effect-allowed="move"
                     dnd-dragstart="vm.toggleBin(false); vm.setIndex($index)"
                     dnd-dragend="vm.toggleBin(true)") 
                     img(class='{{ins.name}}' 
@@ -25,7 +24,6 @@
                         ng-src='{{ins.src}}' 
                         ng-click='vm.removeFromProgram($index, ins)')
     #instructions
-        h4 Instructions
         .instructions-inner
             ul( dnd-list="vm.instructions"
                 dnd-disable-if="vm.instructions.length >= vm.max")
