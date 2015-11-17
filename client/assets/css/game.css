@@ -132,7 +132,6 @@
   float: left;
   width: 128px;
   height: 64px;
-  margin-left: -40px;
 }
 #program .highlight {
   border: solid thick #FFF;
@@ -170,6 +169,7 @@
   text-align: center;
   width: 128px;
   cursor: move;
+  margin-left: -40px;
 }
 #next {
   display: none;
