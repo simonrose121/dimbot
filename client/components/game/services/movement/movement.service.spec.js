@@ -73,43 +73,6 @@ describe('Movement Service', function() {
 		expect(object).toBe(mesh);
 	});
 
-	it('Cannot run program with empty program list', function() {
-		// arrange
-		spyOn(service, 'loop').and.callThrough();
-		spyOn(service, 'perform').and.callThrough();
-
-		// act
-		var program = programService.getProgram();
-		service.run();
-
-		// assert
-		expect(program.length).toEqual(0);
-		expect(service.loop).not.toHaveBeenCalled();
-		expect(service.perform).not.toHaveBeenCalled();
-	});
-
-	it('Can run program with populated program list', function() {
-		// arrange
-		var ins = factory.getInstruction('fw');
-		spyOn(service, 'loop').and.callThrough();
-		spyOn(service, 'perform').and.callThrough();
-		spyOn(imageService, 'stop');
-
-		// act
-		programService.setLimit(8);
-		programService.addInstruction(ins);
-		service.hasStart(true);
-		var program = programService.getProgram();
-
-		service.run();
-
-		// assert
-		expect(program.length).toEqual(1);
-		expect(service.loop).toHaveBeenCalled();
-		expect(service.perform).toHaveBeenCalled();
-		expect(imageService.stop).toHaveBeenCalled();
-	});
-
 	it('Forward method and update level called when moving forwards', function() {
 		// arrange
 		spyOn(service, 'forward').and.callThrough();
