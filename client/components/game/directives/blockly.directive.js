@@ -173,7 +173,7 @@
 					}
 				};
 				Blockly.JavaScript.start = function(block) {
-					return 'movementService.hasStart(' + true + ');';
+					return '';
 				};
 			}
 
