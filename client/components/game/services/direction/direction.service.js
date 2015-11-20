@@ -5,6 +5,14 @@
 
 	directionService.$Inject = ['logger', 'common'];
 
+	/**
+	 * Holds information about individual directions and the required
+	 * rotations for these.
+	 *
+	 * @param logger
+	 * @param common
+	 * @return service
+	 */
 	function directionService(logger, common) {
 		var vm = this;
 
@@ -34,9 +42,7 @@
 				rot: -(Math.PI / 2)
 			}
 		];
-
-		// setup lookup
-		var lookup = directionLookup();
+		vm.lookup = directionLookup();
 
 		var service = {
 			directionLookup: directionLookup,
@@ -47,24 +53,53 @@
 
 		return service;
 
-		function directionLookup() {
-			var lookup = {};
-			for (var i = 0, len = vm.directions.length; i < len; i++) {
-			    lookup[vm.directions[i].name] = vm.directions[i];
-			}
-			return lookup;
-		}
+		/* public methods */
 
+		/**
+		 * Get a direction from an index
+		 *
+		 * @param {number} index - Index of direction in directions array
+		 * @returns direction
+		 */
 		function getDirectionByIndex(index) {
 			return vm.directions[index];
 		}
 
+		/**
+		 * Get a direction by name using a lookup
+		 *
+		 * @param {string} name - Name of direction
+		 * @returns direction - Direction object
+		 */
 		function getDirectionByName(name) {
-			return lookup[name];
+			return vm.lookup[name];
 		}
 
+		/**
+		 * Get the index of a direction in the directions array for faster
+		 * access.
+		 *
+		 * @param {object} dir - Direction object
+		 * @returns {number} - Direction object
+		 */
 		function getIndexFromDirection(dir) {
 			return vm.directions.indexOf(dir);
+		}
+
+		/* private methods */
+
+		/**
+		 * Instantiate a lookup method to retrieve direction by name.
+		 *
+		 * @param
+		 * @returns {object} lookup
+		 */
+		function directionLookup() {
+			var lookup = {};
+			for (var i = 0, len = vm.directions.length; i < len; i++) {
+				lookup[vm.directions[i].name] = vm.directions[i];
+			}
+			return lookup;
 		}
 	}
 })();
