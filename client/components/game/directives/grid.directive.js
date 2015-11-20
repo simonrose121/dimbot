@@ -81,7 +81,7 @@
 							case 3:
 								break;
 							case 4:
-								vm.addMesh(common.gridSize, 0x000000, x, y, 0, false);
+								vm.addMesh(common.gridSize, 0x00BFFF, x, y, 0, false);
 								break;
 						}
 						count++;
