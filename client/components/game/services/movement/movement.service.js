@@ -16,25 +16,20 @@
 		vm.mesh = null;
 
 		vm.startingPos = {};
-		vm.x = 0;
 		vm.direction = null;
 		vm.index = null;
-		vm.start = false;
 
 		var service = {
 			forward: forward,
 			getDirection: getDirection,
 			getMesh: getMesh,
-			loop: loop,
 			light: light,
-			hasStart: hasStart,
 			perform: perform,
 			reset: reset,
 			rewind: rewind,
 			rotate: rotate,
 			rotateLeft: rotateLeft,
 			rotateRight: rotateRight,
-			run: run,
 			setDirection: setDirection,
 			setIndex: setIndex,
 			setMesh: setMesh,
@@ -85,11 +80,6 @@
 
 		function getMesh() {
 			return vm.mesh;
-		}
-
-		function hasStart(val) {
-			vm.start = val;
-			logger.debug('has start', vm.start);
 		}
 
 		function light(callback) {
@@ -148,8 +138,6 @@
 			// turn off light
 			lightService.turnOffAll();
 
-			service.hasStart(false);
-
 			imageService.showDirection();
 		}
 
@@ -175,57 +163,6 @@
 		function rotateRight(callback) {
 			service.setDirection('rr');
 			service.rotate(-90, callback);
-		}
-
-		function run() {
-			vm.x = 0;
-
-			var program = programService.getProgram();
-			logger.info('running program', program);
-
-			// when program is started
-			if (program.length > 0 && vm.start) {
-				state.current = state.RUNNING;
-
-				// set imageService index to 0
-				imageService.setIndex(0);
-
-				// set rotation index back to 0
-				service.setStartingDirection();
-
-				// set stop button
-				imageService.stop();
-
-				// start program
-				service.loop(program);
-
-				// hide direction button
-				imageService.hideDirection();
-			}
-		}
-
-		// control loop execution to wait for callback from tween when complete
-		function loop(arr) {
-			service.perform(arr[vm.x], function() {
-				vm.x++;
-
-				// unhighlight
-				imageService.unhighlight(arr[vm.x]);
-
-				if (state.current == state.RUNNING) {
-					if (vm.x < arr.length) {
-						timer.sleep(1000);
-						service.loop(arr);
-					} else {
-						imageService.rewind();
-					}
-				} else if (state.current == state.COMPLETE) {
-					imageService.background(true);
-				} else {
-					service.rewind();
-					state.current = state.COMPOSING;
-				}
-			});
 		}
 
 		function perform(ins, callback) {

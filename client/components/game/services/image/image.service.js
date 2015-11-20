@@ -38,19 +38,15 @@
 			});
 		}
 
-		function background(complete) {
-			if (complete) {
+		function background(callback) {
+			$('html').animate({
+				backgroundColor: '#fff'
+			}, 1500, function() {
 				$('html').animate({
-					backgroundColor: '#fff'
-				}, 1500, function() {
-					$('html').animate({
-						backgroundColor: '#00BFFF'
-					}, 1500, function() {
-						service.rewind();
-						service.next();
-					});
-				});
-			}
+					backgroundColor: '#00BFFF'
+				}, 1500);
+				callback();
+			});
 		}
 
 		function hideDirection() {
