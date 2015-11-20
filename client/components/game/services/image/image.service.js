@@ -16,7 +16,8 @@
 
 		/* private variables */
 		vm.statusId = '#status';
-		vm.dir = '.direction';
+		vm.dirClass = '.direction';
+		vm.levelNumId = '#level-no';
 
 		var service = {
 			adjustDirectionPosition: adjustDirectionPosition,
@@ -26,6 +27,7 @@
 			play: play,
 			rewind: rewind,
 			rotateDirection: rotateDirection,
+			setLevelNumber: setLevelNumber,
 			showDirection: showDirection,
 			stop: stop,
 			toggleBin: toggleBin,
@@ -35,22 +37,22 @@
 		return service;
 
 		/**
-		 * Adjust direction arrow position based on position of robot
+		 * Adjust direction arrow position based on position of robot.
 		 *
-		 * @param x {number} - X position of robot
-		 * @param y {number} - Y position of robot
+		 * @param x {number} - X position of robot.
+		 * @param y {number} - Y position of robot.
 		 */
 		function adjustDirectionPosition(x, y) {
-			$(vm.dir).css({
+			$(vm.dirClass).css({
 			    'margin-left': x + 'px',
 				'margin-top': -y + 'px'
 			});
 		}
 
 		/**
-		 * Animate the background transition to white and back to blue
+		 * Animate the background transition to white and back to blue.
 		 *
-		 * @param callback {function} - Callback to be called when first animation is complete
+		 * @param callback {function} - Callback to be called when first animation is complete.
 		 */
 		function backgroundTransition(callback) {
 			$('html').animate({
@@ -68,7 +70,7 @@
 		 *
 		 */
 		function hideDirection() {
-			$(vm.dir).hide();
+			$(vm.dirClass).hide();
 		}
 
 		/**
@@ -100,7 +102,7 @@
 		/**
 		 * Show rotate direction arrow by degree measurement.
 		 *
-		 * @param deg {number} - Degree measurement to rotate from starting position
+		 * @param deg {number} - Degree measurement to rotate from starting position.
 		 */
 		function rotateDirection(deg) {
 			$('.direction').css({
@@ -109,11 +111,20 @@
 		}
 
 		/**
+		 * Set the current level number.
+		 *
+		 * @param levelNo {number} - Number to be set.
+		 */
+		function setLevelNumber(levelNo) {
+			$(vm.levelNumId).html(levelNo);
+		}
+
+		/**
 		 * Show direction arrow.
 		 *
 		 */
 		function showDirection() {
-			$(vm.dir).show();
+			$(vm.dirClass).show();
 		}
 
 		/**

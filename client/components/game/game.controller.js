@@ -36,7 +36,6 @@
 		vm.toggleBin = toggleBin;
 
 		// perform initial controller methods to setup level
-		levelService.loadLevels();
 		levelService.setInstructions();
 		levelService.resetLevel();
 		movementService.setStartingDirection();
@@ -75,7 +74,7 @@
 		// control loop execution to wait for callback from tween when complete
 		function loop(arr) {
 			movementService.perform(arr[vm.x], vm.x, function() {
-				
+
 				imageService.unhighlight(vm.x);
 
 				vm.x++;

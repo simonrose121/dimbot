@@ -60,8 +60,8 @@
 		/**
 		 * Get a direction from an index
 		 *
-		 * @param {number} index - Index of direction in directions array
-		 * @returns direction
+		 * @param {number} index - Index of direction in directions array.
+		 * @returns direction - Direction object.
 		 */
 		function getDirectionByIndex(index) {
 			return vm.directions[index];
@@ -70,8 +70,8 @@
 		/**
 		 * Get a direction by name using a lookup
 		 *
-		 * @param {string} name - Name of direction
-		 * @returns direction - Direction object
+		 * @param {string} name - Name of direction.
+		 * @returns direction - Direction object.
 		 */
 		function getDirectionByName(name) {
 			return vm.lookup[name];
@@ -81,8 +81,8 @@
 		 * Get the index of a direction in the directions array for faster
 		 * access.
 		 *
-		 * @param {object} dir - Direction object
-		 * @returns {number} - Direction object
+		 * @param {object} dir - Direction object.
+		 * @returns {number} - Direction object.
 		 */
 		function getIndexFromDirection(dir) {
 			return vm.directions.indexOf(dir);
@@ -93,8 +93,7 @@
 		/**
 		 * Instantiate a lookup method to retrieve direction by name.
 		 *
-		 * @param
-		 * @returns {object} lookup
+		 * @returns {object} lookup.
 		 */
 		function directionLookup() {
 			var lookup = {};
