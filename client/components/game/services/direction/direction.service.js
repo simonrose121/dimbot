@@ -16,6 +16,8 @@
 	function directionService(logger, common) {
 		var vm = this;
 
+		/* private variables */
+
 		vm.directions = [
 			{
 				name: 'n',

@@ -5,24 +5,27 @@
 
 	imageService.$Inject = ['logger'];
 
+	/**
+	 * Provides methods to manipulate DOM elements using jQuery
+	 *
+	 * @param logger
+	 * @returns service
+	 */
 	function imageService(logger) {
 		var vm = this;
 
-		vm.id = '#status';
+		/* private variables */
+		vm.statusId = '#status';
 		vm.dir = '.direction';
-		vm.index = 0;
 
 		var service = {
 			adjustDirectionPosition: adjustDirectionPosition,
-			background: background,
+			backgroundTransition: backgroundTransition,
 			hideDirection: hideDirection,
 			highlight: highlight,
 			play: play,
-			next: next,
 			rewind: rewind,
-			removeNext: removeNext,
 			rotateDirection: rotateDirection,
-			setIndex: setIndex,
 			showDirection: showDirection,
 			stop: stop,
 			toggleBin: toggleBin,
@@ -31,6 +34,12 @@
 
 		return service;
 
+		/**
+		 * Adjust direction arrow position based on position of robot
+		 *
+		 * @param x {number} - X position of robot
+		 * @param y {number} - Y position of robot
+		 */
 		function adjustDirectionPosition(x, y) {
 			$(vm.dir).css({
 			    'margin-left': x + 'px',
@@ -38,7 +47,12 @@
 			});
 		}
 
-		function background(callback) {
+		/**
+		 * Animate the background transition to white and back to blue
+		 *
+		 * @param callback {function} - Callback to be called when first animation is complete
+		 */
+		function backgroundTransition(callback) {
 			$('html').animate({
 				backgroundColor: '#fff'
 			}, 1500, function() {
@@ -49,47 +63,73 @@
 			});
 		}
 
+		/**
+		 * Hide the direction arrow.
+		 *
+		 */
 		function hideDirection() {
 			$(vm.dir).hide();
 		}
 
-		function highlight(ins) {
-			$('#' + vm.index).addClass('highlight');
+		/**
+		 * Add highlight class to instruction.
+		 *
+		 */
+		function highlight(index) {
+			$('#' + index).addClass('highlight');
 		}
 
+		/**
+		 * Show play button.
+		 *
+		 */
 		function play() {
-			$(vm.id).removeClass();
-			$(vm.id).addClass('play');
+			$(vm.statusId).removeClass();
+			$(vm.statusId).addClass('play');
 		}
 
+		/**
+		 * Show rewind button.
+		 *
+		 */
 		function rewind() {
-			$(vm.id).removeClass();
-			$(vm.id).addClass('rewind');
+			$(vm.statusId).removeClass();
+			$(vm.statusId).addClass('rewind');
 		}
 
-		function next() {
-			$('#next').show();
-		}
-
-		function removeNext() {
-			$('#next').hide();
-		}
-
+		/**
+		 * Show rotate direction arrow by degree measurement.
+		 *
+		 * @param deg {number} - Degree measurement to rotate from starting position
+		 */
 		function rotateDirection(deg) {
 			$('.direction').css({
 				transform:'translate(-50%, -50%) rotate(-' + deg + 'deg)'
 			});
 		}
 
+		/**
+		 * Show direction arrow.
+		 *
+		 */
 		function showDirection() {
 			$(vm.dir).show();
 		}
 
+		/**
+		 * Show stop button.
+		 *
+		 */
 		function stop() {
-			$(vm.id).removeClass();
-			$(vm.id).addClass('stop');
+			$(vm.statusId).removeClass();
+			$(vm.statusId).addClass('stop');
 		}
 
+		/**
+		 * Toggle whether the bin is displayed.
+		 *
+		 * @param isVisible {boolean}
+		 */
 		function toggleBin(isVisible) {
 			if (isVisible) {
 				$('#bin').hide();
@@ -98,13 +138,12 @@
 			}
 		}
 
-		function unhighlight(ins) {
-			$('#' + vm.index).removeClass('highlight');
-			vm.index++;
-		}
-
-		function setIndex(val) {
-			vm.index = val;
+		/**
+		 * Remove highlight class from instruction.
+		 *
+		 */
+		function unhighlight(index) {
+			$('#' + index).removeClass('highlight');
 		}
 	}
 })();

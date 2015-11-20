@@ -74,11 +74,11 @@
 
 		// control loop execution to wait for callback from tween when complete
 		function loop(arr) {
-			movementService.perform(arr[vm.x], function() {
-				vm.x++;
+			movementService.perform(arr[vm.x], vm.x, function() {
+				
+				imageService.unhighlight(vm.x);
 
-				// unhighlight
-				imageService.unhighlight(arr[vm.x]);
+				vm.x++;
 
 				if (state.current == state.RUNNING) {
 					if (vm.x < arr.length) {
@@ -88,7 +88,7 @@
 						imageService.rewind();
 					}
 				} else if (state.current == state.COMPLETE) {
-					imageService.background(function() {
+					imageService.backgroundTransition(function() {
 						vm.nextButton();
 					});
 				} else {
@@ -107,9 +107,6 @@
 			// when program is started
 			if (program.length > 0) {
 				state.current = state.RUNNING;
-
-				// set imageService index to 0
-				imageService.setIndex(0);
 
 				// set rotation index back to 0
 				movementService.setStartingDirection();
@@ -208,9 +205,6 @@
 					programService.empty();
 				}
 
-				// remove next image
-				imageService.removeNext();
-
 				// log button press
 				logService.buttonPress('rewind');
 			}
@@ -219,9 +213,6 @@
 		function resetButton() {
 			// reset movement
 			movementService.reset();
-
-			// remove next image
-			imageService.removeNext();
 
 			// log button press to db
 			logService.buttonPress('reset');
@@ -239,7 +230,6 @@
 
 			// change action button to play and remove next button
 			imageService.play();
-			imageService.removeNext();
 
 			// log button press
 			logService.buttonPress('next');

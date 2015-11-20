@@ -165,11 +165,11 @@
 			service.rotate(-90, callback);
 		}
 
-		function perform(ins, callback) {
+		function perform(ins, index, callback) {
 			logger.warn('executing instruction', ins);
 
 			// highlight
-			imageService.highlight(ins);
+			imageService.highlight(index);
 
 			switch(ins.name) {
 				case 'fw':
