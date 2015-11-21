@@ -31,6 +31,7 @@
 			forward: forward,
 			getDirection: getDirection,
 			getMesh: getMesh,
+			getUpdatedIndex: getUpdatedIndex,
 			light: light,
 			perform: perform,
 			rewind: rewind,
@@ -97,6 +98,24 @@
 		 */
 		function getMesh() {
 			return vm.mesh;
+		}
+
+		/**
+		 * Update index by incrementing or decrementing value.
+		 *
+		 * @param val {number} - Number to adjust index by.
+		 * @returns index
+		 */
+		function getUpdatedIndex(val) {
+			var index = vm.index + val;
+			// handle edge cases
+			if (index == -1) {
+				index = 3;
+			}
+			if (index == 4) {
+				index = 0;
+			}
+			return index;
 		}
 
 		/**
@@ -223,12 +242,12 @@
 			var newIndex = null;
 
 			if (dir == 'rl') {
-				newIndex = getUpdatedIndex(-1);
+				newIndex = service.getUpdatedIndex(-1);
 				service.setIndex(newIndex);
 				vm.direction = directionService.getDirectionByIndex(vm.index);
 			}
 			if (dir == 'rr') {
-				newIndex = getUpdatedIndex(1);
+				newIndex = service.getUpdatedIndex(1);
 				service.setIndex(newIndex);
 				vm.direction = directionService.getDirectionByIndex(vm.index);
 			}
@@ -268,26 +287,6 @@
 		 */
 		function setIndex(index) {
 			vm.index = index;
-		}
-
-		/* private methods */
-
-		/**
-		 * Update index by incrementing or decrementing value.
-		 *
-		 * @param val {number} - Number to adjust index by.
-		 * @returns index
-		 */
-		function getUpdatedIndex(val) {
-			var index = vm.index + val;
-			// handle edge cases
-			if (index == -1) {
-				index = 3;
-			}
-			if (index == 4) {
-				index = 0;
-			}
-			return index;
 		}
 	}
 })();
