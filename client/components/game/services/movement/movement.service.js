@@ -34,6 +34,7 @@
 			getUpdatedIndex: getUpdatedIndex,
 			light: light,
 			perform: perform,
+			noMove: noMove,
 			rewind: rewind,
 			rotate: rotate,
 			rotateLeft: rotateLeft,
@@ -77,8 +78,7 @@
 				tween.start();
 				levelService.updateLevel(vm.direction);
 			} else {
-				// callback anyway to unhighlight instruction
-				callback();
+				service.noMove(callback);
 			}
 		}
 
@@ -147,6 +147,72 @@
 		}
 
 		/**
+		 * Handle instruction and pass it off to correct method.
+		 *
+		 * @param ins {object} - Instruction to be executed.
+		 * @param callback {object} - Callback to signal when tween is complete.
+		 */
+		function perform(ins, callback) {
+			switch(ins.name) {
+				case 'fw':
+					service.forward(callback);
+					break;
+				case 'rr':
+					service.rotateRight(callback);
+					break;
+				case 'rl':
+					service.rotateLeft(callback);
+					break;
+				case 'lt':
+					service.light(callback);
+					break;
+			}
+		}
+
+		/**
+		 * Show that mesh cannot perform move.
+		 *
+		 * @param callback {object} - Callback to signal when tween is complete.
+		 */
+		function noMove(callback) {
+			var distance = 10;
+			var speed = 250;
+
+			var radLeft = distance * ( Math.PI / 180 );
+
+			var tweenLeft = new TWEEN.Tween(vm.mesh.rotation).to({
+				y: vm.mesh.rotation.y + radLeft
+			}, speed);
+
+			var tweenLeftAgain = new TWEEN.Tween(vm.mesh.rotation).to({
+				y: vm.mesh.rotation.y + radLeft
+			}, speed);
+
+			var radRight = -distance * ( Math.PI / 180 );
+
+			var tweenRight = new TWEEN.Tween(vm.mesh.rotation).to({
+				y: vm.mesh.rotation.y + radRight
+			}, speed);
+
+			var radCenter = 0 * ( Math.PI / 180 );
+
+			var tweenCenter = new TWEEN.Tween(vm.mesh.rotation).to({
+				y: vm.mesh.rotation.y + radCenter
+			}, speed);
+
+			tweenCenter.onComplete(function() {
+				callback();
+			});
+
+			// control execution
+			tweenLeft.chain(tweenRight);
+			tweenRight.chain(tweenLeftAgain);
+			tweenLeftAgain.chain(tweenCenter);
+
+			tweenLeft.start();
+		}
+
+		/**
 		 * Reset all movements and rotations to starting position.
 		 *
 		 */
@@ -208,29 +274,6 @@
 		function rotateRight(callback) {
 			service.setDirection('rr');
 			service.rotate(-90, callback);
-		}
-
-		/**
-		 * Handle instruction and pass it off to correct method.
-		 *
-		 * @param ins {object} - Instruction to be executed.
-		 * @param callback {object} - Callback to signal when tween is complete.
-		 */
-		function perform(ins, callback) {
-			switch(ins.name) {
-				case 'fw':
-					service.forward(callback);
-					break;
-				case 'rr':
-					service.rotateRight(callback);
-					break;
-				case 'rl':
-					service.rotateLeft(callback);
-					break;
-				case 'lt':
-					service.light(callback);
-					break;
-			}
 		}
 
 		/**
