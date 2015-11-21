@@ -312,6 +312,10 @@
 			if (ENV.type == 'blockly') {
 				// clear blockly interface
 				Blockly.mainWorkspace.clear();
+
+				var xml_text = "<xml xmlns='http://www.w3.org/1999/xhtml'><block type='start' x='100' y='50'></block></xml>";
+				var xml = Blockly.Xml.textToDom(xml_text);
+				Blockly.Xml.domToWorkspace(workspace, xml);
 			}
 		}
 
