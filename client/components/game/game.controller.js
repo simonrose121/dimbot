@@ -3,11 +3,11 @@
         .module('dimbot.game')
         .controller('Game', Game);
 
-	Game.$inject = ['$http', '$scope', '$compile', 'logger', 'programService',
+	Game.$inject = ['$http', '$scope', '$compile', 'logger',
 		'movementService','levelService', 'imageService', 'logService',
 		'lightService', 'instructionFactory', 'capture', 'state', 'timer', 'ENV'];
 
-	function Game($http, $scope, $compile, logger, programService,
+	function Game($http, $scope, $compile, logger,
 		movementService, levelService, imageService, logService, lightService,
 		instructionFactory, capture, state, timer, ENV) {
 
@@ -19,7 +19,7 @@
 		vm.x = 0;
 		vm.currentIndex = null;
 		vm.instructions = levelService.getInstructions();
-		vm.program = programService.getProgram();
+		vm.program = [];
 
 		// public methods
 		vm.addToProgram = addToProgram;
@@ -102,11 +102,10 @@
 		function run() {
 			vm.x = 0;
 
-			var program = programService.getProgram();
-			logger.info('running program', program);
+			logger.info('running program', vm.program);
 
 			// when program is started
-			if (program.length > 0) {
+			if (vm.program.length > 0) {
 				state.current = state.RUNNING;
 
 				// set rotation index back to 0
@@ -116,7 +115,7 @@
 				imageService.stop();
 
 				// start program
-				vm.loop(program);
+				vm.loop(vm.program);
 
 				// hide direction button
 				imageService.hideDirection();
@@ -212,7 +211,7 @@
 
 				// if blockly then empty program to be recreated later
 				if (ENV.type == 'blockly') {
-					programService.empty();
+					vm.program.length = 0;
 				}
 
 				// log button press
@@ -234,7 +233,7 @@
 			imageService.showDirection();
 
 			// empty program
-			programService.empty();
+			vm.program.length = 0;
 
 			// log button press to db
 			logService.buttonPress('reset');
@@ -257,7 +256,7 @@
 			logService.buttonPress('next');
 
 			// empty program
-			programService.empty();
+			vm.program.length = 0;
 
 			// empty lights
 			lightService.removeAllLights();
