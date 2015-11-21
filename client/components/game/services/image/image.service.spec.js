@@ -63,7 +63,7 @@ describe("Image Service", function() {
 		setFixtures('<img id="' + ins.index + '">');
 
 		// act
-		service.highlight(ins);
+		service.highlight(ins.index);
 
 		// assert
 		expect($('#' + ins.index)).toBeInDOM();
@@ -78,7 +78,7 @@ describe("Image Service", function() {
 		setFixtures('<img id="' + ins.index + '">');
 
 		// act
-		service.unhighlight(ins);
+		service.unhighlight(ins.index);
 
 		// assert
 		expect($('#' + ins.index)).toBeInDOM();
