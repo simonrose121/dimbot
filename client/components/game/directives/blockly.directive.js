@@ -3,11 +3,21 @@
 		.module('dimbot.game')
 		.directive('dimBlocklyDirective', dimBlocklyDirective);
 
-	dimBlocklyDirective.$Inject = ['programService', 'movementService',
-		'logService', 'instructionFactory', 'logger'];
+	dimBlocklyDirective.$Inject = ['programService', 'logService',
+	 	'instructionFactory', 'logger', 'common'];
 
-	function dimBlocklyDirective(programService, movementService,
-		logService, instructionFactory, logger) {
+	/**
+	 * Directive including Blockly workspace and logic.
+	 *
+	 * @param programService
+	 * @param logService
+	 * @param instructionFactory
+	 * @param logger
+	 * @returns directive
+	 */
+	function dimBlocklyDirective(programService, logService, instructionFactory,
+			logger, common) {
+
 		var directive = {
 			restrict: 'E',
 			link: link
@@ -15,18 +25,22 @@
 
 		return directive;
 
+		/**
+		 * Initialise Blockly workspace and logic.
+		 *
+		 * @param scope {object} - Current angular scope.
+		 * @param elem {object} - Directive DOM element.
+		 */
 		function link(scope, elem) {
 			var vm = this;
 
+			/* private variables */
 			vm.workspace = null;
 			vm.code = null;
-
-			// config constants
-			vm.imgSize = 40;
-			vm.blockColour = 230;
 			vm.count = 0;
 			vm.current = null;
 
+			/* methods available in scope */
 			vm.blockCount = blockCount;
 			vm.changed = changed;
 			vm.checkTopLevel = checkTopLevel;
@@ -34,18 +48,34 @@
 			vm.generators = generators;
 			vm.init = init;
 
+			// run when directive is loaded
 			vm.customBlocks();
 			vm.generators();
 			vm.init();
 			vm.blockCount();
 
+			/**
+			 * Set count of blocks in workspace to current count.
+			 *
+			 */
 			function blockCount() {
 				vm.count = vm.workspace.getAllBlocks().length;
 			}
 
+			/**
+			 * Change event
+			 *
+			 * @param
+			 * @returns
+			 */
 			function changed() {
+				// get current count
 				var count = vm.count;
+
+				// set new count
 				vm.blockCount();
+
+				// compare counts to figure out what's been done
 				if (count > vm.count) {
 					logService.removedBlocklyInstruction(vm.current);
 				} else if (count == vm.count) {
@@ -55,15 +85,19 @@
 				}
 			}
 
+			/**
+			 * Initialise custom Blocky blocks.
+			 *
+			 */
 			function customBlocks() {
 				Blockly.Blocks.fw = {
 				  	init: function() {
 						this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/blockly-forwards.png', vm.imgSize, vm.imgSize));
+								'../../img/blockly-forwards.png', common.imageSize, common.imageSize));
 						this.setPreviousStatement(true);
 	      				this.setNextStatement(true);
-					    this.setColour(vm.blockColour);
+					    this.setColour(common.blockColour);
 				  	},
 					onchange: function(ev) {
 						vm.current = this;
@@ -73,10 +107,10 @@
 				  	init: function() {
 					  	this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/blockly-rotateright.png', vm.imgSize, vm.imgSize));
+								'../../img/blockly-rotateright.png', common.imageSize, common.imageSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(vm.blockColour);
+						this.setColour(common.blockColour);
 				  	},
 					onchange: function(ev) {
 						vm.current = this;
@@ -86,10 +120,10 @@
 				  	init: function() {
 					  	this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/blockly-rotateleft.png', vm.imgSize, vm.imgSize));
+								'../../img/blockly-rotateleft.png', common.imageSize, common.imageSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(vm.blockColour);
+						this.setColour(common.blockColour);
 				  	},
 					onchange: function(ev) {
 						vm.current = this;
@@ -99,10 +133,10 @@
 				  	init: function() {
 					  	this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/blockly-lightbulb.png', vm.imgSize, vm.imgSize));
+								'../../img/blockly-lightbulb.png', common.imageSize, common.imageSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(vm.blockColour);
+						this.setColour(common.blockColour);
 				  	},
 					onchange: function(ev) {
 						vm.current = this;
@@ -112,7 +146,7 @@
 					init: function() {
 						this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/play-button.png', vm.imgSize, vm.imgSize));
+								'../../img/play-button.png', common.imageSize, common.imageSize));
 						this.setPreviousStatement(false);
 						this.setNextStatement(true);
 						this.setColour(65);
@@ -127,6 +161,12 @@
 				};
 			}
 
+			/**
+			 * Check if the block is connected to start block.
+			 *
+			 * @param block {object} - Block to check.
+			 * @returns {boolean} - If block is connected to start block.
+			 */
 			function checkTopLevel(block) {
 				while (true) {
 					var lastBlock = block;
@@ -143,6 +183,10 @@
 				}
 			}
 
+			/**
+			 * Code generators for each block.
+			 *
+			 */
 			function generators() {
 				Blockly.JavaScript.fw = function(block) {
 					if (checkTopLevel(block)) {
@@ -177,6 +221,10 @@
 				};
 			}
 
+			/**
+			 * Initialise Blockly workspace.
+			 *
+			 */
 			function init() {
 				vm.workspace = Blockly.inject('blockly-inner', {
 					toolbox: document.getElementById('toolbox')
