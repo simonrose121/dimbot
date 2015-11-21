@@ -18,8 +18,7 @@
 	 * @returns service
 	 */
 	function levelService(logger, logService, imageService, instructionFactory,
-		levels) {
-
+			levels) {
 		var vm = this;
 
 		/* private variables */
@@ -62,13 +61,13 @@
 			// get projected movement
 			switch(dir.name) {
 				case 'n':
-					index = index - vm.levels[vm.levelNo].mwidth;
+					index = index - levels[vm.levelNo].mwidth;
 					break;
 				case 'e':
 					index = index + 1;
 					break;
 				case 's':
-					index = index + vm.levels[vm.levelNo].mwidth;
+					index = index + levels[vm.levelNo].mwidth;
 					break;
 				case 'w':
 					index = index - 1;

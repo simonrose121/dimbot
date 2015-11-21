@@ -63,7 +63,7 @@
 
 		function bind() {
 			$('#status').bind('click', actionButton);
-			$('#next').bind('click', nextButton);
+			$('#reset').bind('click', resetButton);
 		}
 
 		function logMove(event, index, item) {
@@ -73,7 +73,9 @@
 
 		// control loop execution to wait for callback from tween when complete
 		function loop(arr) {
-			movementService.perform(arr[vm.x], vm.x, function() {
+			imageService.highlight(vm.x);
+
+			movementService.perform(arr[vm.x], function() {
 
 				imageService.unhighlight(vm.x);
 
@@ -189,7 +191,7 @@
 			} else if ($('#status').hasClass('stop')) {
 
 				// stop program
-				movementService.stop();
+				state.current = state.STOPPED;
 
 				// log button press
 				logService.buttonPress('stop');
@@ -198,6 +200,15 @@
 
 				// rewind movement
 				movementService.rewind();
+
+				// set play button
+				imageService.play();
+
+				// turn off light
+				lightService.turnOffAll();
+
+				// show direction
+				imageService.showDirection();
 
 				// if blockly then empty program to be recreated later
 				if (ENV.type == 'blockly') {
@@ -210,8 +221,20 @@
 		}
 
 		function resetButton() {
-			// reset movement
-			movementService.reset();
+			// rewind level movement
+			movementService.rewind();
+
+			// set play button
+			imageService.play();
+
+			// turn off light
+			lightService.turnOffAll();
+
+			// show direction
+			imageService.showDirection();
+
+			// empty program
+			programService.empty();
 
 			// log button press to db
 			logService.buttonPress('reset');
