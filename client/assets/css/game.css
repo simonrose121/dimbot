@@ -59,7 +59,7 @@
 }
 #blockly #blockly-inner {
   border-radius: 5px;
-  height: 570px;
+  height: 650px;
   width: 450px;
   float: right;
 }
@@ -127,7 +127,6 @@
 }
 #program .program-inner ul {
   list-style: none;
-  margin-left: -40px;
 }
 #program .program-inner li img {
   float: left;
@@ -170,6 +169,7 @@
   text-align: center;
   width: 128px;
   cursor: move;
+  margin-left: -40px;
 }
 #next {
   display: none;

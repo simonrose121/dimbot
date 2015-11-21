@@ -3,9 +3,21 @@
 		.module('dimbot.game')
 		.directive('dimBlocklyDirective', dimBlocklyDirective);
 
-	dimBlocklyDirective.$Inject = ['programService', 'movementService', 'instrutionFactory', 'logger'];
+	dimBlocklyDirective.$Inject = ['programService', 'logService',
+	 	'instructionFactory', 'logger', 'common'];
 
-	function dimBlocklyDirective(programService, movementService, instructionFactory, logger) {
+	/**
+	 * Directive including Blockly workspace and logic.
+	 *
+	 * @param programService
+	 * @param logService
+	 * @param instructionFactory
+	 * @param logger
+	 * @returns directive
+	 */
+	function dimBlocklyDirective(programService, logService, instructionFactory,
+			logger, common) {
+
 		var directive = {
 			restrict: 'E',
 			link: link
@@ -13,79 +25,148 @@
 
 		return directive;
 
+		/**
+		 * Initialise Blockly workspace and logic.
+		 *
+		 * @param scope {object} - Current angular scope.
+		 * @param elem {object} - Directive DOM element.
+		 */
 		function link(scope, elem) {
 			var vm = this;
 
+			/* private variables */
 			vm.workspace = null;
 			vm.code = null;
+			vm.count = 0;
+			vm.current = null;
 
-			// config constants
-			vm.imgSize = 40;
-			vm.blockColour = 230;
-
+			/* methods available in scope */
+			vm.blockCount = blockCount;
+			vm.changed = changed;
 			vm.checkTopLevel = checkTopLevel;
 			vm.customBlocks = customBlocks;
 			vm.generators = generators;
 			vm.init = init;
 
+			// run when directive is loaded
 			vm.customBlocks();
 			vm.generators();
 			vm.init();
+			vm.blockCount();
 
+			/**
+			 * Set count of blocks in workspace to current count.
+			 *
+			 */
+			function blockCount() {
+				vm.count = vm.workspace.getAllBlocks().length;
+			}
+
+			/**
+			 * Change event
+			 *
+			 * @param
+			 * @returns
+			 */
+			function changed() {
+				// get current count
+				var count = vm.count;
+
+				// set new count
+				vm.blockCount();
+
+				// compare counts to figure out what's been done
+				if (count > vm.count) {
+					logService.removedBlocklyInstruction(vm.current);
+				} else if (count == vm.count) {
+					logService.movedBlocklyInstruction(vm.current);
+				} else if (count < vm.count) {
+					logService.addedBlocklyInstruction(vm.current);
+				}
+			}
+
+			/**
+			 * Initialise custom Blocky blocks.
+			 *
+			 */
 			function customBlocks() {
 				Blockly.Blocks.fw = {
 				  	init: function() {
 						this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/blockly-forwards.png', vm.imgSize, vm.imgSize));
+								'../../img/blockly-forwards.png', common.imageSize, common.imageSize));
 						this.setPreviousStatement(true);
 	      				this.setNextStatement(true);
-					    this.setColour(vm.blockColour);
+					    this.setColour(common.blockColour);
 				  	},
+					onchange: function(ev) {
+						vm.current = this;
+					}
 				};
 				Blockly.Blocks.rr = {
 				  	init: function() {
 					  	this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/blockly-rotateright.png', vm.imgSize, vm.imgSize));
+								'../../img/blockly-rotateright.png', common.imageSize, common.imageSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(vm.blockColour);
-				  	}
+						this.setColour(common.blockColour);
+				  	},
+					onchange: function(ev) {
+						vm.current = this;
+					}
 				};
 				Blockly.Blocks.rl = {
 				  	init: function() {
 					  	this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/blockly-rotateleft.png', vm.imgSize, vm.imgSize));
+								'../../img/blockly-rotateleft.png', common.imageSize, common.imageSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(vm.blockColour);
-				  	}
+						this.setColour(common.blockColour);
+				  	},
+					onchange: function(ev) {
+						vm.current = this;
+					}
 				};
 				Blockly.Blocks.lt = {
 				  	init: function() {
 					  	this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/blockly-lightbulb.png', vm.imgSize, vm.imgSize));
+								'../../img/blockly-lightbulb.png', common.imageSize, common.imageSize));
   						this.setPreviousStatement(true);
   						this.setNextStatement(true);
-						this.setColour(vm.blockColour);
-				  	}
+						this.setColour(common.blockColour);
+				  	},
+					onchange: function(ev) {
+						vm.current = this;
+					}
 				};
 				Blockly.Blocks.start = {
 					init: function() {
 						this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/play-button.png', vm.imgSize, vm.imgSize));
+								'../../img/play-button.png', common.imageSize, common.imageSize));
 						this.setPreviousStatement(false);
 						this.setNextStatement(true);
 						this.setColour(65);
 						this.isTopLevel = true;
+						this.setDeletable(false);
+					},
+					onchange: function(ev) {
+						vm.current = {
+							name: 'start'
+						};
 					}
 				};
 			}
 
+			/**
+			 * Check if the block is connected to start block.
+			 *
+			 * @param block {object} - Block to check.
+			 * @returns {boolean} - If block is connected to start block.
+			 */
 			function checkTopLevel(block) {
 				while (true) {
 					var lastBlock = block;
@@ -102,6 +183,10 @@
 				}
 			}
 
+			/**
+			 * Code generators for each block.
+			 *
+			 */
 			function generators() {
 				Blockly.JavaScript.fw = function(block) {
 					if (checkTopLevel(block)) {
@@ -132,15 +217,26 @@
 					}
 				};
 				Blockly.JavaScript.start = function(block) {
-					return 'movementService.hasStart(' + true + ');';
+					return '';
 				};
 			}
 
+			/**
+			 * Initialise Blockly workspace.
+			 *
+			 */
 			function init() {
-				vm.workspace = Blockly.inject('blockly-inner',
-					{toolbox: document.getElementById('toolbox')});
+				vm.workspace = Blockly.inject('blockly-inner', {
+					toolbox: document.getElementById('toolbox')
+				});
 
 				Blockly.BlockSvg.START_HAT = true;
+				vm.workspace.addChangeListener(vm.changed);
+
+				// initialise start block
+				var xml_text = "<xml xmlns='http://www.w3.org/1999/xhtml'><block type='start' x='100' y='50'></block></xml>";
+				var xml = Blockly.Xml.textToDom(xml_text);
+				Blockly.Xml.domToWorkspace(workspace, xml);
 			}
 		}
 	}

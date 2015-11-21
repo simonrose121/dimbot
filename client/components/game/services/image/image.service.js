@@ -5,77 +5,156 @@
 
 	imageService.$Inject = ['logger'];
 
+	/**
+	 * Provides methods to manipulate DOM elements using jQuery
+	 *
+	 * @param logger
+	 * @returns service
+	 */
 	function imageService(logger) {
 		var vm = this;
 
-		vm.id = '#status';
-		vm.dir = '.direction';
-		vm.index = 0;
+		/* private variables */
+		vm.statusId = '#status';
+		vm.dirClass = '.direction';
+		vm.levelNumId = '#level-no';
 
 		var service = {
+			adjustDirectionPosition: adjustDirectionPosition,
+			backgroundTransition: backgroundTransition,
 			hideDirection: hideDirection,
 			highlight: highlight,
 			play: play,
-			next: next,
 			rewind: rewind,
-			removeNext: removeNext,
 			rotateDirection: rotateDirection,
-			setIndex: setIndex,
+			setLevelNumber: setLevelNumber,
 			showDirection: showDirection,
 			stop: stop,
+			toggleBin: toggleBin,
 			unhighlight: unhighlight
 		};
 
 		return service;
 
-		function hideDirection() {
-			$(vm.dir).hide();
-		}
-
-		function highlight(ins) {
-			$('#' + vm.index).addClass('highlight');
-		}
-
-		function play() {
-			$(vm.id).removeClass();
-			$(vm.id).addClass('play');
-		}
-
-		function rewind() {
-			$(vm.id).removeClass();
-			$(vm.id).addClass('rewind');
-		}
-
-		function next() {
-			$('#next').show();
-		}
-
-		function removeNext() {
-			$('#next').hide();
-		}
-
-		function rotateDirection(deg) {
-			$('.direction').css({
-				transform:'translate(-50%, -50%) rotate(' + deg + 'deg)'
+		/**
+		 * Adjust direction arrow position based on position of robot.
+		 *
+		 * @param x {number} - X position of robot.
+		 * @param y {number} - Y position of robot.
+		 */
+		function adjustDirectionPosition(x, y) {
+			$(vm.dirClass).css({
+			    'margin-left': x + 'px',
+				'margin-top': -y + 'px'
 			});
 		}
 
+		/**
+		 * Animate the background transition to white and back to blue.
+		 *
+		 * @param callback {function} - Callback to be called when first animation is complete.
+		 */
+		function backgroundTransition(callback) {
+			$('html').animate({
+				backgroundColor: '#fff'
+			}, 1500, function() {
+				$('html').animate({
+					backgroundColor: '#00BFFF'
+				}, 1500);
+				callback();
+			});
+		}
+
+		/**
+		 * Hide the direction arrow.
+		 *
+		 */
+		function hideDirection() {
+			$(vm.dirClass).hide();
+		}
+
+		/**
+		 * Add highlight class to instruction.
+		 *
+		 */
+		function highlight(index) {
+			$('#' + index).addClass('highlight');
+		}
+
+		/**
+		 * Show play button.
+		 *
+		 */
+		function play() {
+			$(vm.statusId).removeClass();
+			$(vm.statusId).addClass('play');
+		}
+
+		/**
+		 * Show rewind button.
+		 *
+		 */
+		function rewind() {
+			$(vm.statusId).removeClass();
+			$(vm.statusId).addClass('rewind');
+		}
+
+		/**
+		 * Show rotate direction arrow by degree measurement.
+		 *
+		 * @param deg {number} - Degree measurement to rotate from starting position.
+		 */
+		function rotateDirection(deg) {
+			$('.direction').css({
+				transform:'translate(-50%, -50%) rotate(-' + deg + 'deg)'
+			});
+		}
+
+		/**
+		 * Set the current level number.
+		 *
+		 * @param levelNo {number} - Number to be set.
+		 */
+		function setLevelNumber(levelNo) {
+			$(vm.levelNumId).html(levelNo);
+		}
+
+		/**
+		 * Show direction arrow.
+		 *
+		 */
 		function showDirection() {
-			$(vm.dir).show();
+			$(vm.dirClass).show();
 		}
 
+		/**
+		 * Show stop button.
+		 *
+		 */
 		function stop() {
-			$(vm.id).removeClass();
-			$(vm.id).addClass('stop');
+			$(vm.statusId).removeClass();
+			$(vm.statusId).addClass('stop');
 		}
 
-		function unhighlight(ins) {
-			$('#' + vm.index).removeClass('highlight');
-			vm.index++;
+		/**
+		 * Toggle whether the bin is displayed.
+		 *
+		 * @param isVisible {boolean}
+		 */
+		function toggleBin(isVisible) {
+			if (isVisible) {
+				$('#bin').hide();
+			} else {
+				$('#bin').show();
+			}
 		}
 
-		function setIndex(val) {
-			vm.index = val;
+		/**
+		 * Remove highlight class from instruction.
+		 *
+		 */
+		function unhighlight(index) {
+			$('#' + index).removeClass('highlight');
 		}
 	}
 })();

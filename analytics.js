@@ -29,7 +29,9 @@ MongoClient.connect('mongodb://localhost:27017/dimbot', function(err, db) {
 				console.dir(doc);
 			} else if (type == 'text') {
 				// output each activity
-				console.dir(doc.timestamp + ', ' + doc.type + ', ' + doc.message);
+				if (doc.type != 'screenshot') {
+					console.dir(doc.timestamp + ', ' + doc.type + ', ' + doc.message);
+				}
 			}
 		}
 	});

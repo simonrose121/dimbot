@@ -31,7 +31,6 @@ describe('Program Service', function() {
 		var newInstruction;
 
 		// act
-		service.setLimit(8);
 		newInstruction = factory.getInstruction('fw');
 		service.addInstruction(newInstruction);
 

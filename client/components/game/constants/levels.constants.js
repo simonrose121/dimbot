@@ -20,8 +20,7 @@
 				"width": 3,
 				"height": 3,
 				"mwidth": 5,
-				"mheight": 5,
-				"limit": 4
+				"mheight": 5
 			},
 			"2": {
 				"lvl": [
@@ -41,8 +40,7 @@
 				"width": 3,
 				"height": 3,
 				"mwidth": 5,
-				"mheight": 5,
-				"limit": 7
+				"mheight": 5
 			},
 			"3": {
 				"lvl": [
@@ -62,8 +60,7 @@
 				"width": 3,
 				"height": 3,
 				"mwidth": 5,
-				"mheight": 5,
-				"limit": 8
+				"mheight": 5
 			},
 			"4": {
 				"lvl": [
@@ -83,8 +80,7 @@
 				"width": 3,
 				"height": 3,
 				"mwidth": 5,
-				"mheight": 5,
-				"limit": 8
+				"mheight": 5
 			},
 			"5": {
 				"lvl": [
@@ -104,8 +100,7 @@
 				"width": 3,
 				"height": 3,
 				"mwidth": 5,
-				"mheight": 5,
-				"limit": 8
+				"mheight": 5
 			},
 			"6": {
 				"lvl": [
@@ -125,8 +120,7 @@
 				"width": 3,
 				"height": 3,
 				"mwidth": 5,
-				"mheight": 5,
-				"limit": 10
+				"mheight": 5
 			},
 			"7": {
 				"lvl": [
@@ -146,8 +140,7 @@
 				"width": 3,
 				"height": 3,
 				"mwidth": 5,
-				"mheight": 5,
-				"limit": 10
+				"mheight": 5
 			},
 			"8": {
 				"lvl": [
@@ -167,8 +160,7 @@
 				"width": 3,
 				"height": 3,
 				"mwidth": 5,
-				"mheight": 5,
-				"limit": 10
+				"mheight": 5
 			}
 		});
 })();
