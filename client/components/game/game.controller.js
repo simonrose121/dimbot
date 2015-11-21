@@ -176,7 +176,7 @@
 					eval(code);
 				} else {
 					// capture screenshot and save to database
-					capture.capturePng('.program-inner', 'file', function(url) {
+					capture.capturePng('.program-inner', function(url) {
 						logService.saveCapture(url, 'lightbot');
 					});
 				}
