@@ -16,9 +16,9 @@ describe('Log Service', function() {
 		"message" : "Pressed rewind",
 		"timestamp" : "2015-11-17T10:45:18.511Z",
 		"__v" : 0
-	}
+	};
 
-	it('Can post log and recieve response', function() {
+	it('Can post log and receive response', function() {
 		// arrange
 		var instruction = instructionFactory.getInstruction('fw');
 
@@ -27,7 +27,7 @@ describe('Log Service', function() {
 			.whenPOST('/log/')
 			.respond(200, mockResponse);
 
-		service.addedInstruction(instruction, 'click', 0);
+		service.addedInstruction(instruction);
 
 		$httpBackend.flush();
 		// assert

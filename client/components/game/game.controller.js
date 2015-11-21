@@ -163,7 +163,7 @@
 		// private
 		function actionButton() {
 			if ($('#status').hasClass('play')) {
-				if (ENV.ins == 'blockly') {
+				if (ENV.type == 'blockly') {
 					// capture screenshot
 					var url = capture.captureXml();
 
@@ -200,7 +200,7 @@
 				movementService.rewind();
 
 				// if blockly then empty program to be recreated later
-				if (ENV.ins == 'blockly') {
+				if (ENV.type == 'blockly') {
 					programService.empty();
 				}
 
@@ -216,7 +216,7 @@
 			// log button press to db
 			logService.buttonPress('reset');
 
-			if (ENV.ins == 'blockly') {
+			if (ENV.type == 'blockly') {
 				// clear blockly interface
 				Blockly.mainWorkspace.clear();
 			}
@@ -239,7 +239,7 @@
 			// empty lights
 			lightService.removeAllLights();
 
-			if (ENV.ins == 'blockly') {
+			if (ENV.type == 'blockly') {
 				// clear blockly interface
 				Blockly.mainWorkspace.clear();
 

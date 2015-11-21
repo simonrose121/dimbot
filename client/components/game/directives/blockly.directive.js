@@ -4,10 +4,10 @@
 		.directive('dimBlocklyDirective', dimBlocklyDirective);
 
 	dimBlocklyDirective.$Inject = ['programService', 'movementService',
-		'logBlocklyService', 'instrutionFactory', 'logger'];
+		'logService', 'instructionFactory', 'logger'];
 
 	function dimBlocklyDirective(programService, movementService,
-		logBlocklyService, instructionFactory, logger) {
+		logService, instructionFactory, logger) {
 		var directive = {
 			restrict: 'E',
 			link: link
@@ -47,11 +47,11 @@
 				var count = vm.count;
 				vm.blockCount();
 				if (count > vm.count) {
-					logBlocklyService.removedInstruction(vm.current);
+					logService.removedBlocklyInstruction(vm.current);
 				} else if (count == vm.count) {
-					logBlocklyService.movedInstruction(vm.current);
+					logService.movedBlocklyInstruction(vm.current);
 				} else if (count < vm.count) {
-					logBlocklyService.addedInstruction(vm.current);
+					logService.addedBlocklyInstruction(vm.current);
 				}
 			}
 
@@ -66,7 +66,7 @@
 					    this.setColour(vm.blockColour);
 				  	},
 					onchange: function(ev) {
-						vm.current = instructionFactory.getInstruction('fw');
+						vm.current = this;
 					}
 				};
 				Blockly.Blocks.rr = {
@@ -79,7 +79,7 @@
 						this.setColour(vm.blockColour);
 				  	},
 					onchange: function(ev) {
-						vm.current = instructionFactory.getInstruction('rr');
+						vm.current = this;
 					}
 				};
 				Blockly.Blocks.rl = {
@@ -92,7 +92,7 @@
 						this.setColour(vm.blockColour);
 				  	},
 					onchange: function(ev) {
-						vm.current = instructionFactory.getInstruction('rl');
+						vm.current = this;
 					}
 				};
 				Blockly.Blocks.lt = {
@@ -105,7 +105,7 @@
 						this.setColour(vm.blockColour);
 				  	},
 					onchange: function(ev) {
-						vm.current = instructionFactory.getInstruction('lt');
+						vm.current = this;
 					}
 				};
 				Blockly.Blocks.start = {

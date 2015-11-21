@@ -6,7 +6,7 @@
 	config.$Inject = ['$routeProvider', 'ENV'];
 
 	function config($routeProvider, ENV) {
-		switch(ENV.ins) {
+		switch(ENV.type) {
 			case 'lightbot':
 				$routeProvider.when("/", {
 					templateUrl: "client/components/game/gameview",

@@ -129,8 +129,9 @@
 		 */
 		function nextLevel() {
 			if (vm.levelNo <= vm.maxLevel) {
-				logService.movedLevel(vm.levelNo);
+				var oldLevelNo = vm.levelNo;
 				vm.levelNo++;
+				logService.movedLevel(oldLevelNo, vm.levelNo);
 				service.resetLevel();
 			}
 		}

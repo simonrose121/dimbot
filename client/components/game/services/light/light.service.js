@@ -15,6 +15,7 @@
 	function lightService() {
 		var vm = this;
 
+		/* private variables */
 		vm.lights = [];
 		vm.offHex = 0x183ba6;
 		vm.onHex = 0xffe600;
