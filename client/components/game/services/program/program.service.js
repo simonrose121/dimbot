@@ -1,64 +1,69 @@
 (function() {
 	angular
-			.module('dimbot.game')
-			.service('programService', programService);
+		.module('dimbot.game')
+		.service('programService', programService);
 
 	programService.$inject = ['logger', 'logService'];
 
+	/**
+	 * Handle program logic and data storage.
+	 *
+	 * @param logger
+	 * @param logService
+	 * @returns service
+	 */
 	function programService(logger, logService) {
-		// capture "this"
 		var vm = this;
 
-		// private members
+		/* private variables */
 		vm.program = [];
-		vm.limit = null;
-		// exposed methods using function hoisting
+
 		var service = {
 			addInstruction: addInstruction,
 			empty: empty,
-			getLimit: getLimit,
 			getProgram: getProgram,
 			removeInstruction: removeInstruction,
-			setLimit: setLimit
 		};
 
 		return service;
 
-		// public methods
+		/**
+		 * Add instruction to the program.
+		 *
+		 * @param ins {object} - Instruction to be added.
+		 */
 		function addInstruction(ins) {
-			if (vm.program.length < vm.limit) {
-				logger.info('adding instruction in programService', ins);
-				if (ins) {
-					logger.info('pushing instruction to program', ins);
-					vm.program.push(ins);
-				}
+			if (ins) {
+				vm.program.push(ins);
 			}
 		}
 
+		/**
+		 * Empty the program.
+		 *
+		 */
 		function empty() {
 			vm.program.length = 0;
 		}
 
-		function getLimit() {
-			return vm.limit;
-		}
-
+		/**
+		 * Get the program.
+		 *
+		 * @returns {array} - Program.
+		 */
 		function getProgram() {
 			return vm.program;
 		}
 
+		/**
+		 * Remove instruction at index.
+		 *
+		 * @param index {number} - Index of instruction to remove.
+		 */
 		function removeInstruction(index) {
 			if (index > -1) {
 				vm.program.splice(index, 1);
 			}
-		}
-
-		function setProgram(program) {
-			vm.program = program;
-		}
-
-		function setLimit(limit) {
-			vm.limit = limit;
 		}
 	}
 })();

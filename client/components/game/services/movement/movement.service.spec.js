@@ -28,7 +28,6 @@ describe('Movement Service', function() {
 		mesh.position.set(100 * 1, 100 * 1, 0);
 		service.setMesh(mesh);
 
-		levelService.loadLevels();
 		service.setStartingDirection();
 	});
 
@@ -161,7 +160,8 @@ describe('Movement Service', function() {
 
 		// act
 		programService.addInstruction(ins);
-		service.reset();
+		service.rewind();
+		programService.empty();
 		program = programService.getProgram();
 
 		// assert
@@ -174,8 +174,8 @@ describe('Movement Service', function() {
 		service.setIndex(0);
 
 		// act
-		var lastIndex = service.updateIndex(-1);
-		var firstIndex = service.updateIndex(1);
+		var lastIndex = service.getUpdatedIndex(-1);
+		var firstIndex = service.getUpdatedIndex(1);
 
 		// assert
 		expect(lastIndex).toEqual(3);

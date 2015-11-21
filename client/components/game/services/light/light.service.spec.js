@@ -43,7 +43,9 @@ describe('Light Service', function() {
 		service.addLight(light);
 
 		// act
-		var lights = service.getAllLights();
+		var lights = [];
+		lights.push(service.getLight(0));
+		lights.push(service.getLight(1));
 
 		// assert
 		expect(lights.length).toEqual(2);

@@ -3,18 +3,26 @@
 		.module('dimbot.game')
 		.service('movementService', movementService);
 
-	movementService.$Inject = ['programService', 'levelService',
-		'directionService', 'imageService', 'lightService',
-		'instructionFactory', 'logger', 'timer', 'state', 'common'];
+	movementService.$Inject = ['levelService', 'directionService', 'lightService',
+		'logger', 'state', 'common'];
 
-	function movementService(programService, levelService, directionService,
-			imageService, lightService, instructionFactory, logger, timer,
-			common, state) {
+	/**
+	 * Handle movement and animations of robot.
+	 *
+	 * @param levelService
+	 * @param directionService
+	 * @param lightService
+	 * @param logger
+	 * @param common
+	 * @param state
+	 * @returns service
+	 */
+	function movementService(levelService, directionService, lightService,
+			logger, common, state) {
+
 		var vm = this;
 
-		// keep track of mesh positions and colours
 		vm.mesh = null;
-
 		vm.startingPos = {};
 		vm.direction = null;
 		vm.index = null;
@@ -23,9 +31,9 @@
 			forward: forward,
 			getDirection: getDirection,
 			getMesh: getMesh,
+			getUpdatedIndex: getUpdatedIndex,
 			light: light,
 			perform: perform,
-			reset: reset,
 			rewind: rewind,
 			rotate: rotate,
 			rotateLeft: rotateLeft,
@@ -33,13 +41,16 @@
 			setDirection: setDirection,
 			setIndex: setIndex,
 			setMesh: setMesh,
-			setStartingDirection: setStartingDirection,
-			stop: stop,
-			updateIndex: updateIndex
+			setStartingDirection: setStartingDirection
 		};
 
 		return service;
 
+		/**
+		 * Move mesh forward and animate the movement.
+		 *
+		 * @param callback {object} - Callback to signal when tween is complete.
+		 */
 		function forward(callback) {
 			if (levelService.checkMove(vm.direction)) {
 				var position = {
@@ -52,9 +63,6 @@
 					y: vm.mesh.position.y + vm.direction.y,
 					z: vm.mesh.position.z
 				};
-
-				logger.info('moving mesh from', position);
-				logger.info('moving mesh to', target);
 
 				var tween = new TWEEN.Tween(position).to(target, common.speed);
 
@@ -74,14 +82,47 @@
 			}
 		}
 
+		/**
+		 * Get current direction.
+		 *
+		 * @returns {object} - Current direction of mesh.
+		 */
 		function getDirection() {
 			return vm.direction;
 		}
 
+		/**
+		 * Get mesh.
+		 *
+		 * @returns {object} - ThreeJS mesh.
+		 */
 		function getMesh() {
 			return vm.mesh;
 		}
 
+		/**
+		 * Update index by incrementing or decrementing value.
+		 *
+		 * @param val {number} - Number to adjust index by.
+		 * @returns index
+		 */
+		function getUpdatedIndex(val) {
+			var index = vm.index + val;
+			// handle edge cases
+			if (index == -1) {
+				index = 3;
+			}
+			if (index == 4) {
+				index = 0;
+			}
+			return index;
+		}
+
+		/**
+		 * Light up the current block if in correct position.
+		 *
+ 		 * @param callback {object} - Callback to signal when tween is complete.
+		 */
 		function light(callback) {
 			var x = vm.mesh.position.x;
 			var y = vm.mesh.position.y;
@@ -105,14 +146,10 @@
 			callback();
 		}
 
-		function reset() {
-			// reset position
-			rewind();
-
-			// empty program
-			programService.empty();
-		}
-
+		/**
+		 * Reset all movements and rotations to starting position.
+		 *
+		 */
 		function rewind() {
 			if (vm.mesh) {
 				vm.mesh.position.x = vm.startingPos.x;
@@ -131,16 +168,14 @@
 
 			// reset level array
 			levelService.resetLevel();
-
-			// set play button
-			imageService.play();
-
-			// turn off light
-			lightService.turnOffAll();
-
-			imageService.showDirection();
 		}
 
+		/**
+		 * Rotate mesh by degree of rotation.
+		 *
+		 * @param deg {number} - Desired rotation in degrees.
+		 * @param callback {object} - Callback to signal when tween is complete.
+		 */
 		function rotate(deg, callback) {
 			var rad = deg * ( Math.PI / 180 );
 
@@ -155,22 +190,33 @@
 			tween.start();
 		}
 
+		/**
+		 * Rotate left and set new direction.
+		 *
+		 * @param callback {object} - Callback to signal when tween is complete.
+		 */
 		function rotateLeft(callback) {
 			service.setDirection('rl');
 			service.rotate(90, callback);
 		}
 
+		/**
+		 * Rotate right and set new direction.
+		 *
+		 * @param callback {object} - Callback to signal when tween is complete.
+		 */
 		function rotateRight(callback) {
 			service.setDirection('rr');
 			service.rotate(-90, callback);
 		}
 
+		/**
+		 * Handle instruction and pass it off to correct method.
+		 *
+		 * @param ins {object} - Instruction to be executed.
+		 * @param callback {object} - Callback to signal when tween is complete.
+		 */
 		function perform(ins, callback) {
-			logger.warn('executing instruction', ins);
-
-			// highlight
-			imageService.highlight(ins);
-
 			switch(ins.name) {
 				case 'fw':
 					service.forward(callback);
@@ -187,24 +233,32 @@
 			}
 		}
 
+		/**
+		 * Set current direction of mesh using index manipulation.
+		 *
+		 * @param dir {string} - Direction indicator.
+		 */
 		function setDirection(dir) {
-			if (dir == 'rl') {
-				vm.index = service.updateIndex(-1);
-				logger.info('index ', vm.index);
+			var newIndex = null;
 
+			if (dir == 'rl') {
+				newIndex = service.getUpdatedIndex(-1);
+				service.setIndex(newIndex);
 				vm.direction = directionService.getDirectionByIndex(vm.index);
-				logger.info('direction', vm.direction);
 			}
 			if (dir == 'rr') {
-				vm.index = service.updateIndex(1);
-				logger.info('index ', vm.index);
-
+				newIndex = service.getUpdatedIndex(1);
+				service.setIndex(newIndex);
 				vm.direction = directionService.getDirectionByIndex(vm.index);
-				logger.info('direction', vm.direction);
 			}
 		}
 
-		function setMesh(mesh, x, y, z) {
+		/**
+		 * Set mesh so it can be accessed in other methods.
+		 *
+		 * @param mesh {object} - ThreeJS mesh.
+		 */
+		function setMesh(mesh) {
 			vm.mesh = mesh;
 
 			vm.startingPos = {
@@ -212,34 +266,27 @@
 				y: mesh.position.y,
 				z: mesh.position.z
 			};
-
-			logger.info('starting pos', vm.startingPos);
 		}
 
+		/**
+		 * Set starting direction from level.
+		 *
+		 */
 		function setStartingDirection() {
 			var dir = levelService.getStartingDirection();
 			vm.direction = directionService.getDirectionByName(dir);
-			vm.index = directionService.getIndexFromDirection(vm.direction);
+
+			var index = directionService.getIndexFromDirection(vm.direction);
+			service.setIndex(index);
 		}
 
-		function setIndex(val) {
-			vm.index = val;
-		}
-
-		function stop() {
-			state.current = state.STOPPED;
-		}
-
-		function updateIndex(val) {
-			var index = vm.index + val;
-			// handle edge cases
-			if (index == -1) {
-				index = 3;
-			}
-			if (index == 4) {
-				index = 0;
-			}
-			return index;
+		/**
+		 * Set index of direction.
+		 *
+		 * @param index {number} - Index of direction.
+		 */
+		function setIndex(index) {
+			vm.index = index;
 		}
 	}
 })();

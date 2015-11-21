@@ -5,13 +5,13 @@
 #level.col-md-9
     .direction
     .level-inner
-        dim-grid-directive
+        dim-three-directive
 .col-md-3
     #program
         .program-inner
             ul( dnd-list="vm.program"
                 dnd-external-sources="true"
-                dnd-drop="vm.logMove(event, index, item)"
+                dnd-drop="vm.logAdd(event, index, item)"
                 class="itemlist")
                 li( ng-repeat='ins in vm.program track by $id(ins)'
                     dnd-draggable='ins'
