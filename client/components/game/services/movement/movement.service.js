@@ -3,8 +3,8 @@
 		.module('dimbot.game')
 		.service('movementService', movementService);
 
-	movementService.$Inject = ['levelService', 'directionService',
-		'imageService', 'lightService', 'logger', 'state', 'common'];
+	movementService.$Inject = ['levelService', 'directionService', 'lightService',
+		'logger', 'state', 'common'];
 
 	/**
 	 * Handle movement and animations of robot.
@@ -247,8 +247,6 @@
 				y: mesh.position.y,
 				z: mesh.position.z
 			};
-
-			logger.info('starting pos', vm.startingPos);
 		}
 
 		/**
