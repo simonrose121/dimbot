@@ -259,9 +259,6 @@
 			// change action button to play and remove next button
 			imageService.play();
 
-			// log button press
-			logService.buttonPress('next');
-
 			// empty program
 			programService.empty();
 
