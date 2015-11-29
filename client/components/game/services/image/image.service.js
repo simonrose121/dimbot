@@ -70,7 +70,6 @@
 		 *
 		 */
 		function hideDirection() {
-			console.log("hiding direction");
 			$(vm.dirClass).hide();
 		}
 
@@ -125,8 +124,6 @@
 		 *
 		 */
 		function showDirection() {
-			console.log("showing direction");
-
 			$(vm.dirClass).show();
 		}
 

@@ -57,6 +57,7 @@
 		// perform initial controller methods to setup level
 		levelService.setInstructions();
 		levelService.resetLevel();
+		levelService.setStartDateTime();
 		movementService.setStartingDirection();
 
 		// set current state
@@ -344,6 +345,8 @@
 		 *
 		 */
 		function run() {
+			levelService.incrementAttemptNumber();
+
 			vm.cursor = 0;
 
 			var program = programService.getProgram();

@@ -26,6 +26,8 @@
 		vm.instructions = [];
 		vm.maxLevel = 8;
 		vm.levelNo = 1;
+		vm.levelStartTime = null;
+		vm.attemptNumber = 0;
 
 		vm.blankId = 0;
 		vm.robotId = 1;
@@ -39,10 +41,12 @@
 			getInstructions: getInstructions,
 			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
+			incrementAttemptNumber: incrementAttemptNumber,
 			nextLevel: nextLevel,
 			readLevel: readLevel,
 			resetLevel: resetLevel,
 			setInstructions: setInstructions,
+			setStartDateTime: setStartDateTime,
 			updateLevel: updateLevel
 		};
 
@@ -123,6 +127,14 @@
 		}
 
 		/**
+		 * Incremement the attempt number.
+		 *
+		 */
+		function incrementAttemptNumber() {
+			vm.attemptNumber++;
+		}
+
+		/**
 		 * Increment level and load in next level array.
 		 *
 		 */
@@ -130,8 +142,15 @@
 			if (vm.levelNo <= vm.maxLevel) {
 				var oldLevelNo = vm.levelNo;
 				vm.levelNo++;
-				logService.movedLevel(oldLevelNo, vm.levelNo);
+				var levelLength = calculateDateTimeDifference(vm.levelStartTime, new Date());
+
+				// log the result of the level
+				logService.movedLevel(oldLevelNo, vm.levelNo, levelLength, vm.attemptNumber);
+
+				// reset the level
 				service.resetLevel();
+				service.setStartDateTime();
+				vm.attemptNumber = 0;
 			}
 		}
 
@@ -164,6 +183,14 @@
 				var ins = instructionFactory.getInstruction(name);
 				vm.instructions.push(ins);
 			}
+		}
+
+		/**
+		 * Set the start date time of the level.
+		 *
+		 */
+		function setStartDateTime() {
+			vm.levelStartTime = new Date();
 		}
 
 		/**
@@ -201,6 +228,12 @@
 		}
 
 		/* private methods */
+
+		function calculateDateTimeDifference(startDateTime, endDateTime) {
+			console.log(startDateTime);
+			console.log(endDateTime);
+			return moment.utc(moment(endDateTime,"DD/MM/YYYY HH:mm:ss").diff(moment(startDateTime,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
+		}
 
 		/**
 		 * Get the array index of an object Id
