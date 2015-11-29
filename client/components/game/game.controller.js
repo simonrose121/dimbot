@@ -219,9 +219,7 @@
 
 			// control loop execution to wait for callback from tween when complete
 			movementService.perform(program[vm.cursor], function() {
-
 				imageService.unhighlight(vm.cursor);
-
 				vm.cursor++;
 
 				if (state.current == state.RUNNING) {
@@ -319,6 +317,7 @@
 		 *
 		 */
 		function rewind() {
+
 			// rewind movement
 			movementService.rewind();
 

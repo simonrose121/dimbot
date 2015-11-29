@@ -124,6 +124,17 @@
  		 * @param callback {object} - Callback to signal when tween is complete.
 		 */
 		function light(callback) {
+			
+			var originalColour = vm.mesh.material.color.getHSL();
+
+			var lightColour = {
+				h: 40/255,
+				s: 1,
+				l: 0.5
+			};
+
+			vm.mesh.material.color.setHSL(lightColour.h, lightColour.s, lightColour.l);
+
 			var x = vm.mesh.position.x;
 			var y = vm.mesh.position.y;
 
@@ -143,7 +154,10 @@
 				}
 			}
 
-			callback();
+			setTimeout(function() {
+				vm.mesh.material.color.setHSL(originalColour.h, originalColour.s, originalColour.l);
+				callback();
+			}, common.speed);
 		}
 
 		/**
