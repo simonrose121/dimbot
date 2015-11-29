@@ -11,6 +11,7 @@
         .program-inner
             ul( dnd-list="vm.program"
                 dnd-external-sources="true"
+                dnd-disable-if="vm.program.length >= vm.limit"
                 dnd-drop="vm.logAdd(event, index, item)"
                 class="itemlist")
                 li( ng-repeat='ins in vm.program track by $id(ins)'

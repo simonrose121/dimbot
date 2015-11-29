@@ -39,6 +39,7 @@
 		vm.cursor = 0;
 		vm.currentIndex = null;
 		vm.instructions = levelService.getInstructions();
+		vm.limit = 9;
 		vm.program = programService.getProgram();
 		vm.max = 4;
 
@@ -71,7 +72,7 @@
 		 */
 		function addToProgram(ins) {
 			var i = null;
-			if (ins) {
+			if (ins && vm.program.length < vm.limit) {
 				i = instructionFactory.getInstruction(ins.name);
 				vm.program.push(i);
 				logService.addedInstruction(i, 'click', vm.program.indexOf(i));
