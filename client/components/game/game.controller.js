@@ -34,12 +34,13 @@
 
 		var vm = this;
 
-		/* private methods */
+		/* private variables */
 		vm.selected = null;
 		vm.cursor = 0;
 		vm.currentIndex = null;
 		vm.instructions = levelService.getInstructions();
 		vm.program = programService.getProgram();
+		vm.max = 4;
 
 		/* public methods to expose to view */
 		vm.addToProgram = addToProgram;
@@ -138,6 +139,7 @@
 		 */
 		function setIndex(index) {
 			vm.currentIndex = index;
+			imageService.toggleBin(false);
 		}
 
 		/**
@@ -149,6 +151,7 @@
 		function spliceProgram(index, ins) {
 			vm.program.splice(index, 1);
 			logService.movedInstruction(ins, vm.currentIndex, index);
+			imageService.toggleBin(true);
 		}
 
 		/* private methods */
@@ -242,6 +245,7 @@
 					});
 				} else {
 					movementService.rewind();
+					imageService.play();
 					state.current = state.COMPOSING;
 				}
 			});
