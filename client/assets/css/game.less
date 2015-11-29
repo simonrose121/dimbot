@@ -82,6 +82,7 @@
     .instructions-inner {
         background: #73DCFF;
         border-radius: 5px;
+        padding: 3px 0;
         width: 128px;
         clear: left;
         float: left;
@@ -133,11 +134,12 @@
     .program-inner {
         clear: both;
         background: #73FFB9;
+        padding: 3px 0;
         border-radius: 5px;
         width: 128px;
         display: block;
         float: right;
-        height: 586px;
+        height: calc(3px + 3px + (11 * 50px));
 
         ul {
             list-style: none;
@@ -173,7 +175,7 @@
         background-color: #FFF !important;
         padding: 5px;
         border-radius: 5px;
-        min-height: 64px;
+        min-height: 50px;
         display: block;
         position: relative;
     }
@@ -183,14 +185,14 @@
     }
 
     .itemlist {
-        min-height: 64px !important;
+        min-height: 50px !important;
     }
 
     .itemlist li {
         border: none;
         color: #fff;
         float: left;
-        height: 64px;
+        height: 50px;
         text-align: center;
         width: 128px;
         cursor: move;
