@@ -204,26 +204,7 @@
 				logService.buttonPress('stop');
 
 			} else if ($('#status').hasClass('rewind')) {
-
-				// rewind movement
-				movementService.rewind();
-
-				// set play button
-				imageService.play();
-
-				// turn off light
-				lightService.turnOffAll();
-
-				// show direction
-				imageService.showDirection();
-
-				// if blockly then empty program to be recreated later
-				if (ENV.type == 'blockly') {
-					programService.empty();
-				}
-
-				// log button press
-				logService.buttonPress('rewind');
+				rewind();
 			}
 		}
 
@@ -248,6 +229,8 @@
 						loop(program);
 					} else {
 						imageService.rewind();
+						timer.sleep(1000);
+						rewind();
 					}
 				} else if (state.current == state.COMPLETE) {
 					imageService.backgroundTransition(function() {
@@ -328,6 +311,32 @@
 				var xml = Blockly.Xml.textToDom(xml_text);
 				Blockly.Xml.domToWorkspace(workspace, xml);
 			}
+		}
+
+		/**
+		 * Perform rewind behaviour.
+		 *
+		 */
+		function rewind() {
+			// rewind movement
+			movementService.rewind();
+
+			// set play button
+			imageService.play();
+
+			// turn off light
+			lightService.turnOffAll();
+
+			// show direction
+			imageService.showDirection();
+
+			// if blockly then empty program to be recreated later
+			if (ENV.type == 'blockly') {
+				programService.empty();
+			}
+
+			// log button press
+			logService.buttonPress('rewind');
 		}
 
 		/**
