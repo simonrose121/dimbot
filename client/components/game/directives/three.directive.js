@@ -212,7 +212,7 @@
 				);
 
 				// add ambient light
-				var light = new THREE.HemisphereLight(0xFFFFFF, common.robotColour, 1);
+				var light = new THREE.HemisphereLight(0xFFFFFF, 0x616161, 1);
 
 				// create scene
 				vm.scene = new THREE.Scene();
