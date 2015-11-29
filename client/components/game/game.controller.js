@@ -51,6 +51,7 @@
 		vm.removeFromProgramOnDrop = removeFromProgramOnDrop;
 		vm.setIndex = setIndex;
 		vm.spliceProgram = spliceProgram;
+		vm.toggleBin = toggleBin;
 
 		// perform initial controller methods to setup level
 		levelService.setInstructions();
@@ -152,6 +153,15 @@
 			vm.program.splice(index, 1);
 			logService.movedInstruction(ins, vm.currentIndex, index);
 			imageService.toggleBin(true);
+		}
+
+		/**
+		 * Toggles bin based on if it is already visible.
+		 *
+		 * @param isVisible {boolean} - If bin is already visible.
+		 */
+		function toggleBin(isVisible) {
+			imageService.toggleBin(isVisible);
 		}
 
 		/* private methods */
