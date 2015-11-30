@@ -39,6 +39,8 @@
 			checkMove: checkMove,
 			getHeight: getHeight,
 			getInstructions: getInstructions,
+			getMHeight: getMHeight,
+			getMWidth: getMWidth,
 			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
 			incrementAttemptNumber: incrementAttemptNumber,
@@ -106,6 +108,14 @@
 		 */
 		function getInstructions() {
 			return vm.instructions;
+		}
+
+		function getMHeight() {
+			return levels[vm.levelNo].mheight;
+		}
+
+		function getMWidth() {
+			return levels[vm.levelNo].mwidth;
 		}
 
 		/**

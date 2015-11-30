@@ -62,14 +62,33 @@
 			 *
 			 */
 			function addGrid() {
-				var width = levelService.getWidth();
-				var height = levelService.getHeight();
+				var level = levelService.readLevel();
+
+				var width = levelService.getMWidth();
+				var height = levelService.getMHeight();
+
+				// move camera to total grid width halved
+				vm.camera.position.x = (width * common.gridSize) / 2.5;
+				vm.camera.position.y = (height * common.gridSize) / 1.8;
+
+				var count = 0;
+
+				console.log('adding grid');
 
 				// for 9 spaces x and y
-				for (var x = -1; x < width-1; x++) {
-					for (var y = -1; y < height-1; y++) {
-						// add a box in the correct spot
-						vm.addMesh(common.gridSize, 0xCCCCCC, x, y, -common.gridSize, true);
+				for (var y = height; y > 0; y--) {
+					for (var x = 0; x < width; x++) {
+						console.log(x + ', ' + y + ' ' + level[count]);
+						switch(level[count]) {
+							case 3:
+								break;
+							default:
+								console.log('adding mesh at ' + x*common.gridSize + ', ' + y*common.gridSize);
+								// add a box in the correct spot
+								vm.addMesh(common.gridSize, 0xCCCCCC, x, y, -common.gridSize, true);
+								break;
+						}
+						count++;
 					}
 				}
 			}
@@ -81,13 +100,14 @@
 			function addObjects() {
 				var level = levelService.readLevel();
 
-				var width = levelService.getWidth();
-				var height = levelService.getHeight();
+				var width = levelService.getMWidth();
+				var height = levelService.getMHeight();
 				var count = 0;
 
 				// for 9 spaces x and y
-				for (var y = 2; y > -height; y--) {
-					for (var x = -2; x < width; x++) {
+				for (var y = height; y > 0; y--) {
+					for (var x = 0; x < width; x++) {
+						console.log(x + ', ' + y + ' ' + level[count]);
 						switch(level[count]) {
 							case 0:
 								break;
@@ -97,7 +117,7 @@
 							case 2:
 								// add test object
 								var lightColour = lightService.getOffHex();
-								var mesh = vm.addMesh(common.gridSize, lightColour, x, y, -common.gridSize, false);
+								var mesh = vm.addMesh(common.gridSize, lightColour, x, y, 0);
 								lightService.addLight(mesh);
 								break;
 							case 3:
@@ -127,7 +147,7 @@
 					color: colour
 				});
 				var mesh = new THREE.Mesh( geometry, material );
-				mesh.position.set(size * gridX, size * gridY, z);
+				mesh.position.set((size * gridX), (size * gridY), z);
 				var cube = new THREE.EdgesHelper( mesh, 0x0c0065 );
 				vm.scene.add(cube);
 				vm.scene.add(mesh);
@@ -166,7 +186,7 @@
 					// calculate required position of arrow
 					var deg = dir.rot * (180/Math.PI);
 					imageService.rotateDirection(deg);
-					imageService.adjustDirectionPosition(fullX, fullY);
+					//imageService.adjustDirectionPosition(fullX, fullY);
 					imageService.showDirection();
 				});
 			}
