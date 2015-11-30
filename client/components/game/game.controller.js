@@ -294,9 +294,6 @@
 			// turn off light
 			lightService.turnOffAll();
 
-			// show direction
-			imageService.showDirection();
-
 			// empty program
 			programService.empty();
 
@@ -327,9 +324,6 @@
 
 			// turn off light
 			lightService.turnOffAll();
-
-			// show direction
-			imageService.showDirection();
 
 			// if blockly then empty program to be recreated later
 			if (ENV.type == 'blockly') {
@@ -364,9 +358,6 @@
 
 				// start program
 				loop(program);
-
-				// hide direction button
-				imageService.hideDirection();
 			}
 		}
 	}

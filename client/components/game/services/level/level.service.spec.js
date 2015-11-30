@@ -35,7 +35,7 @@ describe('Level Service', function() {
 
 		// assert
 		expect(width).toBeDefined();
-		expect(width).toEqual(3);
+		expect(width).toEqual(2);
 	});
 
 	it('Can get level height', function() {
@@ -47,19 +47,18 @@ describe('Level Service', function() {
 
 		// assert
 		expect(height).toBeDefined();
-		expect(height).toEqual(3);
+		expect(height).toEqual(2);
 	});
 
 	it('Update level sets the correct indexes', function() {
 		// arrange
 		var expectedLevel = [
-			3, 3, 3, 3, 3,
-		 	3, 0, 0, 0, 3,
-			3, 0, 1, 2, 3,
-			3, 0, 0, 0, 3,
-			3, 3, 3, 3, 3
+			3, 3, 3, 3,
+			3, 1, 0, 3,
+			3, 0, 0, 3,
+			3, 3, 3, 3
 		];
-		var direction = directionService.getDirectionByName('e');
+		var direction = directionService.getDirectionByName('w');
 		service.resetLevel();
 
 		// act
@@ -74,7 +73,7 @@ describe('Level Service', function() {
 	it('Check move allows movement inside the grid', function() {
 		// arrange
 		var canMove;
-		var direction = directionService.getDirectionByName('e');
+		var direction = directionService.getDirectionByName('w');
 
 		// act
 		canMove = service.checkMove(direction);
@@ -87,7 +86,7 @@ describe('Level Service', function() {
 	it('Check move restricts movement outside of grid', function() {
 		// arrange
 		var canMove;
-		var direction = directionService.getDirectionByName('w');
+		var direction = directionService.getDirectionByName('e');
 
 		// act
 		canMove = service.checkMove(direction);
