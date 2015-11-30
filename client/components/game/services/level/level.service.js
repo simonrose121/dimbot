@@ -33,7 +33,6 @@
 		vm.robotId = 1;
 		vm.lightId = 2;
 		vm.edgeId = 3;
-		vm.obstacleId = 4;
 
 		var service = {
 			checkMove: checkMove,
@@ -81,10 +80,6 @@
 			}
 
 			if (vm.level[index] == vm.edgeId) {
-				return false;
-			}
-
-			if (vm.level[index] == vm.obstacleId) {
 				return false;
 			}
 
