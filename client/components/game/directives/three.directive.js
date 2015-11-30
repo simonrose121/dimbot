@@ -44,7 +44,6 @@
 
 			/* methods available in scope */
 			vm.addGrid = addGrid;
-			vm.addObjects = addObjects;
 			vm.addMesh = addMesh;
 			vm.addRobot = addRobot;
 			vm.init = init;
@@ -53,7 +52,6 @@
 			// run when directive is loaded
 			vm.init();
 			vm.addGrid();
-			vm.addObjects();
 			// start render loop
 			vm.render();
 
@@ -77,36 +75,9 @@
 				for (var y = height; y > 0; y--) {
 					for (var x = 0; x < width; x++) {
 						switch(level[count]) {
-							case 3:
-								break;
-							default:
+							case 1:
 								// add a box in the correct spot
 								vm.addMesh(common.gridSize, 0xCCCCCC, x, y, -common.gridSize, true);
-								break;
-						}
-						count++;
-					}
-				}
-			}
-
-			/**
-			 * Add individual objects to world in correct positions.
-			 *
-			 */
-			function addObjects() {
-				var level = levelService.readLevel();
-
-				var width = levelService.getMWidth();
-				var height = levelService.getMHeight();
-				var count = 0;
-
-				// for 9 spaces x and y
-				for (var y = height; y > 0; y--) {
-					for (var x = 0; x < width; x++) {
-						switch(level[count]) {
-							case 0:
-								break;
-							case 1:
 								vm.addRobot(x, y);
 								break;
 							case 2:
@@ -117,8 +88,9 @@
 								break;
 							case 3:
 								break;
-							case 4:
-								vm.addMesh(common.gridSize, 0x00BFFF, x, y, 0, false);
+							default:
+								// add a box in the correct spot
+								vm.addMesh(common.gridSize, 0xCCCCCC, x, y, -common.gridSize, true);
 								break;
 						}
 						count++;
@@ -188,7 +160,7 @@
 
 						arrow.rotation.z = dir.rot;
 						arrow.position.set(fullX, fullY, common.gridSize);
-	
+
 						vm.scene.add(arrow);
 						movementService.setArrow(arrow);
 					});
