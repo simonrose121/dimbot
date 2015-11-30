@@ -110,10 +110,20 @@
 			return vm.instructions;
 		}
 
+		/**
+		 * Get map height of current level.
+		 *
+		 * @returns {number} - Level map height.
+		 */
 		function getMHeight() {
 			return levels[vm.levelNo].mheight;
 		}
 
+		/**
+		 * Get map width of current level.
+		 *
+		 * @returns {number} - Level map height.
+		 */
 		function getMWidth() {
 			return levels[vm.levelNo].mwidth;
 		}
