@@ -26,23 +26,28 @@
 		vm.instructions = [];
 		vm.maxLevel = 8;
 		vm.levelNo = 1;
+		vm.levelStartTime = null;
+		vm.attemptNumber = 0;
 
 		vm.blankId = 0;
 		vm.robotId = 1;
 		vm.lightId = 2;
 		vm.edgeId = 3;
-		vm.obstacleId = 4;
 
 		var service = {
 			checkMove: checkMove,
 			getHeight: getHeight,
 			getInstructions: getInstructions,
+			getMHeight: getMHeight,
+			getMWidth: getMWidth,
 			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
+			incrementAttemptNumber: incrementAttemptNumber,
 			nextLevel: nextLevel,
 			readLevel: readLevel,
 			resetLevel: resetLevel,
 			setInstructions: setInstructions,
+			setStartDateTime: setStartDateTime,
 			updateLevel: updateLevel
 		};
 
@@ -78,10 +83,6 @@
 				return false;
 			}
 
-			if (vm.level[index] == vm.obstacleId) {
-				return false;
-			}
-
 			// return bool
 			return true;
 		}
@@ -105,6 +106,24 @@
 		}
 
 		/**
+		 * Get map height of current level.
+		 *
+		 * @returns {number} - Level map height.
+		 */
+		function getMHeight() {
+			return levels[vm.levelNo].mheight;
+		}
+
+		/**
+		 * Get map width of current level.
+		 *
+		 * @returns {number} - Level map height.
+		 */
+		function getMWidth() {
+			return levels[vm.levelNo].mwidth;
+		}
+
+		/**
 		 * Get starting direction of current level.
 		 *
 		 * @returns {string} - Name of starting direction in current level.
@@ -123,6 +142,14 @@
 		}
 
 		/**
+		 * Incremement the attempt number.
+		 *
+		 */
+		function incrementAttemptNumber() {
+			vm.attemptNumber++;
+		}
+
+		/**
 		 * Increment level and load in next level array.
 		 *
 		 */
@@ -130,8 +157,15 @@
 			if (vm.levelNo <= vm.maxLevel) {
 				var oldLevelNo = vm.levelNo;
 				vm.levelNo++;
-				logService.movedLevel(oldLevelNo, vm.levelNo);
+				var levelLength = calculateDateTimeDifference(vm.levelStartTime, new Date());
+
+				// log the result of the level
+				logService.movedLevel(oldLevelNo, vm.levelNo, levelLength, vm.attemptNumber);
+
+				// reset the level
 				service.resetLevel();
+				service.setStartDateTime();
+				vm.attemptNumber = 0;
 			}
 		}
 
@@ -164,6 +198,14 @@
 				var ins = instructionFactory.getInstruction(name);
 				vm.instructions.push(ins);
 			}
+		}
+
+		/**
+		 * Set the start date time of the level.
+		 *
+		 */
+		function setStartDateTime() {
+			vm.levelStartTime = new Date();
 		}
 
 		/**
@@ -201,6 +243,12 @@
 		}
 
 		/* private methods */
+
+		function calculateDateTimeDifference(startDateTime, endDateTime) {
+			console.log(startDateTime);
+			console.log(endDateTime);
+			return moment.utc(moment(endDateTime,"DD/MM/YYYY HH:mm:ss").diff(moment(startDateTime,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
+		}
 
 		/**
 		 * Get the array index of an object Id

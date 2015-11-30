@@ -34,12 +34,14 @@
 
 		var vm = this;
 
-		/* private methods */
+		/* private variables */
 		vm.selected = null;
 		vm.cursor = 0;
 		vm.currentIndex = null;
 		vm.instructions = levelService.getInstructions();
+		vm.limit = 11;
 		vm.program = programService.getProgram();
+		vm.max = 4;
 
 		/* public methods to expose to view */
 		vm.addToProgram = addToProgram;
@@ -50,10 +52,12 @@
 		vm.removeFromProgramOnDrop = removeFromProgramOnDrop;
 		vm.setIndex = setIndex;
 		vm.spliceProgram = spliceProgram;
+		vm.toggleBin = toggleBin;
 
 		// perform initial controller methods to setup level
 		levelService.setInstructions();
 		levelService.resetLevel();
+		levelService.setStartDateTime();
 		movementService.setStartingDirection();
 
 		// set current state
@@ -69,7 +73,7 @@
 		 */
 		function addToProgram(ins) {
 			var i = null;
-			if (ins) {
+			if (ins && vm.program.length < vm.limit) {
 				i = instructionFactory.getInstruction(ins.name);
 				vm.program.push(i);
 				logService.addedInstruction(i, 'click', vm.program.indexOf(i));
@@ -138,6 +142,7 @@
 		 */
 		function setIndex(index) {
 			vm.currentIndex = index;
+			imageService.toggleBin(false);
 		}
 
 		/**
@@ -149,6 +154,16 @@
 		function spliceProgram(index, ins) {
 			vm.program.splice(index, 1);
 			logService.movedInstruction(ins, vm.currentIndex, index);
+			imageService.toggleBin(true);
+		}
+
+		/**
+		 * Toggles bin based on if it is already visible.
+		 *
+		 * @param isVisible {boolean} - If bin is already visible.
+		 */
+		function toggleBin(isVisible) {
+			imageService.toggleBin(isVisible);
 		}
 
 		/* private methods */
@@ -191,26 +206,7 @@
 				logService.buttonPress('stop');
 
 			} else if ($('#status').hasClass('rewind')) {
-
-				// rewind movement
-				movementService.rewind();
-
-				// set play button
-				imageService.play();
-
-				// turn off light
-				lightService.turnOffAll();
-
-				// show direction
-				imageService.showDirection();
-
-				// if blockly then empty program to be recreated later
-				if (ENV.type == 'blockly') {
-					programService.empty();
-				}
-
-				// log button press
-				logService.buttonPress('rewind');
+				rewind();
 			}
 		}
 
@@ -224,9 +220,7 @@
 
 			// control loop execution to wait for callback from tween when complete
 			movementService.perform(program[vm.cursor], function() {
-
 				imageService.unhighlight(vm.cursor);
-
 				vm.cursor++;
 
 				if (state.current == state.RUNNING) {
@@ -235,6 +229,8 @@
 						loop(program);
 					} else {
 						imageService.rewind();
+						timer.sleep(1000);
+						rewind();
 					}
 				} else if (state.current == state.COMPLETE) {
 					imageService.backgroundTransition(function() {
@@ -242,6 +238,7 @@
 					});
 				} else {
 					movementService.rewind();
+					imageService.play();
 					state.current = state.COMPOSING;
 				}
 			});
@@ -258,9 +255,6 @@
 
 			// change action button to play and remove next button
 			imageService.play();
-
-			// log button press
-			logService.buttonPress('next');
 
 			// empty program
 			programService.empty();
@@ -300,9 +294,6 @@
 			// turn off light
 			lightService.turnOffAll();
 
-			// show direction
-			imageService.showDirection();
-
 			// empty program
 			programService.empty();
 
@@ -320,10 +311,36 @@
 		}
 
 		/**
+		 * Perform rewind behaviour.
+		 *
+		 */
+		function rewind() {
+
+			// rewind movement
+			movementService.rewind();
+
+			// set play button
+			imageService.play();
+
+			// turn off light
+			lightService.turnOffAll();
+
+			// if blockly then empty program to be recreated later
+			if (ENV.type == 'blockly') {
+				programService.empty();
+			}
+
+			// log button press
+			logService.buttonPress('rewind');
+		}
+
+		/**
 		 * Run the program.
 		 *
 		 */
 		function run() {
+			levelService.incrementAttemptNumber();
+
 			vm.cursor = 0;
 
 			var program = programService.getProgram();
@@ -341,9 +358,6 @@
 
 				// start program
 				loop(program);
-
-				// hide direction button
-				imageService.hideDirection();
 			}
 		}
 	}

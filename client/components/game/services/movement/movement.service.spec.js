@@ -48,7 +48,7 @@ describe('Movement Service', function() {
 
 	it('Can get starting direction', function() {
 		// arrange
-		var expected = directionService.getDirectionByName('e');
+		var expected = directionService.getDirectionByName('w');
 		var direction;
 
 		// act
@@ -131,13 +131,12 @@ describe('Movement Service', function() {
 			y: 100,
 			z: 0
 		};
-		var expectedDirection = directionService.getDirectionByName('e');
+		var expectedDirection = directionService.getDirectionByName('w');
 		var expectedLevel = [
-			3, 3, 3, 3, 3,
-		 	3, 0, 0, 0, 3,
-			3, 1, 0, 2, 3,
-			3, 0, 0, 0, 3,
-			3, 3, 3, 3, 3
+			3, 3, 3, 3,
+			3, 2, 1, 3,
+			3, 0, 0, 3,
+			3, 3, 3, 3
 		];
 
 		// act

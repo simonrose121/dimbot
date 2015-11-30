@@ -16,38 +16,21 @@
 
 		/* private variables */
 		vm.statusId = '#status';
-		vm.dirClass = '.direction';
 		vm.levelNumId = '#level-no';
 
 		var service = {
-			adjustDirectionPosition: adjustDirectionPosition,
 			backgroundTransition: backgroundTransition,
-			hideDirection: hideDirection,
 			highlight: highlight,
 			play: play,
 			rewind: rewind,
 			rotateDirection: rotateDirection,
 			setLevelNumber: setLevelNumber,
-			showDirection: showDirection,
 			stop: stop,
 			toggleBin: toggleBin,
 			unhighlight: unhighlight
 		};
 
 		return service;
-
-		/**
-		 * Adjust direction arrow position based on position of robot.
-		 *
-		 * @param x {number} - X position of robot.
-		 * @param y {number} - Y position of robot.
-		 */
-		function adjustDirectionPosition(x, y) {
-			$(vm.dirClass).css({
-			    'margin-left': x + 'px',
-				'margin-top': -y + 'px'
-			});
-		}
 
 		/**
 		 * Animate the background transition to white and back to blue.
@@ -63,14 +46,6 @@
 				}, 1500);
 				callback();
 			});
-		}
-
-		/**
-		 * Hide the direction arrow.
-		 *
-		 */
-		function hideDirection() {
-			$(vm.dirClass).hide();
 		}
 
 		/**
@@ -117,14 +92,6 @@
 		 */
 		function setLevelNumber(levelNo) {
 			$(vm.levelNumId).html(levelNo);
-		}
-
-		/**
-		 * Show direction arrow.
-		 *
-		 */
-		function showDirection() {
-			$(vm.dirClass).show();
 		}
 
 		/**

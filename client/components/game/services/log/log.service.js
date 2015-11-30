@@ -102,9 +102,9 @@
 		 * @param oldLevelNo {number} - Number of level just completed.
 		 * @param newLevelNo {number} - Number of next level.
 		 */
-		function movedLevel(oldLevelNo, newLevelNo) {
-			var message = 'Finished level: ' + oldLevelNo + ' Starting level: ' +
-				newLevelNo;
+		function movedLevel(oldLevelNo, newLevelNo, levelLength, attemptNumber) {
+			var message = 'Finished level ' + oldLevelNo + ' in ' + attemptNumber +
+				' attempt(s) in ' + levelLength + ', starting level ' + newLevelNo;
 
 			var log = {
 				user_id: common.userId,
