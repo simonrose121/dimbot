@@ -185,9 +185,10 @@
 							transparent: true
 						});
 						var arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
+
+						arrow.rotation.z = dir.rot;
 						arrow.position.set(fullX, fullY, common.gridSize);
 	
-						arrow.rotation.z = dir.rot;
 						vm.scene.add(arrow);
 						movementService.setArrow(arrow);
 					});

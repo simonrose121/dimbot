@@ -156,7 +156,7 @@
 			setTimeout(function() {
 				vm.mesh.material.color.setHSL(originalColour.h, originalColour.s, originalColour.l);
 				callback();
-			}, common.speed);
+			}, 200);
 
 		}
 
@@ -256,6 +256,17 @@
 			var name = levelService.getStartingDirection();
 			vm.direction = directionService.getDirectionByName(name);
 
+			if (vm.arrow) {
+				vm.arrow.position.x = vm.startingPos.x;
+				vm.arrow.position.y = vm.startingPos.y;
+				vm.arrow.position.z = common.gridSize;
+
+				// rotation
+				new TWEEN.Tween(vm.arrow.rotation).to({
+					z: vm.direction.rot
+				}, 0).start();
+			}
+
 			if (vm.mesh) {
 				vm.mesh.position.x = vm.startingPos.x;
 				vm.mesh.position.y = vm.startingPos.y;
@@ -265,15 +276,6 @@
 				vm.mesh.rotation.x = (Math.PI / 2);
 				vm.mesh.rotation.y = vm.direction.rot;
 				vm.mesh.rotation.z = 0;
-			}
-
-			if (vm.arrow) {
-				vm.arrow.position.x = vm.startingPos.x;
-				vm.arrow.position.y = vm.startingPos.y;
-				vm.arrow.position.z = common.gridSize;
-
-				// rotation
-				vm.arrow.rotation.z = vm.direction.rot;
 			}
 
 			// reset level array
