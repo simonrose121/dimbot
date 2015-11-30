@@ -68,22 +68,18 @@
 				var height = levelService.getMHeight();
 
 				// move camera to total grid width halved
-				vm.camera.position.x = (width * common.gridSize) / 2.5;
-				vm.camera.position.y = (height * common.gridSize) / 1.8;
+				vm.camera.position.x = (width * common.gridSize) / 2.67;
+				vm.camera.position.y = (height * common.gridSize) / 1.6;
 
 				var count = 0;
-
-				console.log('adding grid');
 
 				// for 9 spaces x and y
 				for (var y = height; y > 0; y--) {
 					for (var x = 0; x < width; x++) {
-						console.log(x + ', ' + y + ' ' + level[count]);
 						switch(level[count]) {
 							case 3:
 								break;
 							default:
-								console.log('adding mesh at ' + x*common.gridSize + ', ' + y*common.gridSize);
 								// add a box in the correct spot
 								vm.addMesh(common.gridSize, 0xCCCCCC, x, y, -common.gridSize, true);
 								break;
@@ -107,7 +103,6 @@
 				// for 9 spaces x and y
 				for (var y = height; y > 0; y--) {
 					for (var x = 0; x < width; x++) {
-						console.log(x + ', ' + y + ' ' + level[count]);
 						switch(level[count]) {
 							case 0:
 								break;
@@ -163,7 +158,6 @@
 			function addRobot(x, y) {
 				var jsonLoader = new THREE.JSONLoader();
 			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry) {
-					//var material = new THREE.MeshNormalMaterial(material);
 					var material = new THREE.MeshPhongMaterial({
 						color: common.robotColour,
 						shininess: 100,
@@ -183,11 +177,20 @@
 					vm.scene.add(mesh);
 					movementService.setMesh(mesh);
 
-					// calculate required position of arrow
-					var deg = dir.rot * (180/Math.PI);
-					imageService.rotateDirection(deg);
-					//imageService.adjustDirectionPosition(fullX, fullY);
-					imageService.showDirection();
+					var arrowGeometry = new THREE.BoxGeometry(common.gridSize, common.gridSize, common.gridSize);
+					var textureLoader = new THREE.TextureLoader();
+					textureLoader.load("../../img/direction.png", function(texture) {
+						var arrowMaterial = new THREE.MeshBasicMaterial({
+							map: texture,
+							transparent: true
+						});
+						var arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
+						arrow.position.set(fullX, fullY, common.gridSize);
+	
+						arrow.rotation.z = dir.rot;
+						vm.scene.add(arrow);
+						movementService.setArrow(arrow);
+					});
 				});
 			}
 
