@@ -39,7 +39,7 @@
 		vm.cursor = 0;
 		vm.currentIndex = null;
 		vm.instructions = levelService.getInstructions();
-		vm.limit = 11;
+		vm.limit = 12;
 		vm.program = programService.getProgram();
 
 		/* public methods to expose to view */
