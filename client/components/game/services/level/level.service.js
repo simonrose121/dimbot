@@ -183,7 +183,7 @@
 		 *
 		 */
 		function resetLevel() {
-			vm.level = levels[vm.levelNo].lvl.slice();
+			vm.level = levels[vm.levelNo].map.slice();
 			imageService.setLevelNumber(vm.levelNo);
 		}
 
