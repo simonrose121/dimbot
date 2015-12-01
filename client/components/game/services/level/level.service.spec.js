@@ -1,12 +1,13 @@
 describe('Level Service', function() {
 	beforeEach(module('dimbot'));
 
-	var service, directionService, instructionFactory;
+	var service, directionService, instructionFactory, levels;
 
 	beforeEach(inject(function($injector) {
 		directionService = $injector.get('directionService');
 		service = $injector.get('levelService');
 		instructionFactory = $injector.get('instructionFactory');
+		levels = $injector.get('levels');
 		service.resetLevel();
 	}));
 
@@ -35,7 +36,7 @@ describe('Level Service', function() {
 
 		// assert
 		expect(width).toBeDefined();
-		expect(width).toEqual(2);
+		expect(width).toEqual(levels[1].width);
 	});
 
 	it('Can get level height', function() {
@@ -47,7 +48,31 @@ describe('Level Service', function() {
 
 		// assert
 		expect(height).toBeDefined();
-		expect(height).toEqual(2);
+		expect(height).toEqual(levels[1].height);
+	});
+
+	it('Can get level map width', function() {
+		// arrange
+		var width;
+
+		// act
+		width = service.getMWidth();
+
+		// assert
+		expect(width).toBeDefined();
+		expect(width).toEqual(levels[1].mwidth);
+	});
+
+	it('Can get level map height', function() {
+		// arrange
+		var height;
+
+		// act
+		height = service.getMHeight();
+
+		// assert
+		expect(height).toBeDefined();
+		expect(height).toEqual(levels[1].mheight);
 	});
 
 	it('Update level sets the correct indexes', function() {
