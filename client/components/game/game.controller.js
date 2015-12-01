@@ -41,6 +41,7 @@
 		vm.instructions = levelService.getInstructions();
 		vm.limit = 12;
 		vm.program = programService.getProgram();
+		vm.maxInstructions = 4;
 
 		/* public methods to expose to view */
 		vm.addToProgram = addToProgram;
