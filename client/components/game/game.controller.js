@@ -109,9 +109,10 @@
 		 * @param ins {object} - Instruction to remove.
 		 */
 		function removeFromProgram(index, ins) {
-			if (!index) {
+			if (index === null) {
 				index = vm.currentIndex;
 			}
+
 			if (index > -1) {
 				logService.removedInstruction(ins, 'click', index);
 				vm.program.splice(index, 1);
