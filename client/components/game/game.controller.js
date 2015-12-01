@@ -225,14 +225,15 @@
 
 				if (state.current == state.RUNNING) {
 					if (vm.cursor < program.length) {
-						timer.sleep(1000);
+						timer.sleep(500);
 						loop(program);
 					} else {
 						imageService.rewind();
-						timer.sleep(1000);
+						timer.sleep(500);
 						rewind();
 					}
 				} else if (state.current == state.COMPLETE) {
+					timer.sleep(500);
 					imageService.backgroundTransition(function() {
 						vm.nextLevel();
 					});
