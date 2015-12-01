@@ -54,6 +54,11 @@
 
 		return service;
 
+		/**
+		 * Return indication of whether game next level is possible.
+		 *
+		 * @returns {boolean} - Can next level be loaded.
+		 */
 		function canGoNextLevel() {
 			return vm.levelNo < vm.maxLevel;
 		}
