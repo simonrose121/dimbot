@@ -41,7 +41,6 @@
 		vm.instructions = levelService.getInstructions();
 		vm.limit = 11;
 		vm.program = programService.getProgram();
-		vm.max = 4;
 
 		/* public methods to expose to view */
 		vm.addToProgram = addToProgram;
@@ -234,9 +233,13 @@
 					}
 				} else if (state.current == state.COMPLETE) {
 					timer.sleep(500);
-					imageService.backgroundTransition(function() {
-						vm.nextLevel();
-					});
+					if (levelService.canGoNextLevel()) {
+						imageService.backgroundTransition(function() {
+							vm.nextLevel();
+						});
+					} else {
+						$('body').empty();
+					}
 				} else {
 					movementService.rewind();
 					imageService.play();

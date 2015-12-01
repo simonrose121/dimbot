@@ -24,7 +24,7 @@
 		/* private variables */
 		vm.level = [];
 		vm.instructions = [];
-		vm.maxLevel = 8;
+		vm.maxLevel = 16;
 		vm.levelNo = 1;
 		vm.levelStartTime = null;
 		vm.attemptNumber = 0;
@@ -35,6 +35,7 @@
 		vm.edgeId = 3;
 
 		var service = {
+			canGoNextLevel: canGoNextLevel,
 			checkMove: checkMove,
 			getHeight: getHeight,
 			getInstructions: getInstructions,
@@ -52,6 +53,10 @@
 		};
 
 		return service;
+
+		function canGoNextLevel() {
+			return vm.levelNo < vm.maxLevel;
+		}
 
 		/**
 		 * Check that a movement is allowed based on level array.
@@ -154,19 +159,17 @@
 		 *
 		 */
 		function nextLevel() {
-			if (vm.levelNo <= vm.maxLevel) {
-				var oldLevelNo = vm.levelNo;
-				vm.levelNo++;
-				var levelLength = calculateDateTimeDifference(vm.levelStartTime, new Date());
+			var oldLevelNo = vm.levelNo;
+			vm.levelNo++;
+			var levelLength = calculateDateTimeDifference(vm.levelStartTime, new Date());
 
-				// log the result of the level
-				logService.movedLevel(oldLevelNo, vm.levelNo, levelLength, vm.attemptNumber);
+			// log the result of the level
+			logService.movedLevel(oldLevelNo, vm.levelNo, levelLength, vm.attemptNumber);
 
-				// reset the level
-				service.resetLevel();
-				service.setStartDateTime();
-				vm.attemptNumber = 0;
-			}
+			// reset the level
+			service.resetLevel();
+			service.setStartDateTime();
+			vm.attemptNumber = 0;
 		}
 
 		/**
