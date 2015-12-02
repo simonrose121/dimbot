@@ -22,8 +22,10 @@ build:
   # Read more about steps on our dev center:
   # http://devcenter.wercker.com/docs/steps/index.html
   steps:
-    # A step that executes `bower install` command
+    # A step that executes `npm install` command
     - npm-install
+    # Execute bower install
+    - plasticine/bower-install@0.0.4
     # A step that executes `npm test` command
     - npm-test
 
