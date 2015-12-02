@@ -28,6 +28,9 @@ build:
     - script:
         name: install bower
         code: sudo npm install -g bower --allow-root
+    - script:
+        name: bower install
+        code: sudo bower install --allow-root
     # A step that executes `npm test` command
     - npm-test
 
