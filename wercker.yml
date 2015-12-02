@@ -32,7 +32,6 @@ build:
         name: bower install
         code: sudo bower install --allow-root
     # A step that executes `npm test` command
-    - npm-test
 
 
     # A custom script step, name value is used in the UI
