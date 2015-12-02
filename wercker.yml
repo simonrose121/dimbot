@@ -54,6 +54,7 @@ deploy:
         overwrite: true
     - script:
         name: transfer application
+        sudo: yes
         code: |
           pwd
           ls -la
