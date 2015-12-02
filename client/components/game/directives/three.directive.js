@@ -130,39 +130,42 @@
 			function addRobot(x, y) {
 				var jsonLoader = new THREE.JSONLoader();
 			   	jsonLoader.load("../../mdls/jasubot.js", function(geometry) {
-					var material = new THREE.MeshPhongMaterial({
-						color: common.robotColour,
-						shininess: 100,
-						shading: THREE.SmoothShading
-					});
-					var mesh = new THREE.Mesh(geometry, material);
-					mesh.rotation.x = (Math.PI / 2);
-
-					var dirName = levelService.getStartingDirection();
-					var dir = directionService.getDirectionByName(dirName);
-					mesh.rotation.y = dir.rot;
-
-					var fullX = common.gridSize * x;
-					var fullY = common.gridSize * y;
-
-					mesh.position.set(fullX, fullY, 0);
-					vm.scene.add(mesh);
-					movementService.setMesh(mesh);
-
-					var arrowGeometry = new THREE.BoxGeometry(common.gridSize, common.gridSize, common.gridSize);
 					var textureLoader = new THREE.TextureLoader();
-					textureLoader.load("../../img/direction.png", function(texture) {
-						var arrowMaterial = new THREE.MeshBasicMaterial({
-							map: texture,
-							transparent: true
+					textureLoader.load("../../mdls/roboskin1.jpg", function(texture) {
+						var material = new THREE.MeshPhongMaterial({
+							color: common.robotColour,
+							shininess: 100,
+							shading: THREE.SmoothShading,
+							map: texture
 						});
-						var arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
+						var mesh = new THREE.Mesh(geometry, material);
+						mesh.rotation.x = (Math.PI / 2);
 
-						arrow.rotation.z = dir.rot;
-						arrow.position.set(fullX, fullY, common.gridSize);
+						var dirName = levelService.getStartingDirection();
+						var dir = directionService.getDirectionByName(dirName);
+						mesh.rotation.y = dir.rot;
 
-						vm.scene.add(arrow);
-						movementService.setArrow(arrow);
+						var fullX = common.gridSize * x;
+						var fullY = common.gridSize * y;
+
+						mesh.position.set(fullX, fullY, 0);
+						vm.scene.add(mesh);
+						movementService.setMesh(mesh);
+
+						var arrowGeometry = new THREE.BoxGeometry(common.gridSize, common.gridSize, common.gridSize);
+						textureLoader.load("../../img/direction.png", function(texture) {
+							var arrowMaterial = new THREE.MeshBasicMaterial({
+								map: texture,
+								transparent: true
+							});
+							var arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
+
+							arrow.rotation.z = dir.rot;
+							arrow.position.set(fullX, fullY, common.gridSize);
+
+							vm.scene.add(arrow);
+							movementService.setArrow(arrow);
+						});
 					});
 				});
 			}
