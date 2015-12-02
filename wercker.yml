@@ -57,7 +57,7 @@ deploy:
         code: |
           pwd
           ls -la
-          scp -i $PRIVATEKEY_PATH app.js package.json app@178.62.81.187:/opt/dimbot/
+          scp -i $PRIVATEKEY_PATH app@178.62.81.187:/opt/dimbot/
     - script:
         name: npm install
         code: ssh -i $PRIVATEKEY_PATH -l app 178.62.81.187 "cd /opt/dimbot/ &&  npm install --production"
