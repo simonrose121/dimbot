@@ -60,9 +60,9 @@ deploy:
           scp -i $PRIVATEKEY_PATH app.js package.json app@178.62.81.187:/opt/dimbot/
     - script:
         name: npm install
-        code: ssh -i $PRIVATEKEY_PATH -l root 178.62.81.187 "cd /opt/dimbot/ &&  npm install --production"
+        code: ssh -i $PRIVATEKEY_PATH -l app 178.62.81.187 "cd /opt/dimbot/ &&  npm install --production"
     - script:
         name: start application
         code: |
-          ssh -i $PRIVATEKEY_PATH -l root 178.62.81.187 "if [[ \"\$(status node-app)\" = *start/running* ]]; then stop node-app -n ; fi"
-          ssh -i $PRIVATEKEY_PATH -l root 178.62.81.187 start node-app
+          ssh -i $PRIVATEKEY_PATH -l app 178.62.81.187 "if [[ \"\$(status node-app)\" = *start/running* ]]; then stop node-app -n ; fi"
+          ssh -i $PRIVATEKEY_PATH -l app 178.62.81.187 start node-app
