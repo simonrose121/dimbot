@@ -25,7 +25,9 @@ build:
     # A step that executes `npm install` command
     - npm-install
     # Execute bower install
-    - greatbeyond/bower-install@0.5.8
+    - script:
+        name: install bower
+        code: sudo npm install -g bower --allow-root
     # A step that executes `npm test` command
     - npm-test
 
