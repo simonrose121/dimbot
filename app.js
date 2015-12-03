@@ -24,14 +24,10 @@ app.get('/', function(req,res) {
     res.render(__dirname + '/client/index.jade');
 });
 
-app.get('/client/components/:component/:name', function (req, res) {
+app.get('/client/components/:component/views/:name', function (req, res) {
     var name = req.params.name;
     var component = req.params.component;
-    if (req.params.name.indexOf("view") > -1) {
-        res.render(__dirname + '/client/components/' + component + '/' + name);
-    } else {
-        res.sendFile(__dirname + '/client/components/' + component + '/' + name);
-    }
+    res.render(__dirname + '/client/components/' + component + '/views/' + name);
 });
 
 // static files
@@ -44,6 +40,7 @@ app.use('/client', express.static(__dirname + '/client/'));
 
 // api routes
 app.post('/log/', logController.post);
+app.post('/idcheck/', logController.idExists);
 
 app.listen(port);
 

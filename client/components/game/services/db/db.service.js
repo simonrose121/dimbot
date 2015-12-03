@@ -1,9 +1,9 @@
 (function() {
 	angular
 		.module('dimbot.game')
-		.service('logService', logService);
+		.service('dbService', dbService);
 
-	logService.$Inject = ['$http', 'logger', 'common'];
+	dbService.$Inject = ['$http', 'logger', 'common'];
 
 	/**
 	 * Handle posting of logs of different actions to server side to provide
@@ -14,16 +14,18 @@
 	 * @param common
 	 * @returns service
 	 */
-	function logService($http, logger, common) {
+	function dbService($http, logger, common) {
 
 		var vm = this;
 
-		vm.baseUrl = '/log/';
+		vm.postUrl = '/log/';
+		vm.idCheckUrl = '/idcheck/';
 
 		var service = {
 			addedBlocklyInstruction: addedBlocklyInstruction,
 			addedInstruction: addedInstruction,
 			buttonPress: buttonPress,
+			checkId: checkId,
 			movedLevel: movedLevel,
 			movedBlocklyInstruction: movedBlocklyInstruction,
 			movedInstruction: movedInstruction,
@@ -94,6 +96,20 @@
 			};
 
 			postLog(log);
+		}
+
+		/**
+		 * Check if userId is already being used in the database.
+		 *
+		 * @param userId {number} - User id.
+		 * @param callback {object} - Execute when instruction is returned.
+		 */
+		function checkId(userId, callback) {
+			var req = {
+				'user_id': userId
+			};
+
+			getLog(req, callback);
 		}
 
 		/**
@@ -223,6 +239,20 @@
 		}
 
 		/* private methods */
+		/**
+		 * Get data from database controllers.
+		 *
+		 * @param req {object} - Request object.
+		 * @param callback {object} - To be executed when data is returned.
+		 * @returns
+		 */
+		function getLog(req, callback) {
+			$http.post(vm.idCheckUrl, req).success(function(data) {
+				callback(data);
+			}).error(function(data) {
+				throw data;
+			});
+		}
 
 		/**
 		 * Post log to server to be handled by the database controllers.
@@ -231,7 +261,7 @@
 		 * @returns data {object} - Data submitted to database.
 		 */
 		function postLog(log) {
-			$http.post(vm.baseUrl, log).success(function(data) {
+			$http.post(vm.postUrl, log).success(function(data) {
 				return data;
 			}).error(function(data) {
 				throw data;

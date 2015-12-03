@@ -3,16 +3,16 @@
 		.module('dimbot.game')
 		.service('programService', programService);
 
-	programService.$inject = ['logger', 'logService'];
+	programService.$inject = ['logger', 'dbService'];
 
 	/**
 	 * Handle program logic and data storage.
 	 *
 	 * @param logger
-	 * @param logService
+	 * @param dbService
 	 * @returns service
 	 */
-	function programService(logger, logService) {
+	function programService(logger, dbService) {
 		var vm = this;
 
 		/* private variables */

@@ -3,7 +3,7 @@
 		.module('dimbot.game')
 		.service('levelService', levelService);
 
-	levelService.$Inject = ['logger', 'logService', 'instructionFactory',
+	levelService.$Inject = ['logger', 'dbService', 'instructionFactory',
 		'levels'];
 
 	/**
@@ -11,13 +11,13 @@
 	 * game.
 	 *
 	 * @param logger
-	 * @param logService
+	 * @param dbService
 	 * @param imageService
 	 * @param instructionFactory
 	 * @param levels
 	 * @returns service
 	 */
-	function levelService(logger, logService, imageService, instructionFactory,
+	function levelService(logger, dbService, imageService, instructionFactory,
 			levels) {
 		var vm = this;
 
@@ -169,7 +169,7 @@
 			var levelLength = calculateDateTimeDifference(vm.levelStartTime, new Date());
 
 			// log the result of the level
-			logService.movedLevel(oldLevelNo, vm.levelNo, levelLength, vm.attemptNumber);
+			dbService.movedLevel(oldLevelNo, vm.levelNo, levelLength, vm.attemptNumber);
 
 			// reset the level
 			service.resetLevel();
