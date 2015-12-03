@@ -7,7 +7,7 @@
 			imageSize: 40,
 			blockColour: 230,
 			speed: 700,
-			robotColour: 0x7cf43c,
+			robotColour: 0xFFFFFF,
 			type: null
 		});
 })();
