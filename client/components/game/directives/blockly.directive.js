@@ -3,19 +3,19 @@
 		.module('dimbot.game')
 		.directive('dimBlocklyDirective', dimBlocklyDirective);
 
-	dimBlocklyDirective.$Inject = ['programService', 'logService',
+	dimBlocklyDirective.$Inject = ['programService', 'dbService',
 	 	'instructionFactory', 'logger', 'common'];
 
 	/**
 	 * Directive including Blockly workspace and logic.
 	 *
 	 * @param programService
-	 * @param logService
+	 * @param dbService
 	 * @param instructionFactory
 	 * @param logger
 	 * @returns directive
 	 */
-	function dimBlocklyDirective(programService, logService, instructionFactory,
+	function dimBlocklyDirective(programService, dbService, instructionFactory,
 			logger, common) {
 
 		var directive = {
@@ -77,11 +77,11 @@
 
 				// compare counts to figure out what's been done
 				if (count > vm.count) {
-					logService.removedBlocklyInstruction(vm.current);
+					dbService.removedBlocklyInstruction(vm.current);
 				} else if (count == vm.count) {
-					logService.movedBlocklyInstruction(vm.current);
+					dbService.movedBlocklyInstruction(vm.current);
 				} else if (count < vm.count) {
-					logService.addedBlocklyInstruction(vm.current);
+					dbService.addedBlocklyInstruction(vm.current);
 				}
 			}
 

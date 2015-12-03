@@ -4,7 +4,7 @@
         .controller('Game', Game);
 
 	Game.$inject = ['$scope', '$compile', 'programService', 'movementService',
-		'levelService', 'imageService', 'logService', 'lightService',
+		'levelService', 'imageService', 'dbService', 'lightService',
 		'instructionFactory', 'logger', 'capture', 'state', 'timer', 'common'];
 
 	/**
@@ -18,7 +18,7 @@
 	 * @param movementService
 	 * @param levelService
 	 * @param imageService
-	 * @param logService
+	 * @param dbService
 	 * @param lightService
 	 * @param instructionFactory
 	 * @param logger
@@ -28,7 +28,7 @@
 	 * @param common
 	 */
 	function Game($scope, $compile, programService,
-			movementService, levelService, imageService, logService,
+			movementService, levelService, imageService, dbService,
 			lightService, instructionFactory, logger, capture, state, timer,
 			common) {
 
@@ -71,7 +71,7 @@
 			if (ins && vm.program.length < vm.limit) {
 				i = instructionFactory.getInstruction(ins.name);
 				vm.program.push(i);
-				logService.addedInstruction(i, 'click', vm.program.indexOf(i));
+				dbService.addedInstruction(i, 'click', vm.program.indexOf(i));
 			}
 		}
 
@@ -93,7 +93,7 @@
 		 * @returns ins {object} - Instruction to be added to program.
 		 */
 		function logAdd(event, index, ins) {
-			logService.addedInstruction(ins, 'drag', index);
+			dbService.addedInstruction(ins, 'drag', index);
 			return ins;
 		}
 
@@ -103,12 +103,19 @@
 		 */
 		function register() {
 			if (isNormalInteger(vm.userIdField) && vm.typeField !== null) {
-				vm.userId = vm.userIdField;
-				vm.type = vm.typeField;
-				common.userId = vm.userIdField;
-				common.type = vm.typeField;
+				if (dbService.checkId(vm.userIdField, function(exists) {
+					if (!exists) {
+						vm.userId = vm.userIdField;
+						vm.type = vm.typeField;
+						common.userId = vm.userIdField;
+						common.type = vm.typeField;
 
-				initialiseGame();
+						initialiseGame();
+						vm.message = '';
+					} else {
+						vm.message = 'Id already exists';
+					}
+				}));
 			} else {
 				vm.message = 'Inputs not valid';
 			}
@@ -126,7 +133,7 @@
 			}
 
 			if (index > -1) {
-				logService.removedInstruction(ins, 'click', index);
+				dbService.removedInstruction(ins, 'click', index);
 				vm.program.splice(index, 1);
 			}
 		}
@@ -142,7 +149,7 @@
 			index = vm.currentIndex;
 
 			if (index > -1) {
-				logService.removedInstruction(item, 'drag', index);
+				dbService.removedInstruction(item, 'drag', index);
 				vm.program.splice(index, 1);
 				imageService.toggleBin(true);
 			}
@@ -166,7 +173,7 @@
 		 */
 		function spliceProgram(index, ins) {
 			vm.program.splice(index, 1);
-			logService.movedInstruction(ins, vm.currentIndex, index);
+			dbService.movedInstruction(ins, vm.currentIndex, index);
 			imageService.toggleBin(true);
 		}
 
@@ -192,7 +199,7 @@
 					var url = capture.captureXml();
 
 					// log screenshot data to database
-					logService.saveCapture(url, 'blockly');
+					dbService.saveCapture(url, 'blockly');
 
 					// capture blockly and run generated code
 					var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
@@ -200,7 +207,7 @@
 				} else {
 					// capture screenshot and save to database
 					capture.capturePng('.program-inner', function(url) {
-						logService.saveCapture(url, 'lightbot');
+						dbService.saveCapture(url, 'lightbot');
 					});
 				}
 
@@ -208,7 +215,7 @@
 				run();
 
 				// log button press
-				logService.buttonPress('play');
+				dbService.buttonPress('play');
 
 			} else if ($('#status').hasClass('stop')) {
 
@@ -216,7 +223,7 @@
 				state.current = state.STOPPED;
 
 				// log button press
-				logService.buttonPress('stop');
+				dbService.buttonPress('stop');
 
 			} else if ($('#status').hasClass('rewind')) {
 				rewind();
@@ -354,7 +361,7 @@
 			programService.empty();
 
 			// log button press to db
-			logService.buttonPress('reset');
+			dbService.buttonPress('reset');
 
 			if (common.type == 'blockly') {
 				// clear blockly interface
@@ -387,7 +394,7 @@
 			}
 
 			// log button press
-			logService.buttonPress('rewind');
+			dbService.buttonPress('rewind');
 		}
 
 		/**

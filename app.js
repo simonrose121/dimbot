@@ -40,6 +40,7 @@ app.use('/client', express.static(__dirname + '/client/'));
 
 // api routes
 app.post('/log/', logController.post);
+app.post('/idcheck/', logController.idExists);
 
 app.listen(port);
 

@@ -16,3 +16,19 @@ module.exports.post = function(req, res) {
 		res.status(200).send(doc);
 	});
 };
+
+module.exports.idExists = function(req, res) {
+	var user_id = req.body.user_id;
+
+	log.find({user_id: user_id}, function(err, docs) {
+		if (err) {
+			res.send(err);
+		}
+
+		if (docs.length > 0) {
+			res.json(true);
+		} else {
+			res.json(false);
+		}
+	});
+};
