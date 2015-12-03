@@ -8,6 +8,6 @@
 			blockColour: 230,
 			speed: 700,
 			robotColour: 0x7cf43c,
-			type: 'lightbot'
+			type: null
 		});
 })();

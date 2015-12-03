@@ -97,12 +97,17 @@
 			return ins;
 		}
 
+		/**
+		 * Register userId and environment type before game begins.
+		 *
+		 */
 		function register() {
 			if (isNormalInteger(vm.userIdField) && vm.typeField !== null) {
 				vm.userId = vm.userIdField;
 				vm.type = vm.typeField;
 				common.userId = vm.userIdField;
 				common.type = vm.typeField;
+
 				initialiseGame();
 			} else {
 				vm.message = 'Inputs not valid';
@@ -218,19 +223,39 @@
 			}
 		}
 
+		/**
+		 * Initialise the game once settings have been set.
+		 *
+		 */
 		function initialiseGame() {
-			// perform initial controller methods to setup level
-			levelService.setStartDateTime();
-			movementService.setStartingDirection();
+			// happens after delay to ensure digest cycle has completed
+			setTimeout(function() {
+				$scope.$apply(function() {
 
-			// set current state
-			state.current = state.COMPOSING;
+					// perform initial controller methods to setup level
+					levelService.setStartDateTime();
+					movementService.setStartingDirection();
 
-			levelService.setInstructions();
-			levelService.resetLevel();
-			vm.bind();
+					// set current state
+					state.current = state.COMPOSING;
+
+					levelService.setInstructions();
+					levelService.resetLevel();
+					vm.bind();
+
+					var newElement = $compile("<dim-three-directive></dim-three-directive>")($scope);
+					$('.level-inner').append(newElement);
+
+				});
+			}, 200);
 		}
 
+		/**
+		 * Check if string is an integer.
+		 *
+		 * @param str {string} - String to be checked.
+		 * @returns {boolean} - Indicating if string is integer or not.
+		 */
 		function isNormalInteger(str) {
 		    var n = ~~Number(str);
 		    return String(n) === str && n >= 0;

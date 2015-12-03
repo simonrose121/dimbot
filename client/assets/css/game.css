@@ -12,6 +12,10 @@
 #config .form-control {
   margin-top: 10px;
 }
+#config #message {
+  color: #ff3434;
+  margin-top: 10px;
+}
 #navigation #back {
   float: left;
   background: url('../img/back-button.png');

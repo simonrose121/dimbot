@@ -91,7 +91,6 @@
 		 * @param levelNo {number} - Number to be set.
 		 */
 		function setLevelNumber(levelNo) {
-			console.log('setting level number');
 			$(vm.levelNumId).html(levelNo);
 		}
 
