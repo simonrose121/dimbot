@@ -98,6 +98,12 @@
 			postLog(log);
 		}
 
+		/**
+		 * Check if userId is already being used in the database.
+		 *
+		 * @param userId {number} - User id.
+		 * @param callback {object} - Execute when instruction is returned.
+		 */
 		function checkId(userId, callback) {
 			var req = {
 				'user_id': userId
@@ -233,7 +239,13 @@
 		}
 
 		/* private methods */
-
+		/**
+		 * Get data from database controllers.
+		 *
+		 * @param req {object} - Request object.
+		 * @param callback {object} - To be executed when data is returned.
+		 * @returns
+		 */
 		function getLog(req, callback) {
 			$http.post(vm.idCheckUrl, req).success(function(data) {
 				callback(data);
