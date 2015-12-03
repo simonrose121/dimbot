@@ -3,20 +3,20 @@
 		.module('dimbot.game')
 		.config(config);
 
-	config.$Inject = ['$routeProvider', 'ENV'];
+	config.$Inject = ['$routeProvider', 'common'];
 
-	function config($routeProvider, ENV) {
-		switch(ENV.type) {
+	function config($routeProvider, common) {
+		switch(common.type) {
 			case 'lightbot':
 				$routeProvider.when("/", {
-					templateUrl: "client/components/game/gameview",
+					templateUrl: "client/components/game/views/gameview",
 					controller: "Game",
 					controllerAs: "vm"
 				});
 				break;
 			case 'blockly':
 				$routeProvider.when("/", {
-					templateUrl: "client/components/game/gameviewblockly",
+					templateUrl: "client/components/game/views/gameviewblockly",
 					controller: "Game",
 					controllerAs: "vm"
 				});

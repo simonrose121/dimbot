@@ -1,0 +1,8 @@
+.row#register
+	.container
+		.col-md-2.col-md-offset-5
+			form(name='input' ng-submit='vm.register()')
+				fieldset(class='form-group')
+					input(type='text' class="form-control" ng-model='vm.userIdField' placeholder='UserId')
+				input(type='submit' class="btn btn-default" value='Submit' id='submit')
+			p(id='message' ng-bind='vm.message')

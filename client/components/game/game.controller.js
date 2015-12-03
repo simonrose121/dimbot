@@ -5,7 +5,7 @@
 
 	Game.$inject = ['$scope', '$compile', 'programService', 'movementService',
 		'levelService', 'imageService', 'logService', 'lightService',
-		'instructionFactory', 'logger', 'capture', 'state', 'timer', 'ENV'];
+		'instructionFactory', 'logger', 'capture', 'state', 'timer', 'common'];
 
 	/**
 	 * Provides central location for all game controller logic and communicates
@@ -25,12 +25,12 @@
 	 * @param capture
 	 * @param state
 	 * @param timer
-	 * @param ENV
+	 * @param common
 	 */
 	function Game($scope, $compile, programService,
 			movementService, levelService, imageService, logService,
 			lightService, instructionFactory, logger, capture, state, timer,
-			ENV) {
+			common) {
 
 		var vm = this;
 
@@ -42,6 +42,7 @@
 		vm.limit = 12;
 		vm.program = programService.getProgram();
 		vm.maxInstructions = 4;
+		vm.userId = common.userId;
 
 		/* public methods to expose to view */
 		vm.addToProgram = addToProgram;
@@ -175,7 +176,7 @@
 		 */
 		function actionButton() {
 			if ($('#status').hasClass('play')) {
-				if (ENV.type == 'blockly') {
+				if (common.type == 'blockly') {
 					// capture screenshot
 					var url = capture.captureXml();
 
@@ -268,7 +269,7 @@
 			// empty lights
 			lightService.removeAllLights();
 
-			if (ENV.type == 'blockly') {
+			if (common.type == 'blockly') {
 				// clear blockly interface
 				Blockly.mainWorkspace.clear();
 
@@ -306,7 +307,7 @@
 			// log button press to db
 			logService.buttonPress('reset');
 
-			if (ENV.type == 'blockly') {
+			if (common.type == 'blockly') {
 				// clear blockly interface
 				Blockly.mainWorkspace.clear();
 
@@ -332,7 +333,7 @@
 			lightService.turnOffAll();
 
 			// if blockly then empty program to be recreated later
-			if (ENV.type == 'blockly') {
+			if (common.type == 'blockly') {
 				programService.empty();
 			}
 
