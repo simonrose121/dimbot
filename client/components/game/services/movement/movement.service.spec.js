@@ -22,11 +22,13 @@ describe('Movement Service', function() {
 	var mesh, light;
 
 	beforeEach(function() {
+		// mock the robot and arrow
 		var geometry = new THREE.BoxGeometry(50, 50, 50);
 		var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
 		mesh = new THREE.Mesh( geometry, material );
 		mesh.position.set(100 * 1, 100 * 1, 0);
 		service.setMesh(mesh);
+		service.setArrow(mesh);
 
 		service.setStartingDirection();
 	});
@@ -85,43 +87,6 @@ describe('Movement Service', function() {
 		// assert
 		expect(service.forward).toHaveBeenCalled();
 		expect(levelService.updateLevel).toHaveBeenCalled();
-	});
-
-	it('Mesh moves forward', function() {
-		// arrange
-		var expectedPosition = {
-			x: 200,
-			y: 100,
-			z: 0
-		};
-		var ins = factory.getInstruction('fw');
-		var mesh;
-
-		// act
-		service.perform(ins);
-
-		mesh = service.getMesh();
-
-		// assert
-		//expect(mesh.position).toEqual(expectedPosition);
-	});
-
-	it('Mesh rotates right', function() {
-		// arrange
-
-
-		// act
-
-		// assert
-	});
-
-	it('Mesh rotates left', function() {
-		// arrange
-
-
-		// act
-
-		// assert
 	});
 
 	it('Can rewind program', function() {

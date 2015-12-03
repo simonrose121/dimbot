@@ -1,10 +1,10 @@
-describe('Log Service', function() {
+describe('Db Service', function() {
 	beforeEach(module('dimbot'));
 
 	var service, instructionFactory, $httpBackend;
 
 	beforeEach(inject(function($injector) {
-		service = $injector.get('logService');
+		service = $injector.get('dbService');
 		instructionFactory = $injector.get('instructionFactory');
 		$httpBackend = $injector.get('$httpBackend');
 	}));

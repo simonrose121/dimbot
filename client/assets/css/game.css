@@ -6,6 +6,16 @@
   width: 128px;
   height: 50px;
 }
+#config {
+  margin-top: 20px;
+}
+#config .form-control {
+  margin-top: 10px;
+}
+#config #message {
+  color: #ff3434;
+  margin-top: 10px;
+}
 #navigation #back {
   float: left;
   background: url('../img/back-button.png');
@@ -125,7 +135,7 @@
   width: 128px;
   display: block;
   float: right;
-  height: calc(556px);
+  height: calc(606px);
 }
 #program .program-inner ul {
   list-style: none;

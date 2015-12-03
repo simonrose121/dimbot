@@ -156,7 +156,7 @@
 			setTimeout(function() {
 				vm.mesh.material.color.setHSL(originalColour.h, originalColour.s, originalColour.l);
 				callback();
-			}, 200);
+			}, 0);
 
 		}
 

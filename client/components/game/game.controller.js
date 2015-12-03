@@ -4,8 +4,8 @@
         .controller('Game', Game);
 
 	Game.$inject = ['$scope', '$compile', 'programService', 'movementService',
-		'levelService', 'imageService', 'logService', 'lightService',
-		'instructionFactory', 'logger', 'capture', 'state', 'timer', 'ENV'];
+		'levelService', 'imageService', 'dbService', 'lightService',
+		'instructionFactory', 'logger', 'capture', 'state', 'timer', 'common'];
 
 	/**
 	 * Provides central location for all game controller logic and communicates
@@ -18,19 +18,19 @@
 	 * @param movementService
 	 * @param levelService
 	 * @param imageService
-	 * @param logService
+	 * @param dbService
 	 * @param lightService
 	 * @param instructionFactory
 	 * @param logger
 	 * @param capture
 	 * @param state
 	 * @param timer
-	 * @param ENV
+	 * @param common
 	 */
 	function Game($scope, $compile, programService,
-			movementService, levelService, imageService, logService,
+			movementService, levelService, imageService, dbService,
 			lightService, instructionFactory, logger, capture, state, timer,
-			ENV) {
+			common) {
 
 		var vm = this;
 
@@ -39,32 +39,27 @@
 		vm.cursor = 0;
 		vm.currentIndex = null;
 		vm.instructions = levelService.getInstructions();
-		vm.limit = 11;
+		vm.limit = 12;
 		vm.program = programService.getProgram();
-		vm.max = 4;
+		vm.maxInstructions = 4;
+		vm.userId = common.userId;
+		vm.type = common.type;
+
+		// form inputs
+		vm.userIdField = null;
+		vm.typeField = null;
 
 		/* public methods to expose to view */
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
 		vm.logAdd = logAdd;
 		vm.nextLevel = nextLevel;
+		vm.register = register;
 		vm.removeFromProgram = removeFromProgram;
 		vm.removeFromProgramOnDrop = removeFromProgramOnDrop;
 		vm.setIndex = setIndex;
 		vm.spliceProgram = spliceProgram;
 		vm.toggleBin = toggleBin;
-
-		// perform initial controller methods to setup level
-		levelService.setInstructions();
-		levelService.resetLevel();
-		levelService.setStartDateTime();
-		movementService.setStartingDirection();
-
-		// set current state
-		state.current = state.COMPOSING;
-
-		// call update to add default instructions
-		vm.bind();
 
 		/**
 		 * Add instruction to program.
@@ -76,7 +71,7 @@
 			if (ins && vm.program.length < vm.limit) {
 				i = instructionFactory.getInstruction(ins.name);
 				vm.program.push(i);
-				logService.addedInstruction(i, 'click', vm.program.indexOf(i));
+				dbService.addedInstruction(i, 'click', vm.program.indexOf(i));
 			}
 		}
 
@@ -98,8 +93,32 @@
 		 * @returns ins {object} - Instruction to be added to program.
 		 */
 		function logAdd(event, index, ins) {
-			logService.addedInstruction(ins, 'drag', index);
+			dbService.addedInstruction(ins, 'drag', index);
 			return ins;
+		}
+
+		/**
+		 * Register userId and environment type before game begins.
+		 *
+		 */
+		function register() {
+			if (isNormalInteger(vm.userIdField) && vm.typeField !== null) {
+				if (dbService.checkId(vm.userIdField, function(exists) {
+					if (!exists) {
+						vm.userId = vm.userIdField;
+						vm.type = vm.typeField;
+						common.userId = vm.userIdField;
+						common.type = vm.typeField;
+
+						initialiseGame();
+						vm.message = '';
+					} else {
+						vm.message = 'Id already exists';
+					}
+				}));
+			} else {
+				vm.message = 'Inputs not valid';
+			}
 		}
 
 		/**
@@ -109,11 +128,12 @@
 		 * @param ins {object} - Instruction to remove.
 		 */
 		function removeFromProgram(index, ins) {
-			if (!index) {
+			if (index === null) {
 				index = vm.currentIndex;
 			}
+
 			if (index > -1) {
-				logService.removedInstruction(ins, 'click', index);
+				dbService.removedInstruction(ins, 'click', index);
 				vm.program.splice(index, 1);
 			}
 		}
@@ -129,7 +149,7 @@
 			index = vm.currentIndex;
 
 			if (index > -1) {
-				logService.removedInstruction(item, 'drag', index);
+				dbService.removedInstruction(item, 'drag', index);
 				vm.program.splice(index, 1);
 				imageService.toggleBin(true);
 			}
@@ -153,7 +173,7 @@
 		 */
 		function spliceProgram(index, ins) {
 			vm.program.splice(index, 1);
-			logService.movedInstruction(ins, vm.currentIndex, index);
+			dbService.movedInstruction(ins, vm.currentIndex, index);
 			imageService.toggleBin(true);
 		}
 
@@ -174,12 +194,12 @@
 		 */
 		function actionButton() {
 			if ($('#status').hasClass('play')) {
-				if (ENV.type == 'blockly') {
+				if (common.type == 'blockly') {
 					// capture screenshot
 					var url = capture.captureXml();
 
 					// log screenshot data to database
-					logService.saveCapture(url, 'blockly');
+					dbService.saveCapture(url, 'blockly');
 
 					// capture blockly and run generated code
 					var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
@@ -187,7 +207,7 @@
 				} else {
 					// capture screenshot and save to database
 					capture.capturePng('.program-inner', function(url) {
-						logService.saveCapture(url, 'lightbot');
+						dbService.saveCapture(url, 'lightbot');
 					});
 				}
 
@@ -195,7 +215,7 @@
 				run();
 
 				// log button press
-				logService.buttonPress('play');
+				dbService.buttonPress('play');
 
 			} else if ($('#status').hasClass('stop')) {
 
@@ -203,11 +223,49 @@
 				state.current = state.STOPPED;
 
 				// log button press
-				logService.buttonPress('stop');
+				dbService.buttonPress('stop');
 
 			} else if ($('#status').hasClass('rewind')) {
 				rewind();
 			}
+		}
+
+		/**
+		 * Initialise the game once settings have been set.
+		 *
+		 */
+		function initialiseGame() {
+			// happens after delay to ensure digest cycle has completed
+			setTimeout(function() {
+				$scope.$apply(function() {
+
+					// perform initial controller methods to setup level
+					levelService.setStartDateTime();
+					movementService.setStartingDirection();
+
+					// set current state
+					state.current = state.COMPOSING;
+
+					levelService.setInstructions();
+					levelService.resetLevel();
+					vm.bind();
+
+					var newElement = $compile("<dim-three-directive></dim-three-directive>")($scope);
+					$('.level-inner').append(newElement);
+
+				});
+			}, 200);
+		}
+
+		/**
+		 * Check if string is an integer.
+		 *
+		 * @param str {string} - String to be checked.
+		 * @returns {boolean} - Indicating if string is integer or not.
+		 */
+		function isNormalInteger(str) {
+		    var n = ~~Number(str);
+		    return String(n) === str && n >= 0;
 		}
 
 		/**
@@ -225,17 +283,22 @@
 
 				if (state.current == state.RUNNING) {
 					if (vm.cursor < program.length) {
-						timer.sleep(1000);
+						timer.sleep(500);
 						loop(program);
 					} else {
 						imageService.rewind();
-						timer.sleep(1000);
+						timer.sleep(500);
 						rewind();
 					}
 				} else if (state.current == state.COMPLETE) {
-					imageService.backgroundTransition(function() {
-						vm.nextLevel();
-					});
+					timer.sleep(500);
+					if (levelService.canGoNextLevel()) {
+						imageService.backgroundTransition(function() {
+							vm.nextLevel();
+						});
+					} else {
+						$('body').empty();
+					}
 				} else {
 					movementService.rewind();
 					imageService.play();
@@ -262,7 +325,7 @@
 			// empty lights
 			lightService.removeAllLights();
 
-			if (ENV.type == 'blockly') {
+			if (common.type == 'blockly') {
 				// clear blockly interface
 				Blockly.mainWorkspace.clear();
 
@@ -298,9 +361,9 @@
 			programService.empty();
 
 			// log button press to db
-			logService.buttonPress('reset');
+			dbService.buttonPress('reset');
 
-			if (ENV.type == 'blockly') {
+			if (common.type == 'blockly') {
 				// clear blockly interface
 				Blockly.mainWorkspace.clear();
 
@@ -326,12 +389,12 @@
 			lightService.turnOffAll();
 
 			// if blockly then empty program to be recreated later
-			if (ENV.type == 'blockly') {
+			if (common.type == 'blockly') {
 				programService.empty();
 			}
 
 			// log button press
-			logService.buttonPress('rewind');
+			dbService.buttonPress('rewind');
 		}
 
 		/**

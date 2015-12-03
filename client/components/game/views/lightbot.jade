@@ -1,11 +1,3 @@
-#navigation.col-md-12
-    #level-no
-    #status.play
-    #reset
-#level.col-md-9
-    .direction
-    .level-inner
-        dim-three-directive
 .col-md-3
     #program
         .program-inner
@@ -27,7 +19,7 @@
     #instructions
         .instructions-inner
             ul( dnd-list="vm.instructions"
-                dnd-disable-if="vm.instructions.length >= vm.max"
+                dnd-disable-if="vm.instructions.length >= vm.maxInstructions"
                 dnd-external-sources="false")
                 li( ng-repeat='ins in vm.instructions'
                     dnd-draggable="ins"
@@ -40,4 +32,3 @@
     ul( dnd-list='' 
         dnd-external-sources="true" 
         dnd-drop='vm.removeFromProgramOnDrop(event, index, item)')
-#next
