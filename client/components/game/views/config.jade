@@ -1,0 +1,12 @@
+.row#register
+	.container
+		.col-md-2.col-md-offset-5
+			form(name='input' ng-submit='vm.register()')
+				fieldset(class='form-group')
+					input(type='text' class='form-control' ng-model='vm.userIdField' placeholder='UserId')
+					select(class='form-control' ng-model='vm.typeField')
+						option(value='' default selected) Env type...
+						option(value='lightbot') Lightbot
+						option(value='blockly') Blockly
+				input(type='submit' class="btn btn-default" value='Submit' id='submit')
+			p(id='message' ng-bind='vm.message')

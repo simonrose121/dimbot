@@ -6,10 +6,10 @@
   width: 128px;
   height: 50px;
 }
-#configuration {
+#config {
   margin-top: 20px;
 }
-#configuration .form-control {
+#config .form-control {
   margin-top: 10px;
 }
 #navigation #back {

@@ -1,0 +1,17 @@
+#config(ng-if="!vm.userId")
+    include config.jade
+#game(ng-if="vm.userId")
+    #navigation.col-md-12
+        #level-no
+        #status.play
+        #reset
+    #lightbot(ng-if="vm.type === 'lightbot'")
+        #level.col-md-9
+            .level-inner
+                dim-three-directive
+        include lightbot.jade
+    #blocks(ng-if="vm.type === 'blockly'")
+        #level.col-md-8
+            .level-inner
+                dim-three-directive
+        include blockly.jade

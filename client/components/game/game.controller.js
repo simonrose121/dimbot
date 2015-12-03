@@ -61,18 +61,6 @@
 		vm.spliceProgram = spliceProgram;
 		vm.toggleBin = toggleBin;
 
-		// perform initial controller methods to setup level
-		levelService.setInstructions();
-		levelService.resetLevel();
-		levelService.setStartDateTime();
-		movementService.setStartingDirection();
-
-		// set current state
-		state.current = state.COMPOSING;
-
-		// call update to add default instructions
-		vm.bind();
-
 		/**
 		 * Add instruction to program.
 		 *
@@ -110,12 +98,14 @@
 		}
 
 		function register() {
-			if (isNormalInteger(vm.userIdField)) {
+			if (isNormalInteger(vm.userIdField) && vm.typeField !== null) {
 				vm.userId = vm.userIdField;
+				vm.type = vm.typeField;
 				common.userId = vm.userIdField;
 				common.type = vm.typeField;
+				initialiseGame();
 			} else {
-				vm.message = 'Input not valid';
+				vm.message = 'Inputs not valid';
 			}
 		}
 
@@ -226,6 +216,19 @@
 			} else if ($('#status').hasClass('rewind')) {
 				rewind();
 			}
+		}
+
+		function initialiseGame() {
+			// perform initial controller methods to setup level
+			levelService.setStartDateTime();
+			movementService.setStartingDirection();
+
+			// set current state
+			state.current = state.COMPOSING;
+
+			levelService.setInstructions();
+			levelService.resetLevel();
+			vm.bind();
 		}
 
 		function isNormalInteger(str) {

@@ -7,7 +7,7 @@
 
 	function config($routeProvider, common) {
 		$routeProvider.when("/", {
-			templateUrl: "client/components/game/views/gameview",
+			templateUrl: "client/components/game/views/game",
 			controller: "Game",
 			controllerAs: "vm"
 		});
