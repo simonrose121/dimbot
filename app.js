@@ -27,11 +27,7 @@ app.get('/', function(req,res) {
 app.get('/client/components/:component/views/:name', function (req, res) {
     var name = req.params.name;
     var component = req.params.component;
-    if (req.params.name.indexOf("view") > -1) {
-        res.render(__dirname + '/client/components/' + component + '/views/' + name);
-    } else {
-        res.sendFile(__dirname + '/client/components/' + component + '/views/' + name);
-    }
+    res.render(__dirname + '/client/components/' + component + '/views/' + name);
 });
 
 // static files

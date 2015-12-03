@@ -6,6 +6,12 @@
   width: 128px;
   height: 50px;
 }
+#configuration {
+  margin-top: 20px;
+}
+#configuration .form-control {
+  margin-top: 10px;
+}
 #navigation #back {
   float: left;
   background: url('../img/back-button.png');

@@ -1,0 +1,34 @@
+.col-md-3
+    #program
+        .program-inner
+            ul( dnd-list="vm.program"
+                dnd-external-sources="true"
+                dnd-disable-if="vm.program.length >= vm.limit"
+                dnd-drop="vm.logAdd(event, index, item)"
+                class="itemlist")
+                li( ng-repeat='ins in vm.program track by $id(ins)'
+                    dnd-draggable='ins'
+                    dnd-moved="vm.spliceProgram($index, ins)"
+                    dnd-effect-allowed="move"
+                    dnd-dragstart="vm.setIndex($index)"
+                    dnd-dragend="vm.toggleBin(true)") 
+                    img(class='{{ins.name}}' 
+                        id='{{$index}}' 
+                        ng-src='{{ins.src}}' 
+                        ng-click='vm.removeFromProgram($index, ins)')
+    #instructions
+        .instructions-inner
+            ul( dnd-list="vm.instructions"
+                dnd-disable-if="vm.instructions.length >= vm.maxInstructions"
+                dnd-external-sources="false")
+                li( ng-repeat='ins in vm.instructions'
+                    dnd-draggable="ins"
+                    dnd-effect-allowed="copyMove") 
+                    img(id='{{ins.name}}' 
+                        ng-src='{{ins.src}}' 
+                        ng-click='vm.addToProgram(ins)'
+                        index='{{$index}}')
+#bin.col-md-12
+    ul( dnd-list='' 
+        dnd-external-sources="true" 
+        dnd-drop='vm.removeFromProgramOnDrop(event, index, item)')

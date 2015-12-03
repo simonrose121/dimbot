@@ -43,12 +43,18 @@
 		vm.program = programService.getProgram();
 		vm.maxInstructions = 4;
 		vm.userId = common.userId;
+		vm.type = common.type;
+
+		// form inputs
+		vm.userIdField = null;
+		vm.typeField = null;
 
 		/* public methods to expose to view */
 		vm.addToProgram = addToProgram;
 		vm.bind = bind;
 		vm.logAdd = logAdd;
 		vm.nextLevel = nextLevel;
+		vm.register = register;
 		vm.removeFromProgram = removeFromProgram;
 		vm.removeFromProgramOnDrop = removeFromProgramOnDrop;
 		vm.setIndex = setIndex;
@@ -101,6 +107,16 @@
 		function logAdd(event, index, ins) {
 			logService.addedInstruction(ins, 'drag', index);
 			return ins;
+		}
+
+		function register() {
+			if (isNormalInteger(vm.userIdField)) {
+				vm.userId = vm.userIdField;
+				common.userId = vm.userIdField;
+				common.type = vm.typeField;
+			} else {
+				vm.message = 'Input not valid';
+			}
 		}
 
 		/**
@@ -210,6 +226,11 @@
 			} else if ($('#status').hasClass('rewind')) {
 				rewind();
 			}
+		}
+
+		function isNormalInteger(str) {
+		    var n = ~~Number(str);
+		    return String(n) === str && n >= 0;
 		}
 
 		/**
