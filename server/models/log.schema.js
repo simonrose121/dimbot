@@ -2,9 +2,15 @@ var mongoose = require('mongoose');
 
 var logSchema = mongoose.Schema({
 	user_id: Number,
+	category: String,
 	type: String,
+	environment: String,
+	level: Number,
+	button: String,
+	time: String,
+	attempts: String,
+	data: String,
 	message: String,
-	summary: String,
 	timestamp: { type: Date, default: Date.now }
 });
 

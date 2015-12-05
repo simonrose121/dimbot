@@ -24,14 +24,12 @@
 		 * Capture png from DOM element.
 		 *
 		 * @param id {string} - Id of DOM element.
-		 * @param callback {object} - Callback to run once image is created.
 		 */
-		function capturePng(id, callback) {
+		function capturePng(id) {
 			html2canvas($(id), {
 	            onrendered: function(canvas) {
 					var img = canvas.toDataURL("image/png");
 					logger.info('Program url', img);
-					callback(img);
 	            }
 	        });
 		}

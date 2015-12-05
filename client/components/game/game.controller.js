@@ -61,6 +61,8 @@
 		vm.spliceProgram = spliceProgram;
 		vm.toggleBin = toggleBin;
 
+		initialiseGame();
+
 		/**
 		 * Add instruction to program.
 		 *
@@ -196,19 +198,27 @@
 			if ($('#status').hasClass('play')) {
 				if (common.type == 'blockly') {
 					// capture screenshot
-					var url = capture.captureXml();
+					var xml = capture.captureXml();
 
 					// log screenshot data to database
-					dbService.saveCapture(url, 'blockly');
+					dbService.saveProgram(xml);
 
 					// capture blockly and run generated code
 					var code = Blockly.JavaScript.workspaceToCode(vm.workspace);
 					eval(code);
 				} else {
 					// capture screenshot and save to database
-					capture.capturePng('.program-inner', function(url) {
-						dbService.saveCapture(url, 'lightbot');
-					});
+					capture.capturePng('.program-inner');
+
+					// convert program in to list of instructions
+					var program = [];
+
+					for (var i = 0; i < vm.program.length; i++) {
+						var ins = vm.program[i];
+						program.push(ins.name);
+					}
+
+					dbService.saveProgram(program);
 				}
 
 				// run program
@@ -283,9 +293,11 @@
 
 				if (state.current == state.RUNNING) {
 					if (vm.cursor < program.length) {
+						// more instructions to run
 						timer.sleep(500);
 						loop(program);
 					} else {
+						// end of program
 						imageService.rewind();
 						timer.sleep(500);
 						rewind();
@@ -293,10 +305,12 @@
 				} else if (state.current == state.COMPLETE) {
 					timer.sleep(500);
 					if (levelService.canGoNextLevel()) {
+						// next level
 						imageService.backgroundTransition(function() {
 							vm.nextLevel();
 						});
 					} else {
+						// end game
 						$('body').empty();
 					}
 				} else {
@@ -392,9 +406,6 @@
 			if (common.type == 'blockly') {
 				programService.empty();
 			}
-
-			// log button press
-			dbService.buttonPress('rewind');
 		}
 
 		/**

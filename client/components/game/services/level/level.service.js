@@ -4,7 +4,7 @@
 		.service('levelService', levelService);
 
 	levelService.$Inject = ['logger', 'dbService', 'instructionFactory',
-		'levels'];
+		'levels', 'common'];
 
 	/**
 	 * Holds information about levels, and the underlying level array of the
@@ -15,17 +15,17 @@
 	 * @param imageService
 	 * @param instructionFactory
 	 * @param levels
+	 * @param common
 	 * @returns service
 	 */
 	function levelService(logger, dbService, imageService, instructionFactory,
-			levels) {
+			levels, common) {
 		var vm = this;
 
 		/* private variables */
 		vm.level = [];
 		vm.instructions = [];
 		vm.maxLevel = 16;
-		vm.levelNo = 1;
 		vm.levelStartTime = null;
 		vm.attemptNumber = 0;
 
@@ -60,7 +60,7 @@
 		 * @returns {boolean} - Can next level be loaded.
 		 */
 		function canGoNextLevel() {
-			return vm.levelNo < vm.maxLevel;
+			return common.level < vm.maxLevel;
 		}
 
 		/**
@@ -76,13 +76,13 @@
 			// get projected movement
 			switch(dir.name) {
 				case 'n':
-					index = index - levels[vm.levelNo].mwidth;
+					index = index - levels[common.level].mwidth;
 					break;
 				case 'e':
 					index = index + 1;
 					break;
 				case 's':
-					index = index + levels[vm.levelNo].mwidth;
+					index = index + levels[common.level].mwidth;
 					break;
 				case 'w':
 					index = index - 1;
@@ -103,7 +103,7 @@
 		 * @returns {number} - Level height.
 		 */
 		function getHeight() {
-			return levels[vm.levelNo].height;
+			return levels[common.level].height;
 		}
 
 		/**
@@ -121,7 +121,7 @@
 		 * @returns {number} - Level map height.
 		 */
 		function getMHeight() {
-			return levels[vm.levelNo].mheight;
+			return levels[common.level].mheight;
 		}
 
 		/**
@@ -130,7 +130,7 @@
 		 * @returns {number} - Level map height.
 		 */
 		function getMWidth() {
-			return levels[vm.levelNo].mwidth;
+			return levels[common.level].mwidth;
 		}
 
 		/**
@@ -139,7 +139,7 @@
 		 * @returns {string} - Name of starting direction in current level.
 		 */
 		function getStartingDirection() {
-			return levels[vm.levelNo].dir;
+			return levels[common.level].dir;
 		}
 
 		/**
@@ -148,7 +148,7 @@
 		 * @returns {number} - Level width.
 		 */
 		function getWidth() {
-			return levels[vm.levelNo].width;
+			return levels[common.level].width;
 		}
 
 		/**
@@ -164,12 +164,12 @@
 		 *
 		 */
 		function nextLevel() {
-			var oldLevelNo = vm.levelNo;
-			vm.levelNo++;
 			var levelLength = calculateDateTimeDifference(vm.levelStartTime, new Date());
 
 			// log the result of the level
-			dbService.movedLevel(oldLevelNo, vm.levelNo, levelLength, vm.attemptNumber);
+			dbService.finishedLevel(levelLength, vm.attemptNumber);
+
+			common.level++;
 
 			// reset the level
 			service.resetLevel();
@@ -191,8 +191,8 @@
 		 *
 		 */
 		function resetLevel() {
-			vm.level = levels[vm.levelNo].map.slice();
-			imageService.setLevelNumber(vm.levelNo);
+			vm.level = levels[common.level].map.slice();
+			imageService.setLevelNumber(common.level);
 		}
 
 		/**
@@ -201,8 +201,8 @@
 		 */
 		function setInstructions() {
 			vm.instructions.length = 0;
-			for (var i = 0; i < levels[vm.levelNo].ins.length; i++) {
-				var name = levels[vm.levelNo].ins[i];
+			for (var i = 0; i < levels[common.level].ins.length; i++) {
+				var name = levels[common.level].ins[i];
 				var ins = instructionFactory.getInstruction(name);
 				vm.instructions.push(ins);
 			}
@@ -233,13 +233,13 @@
 			// change value
 			switch(dir.name) {
 				case 'n':
-					index = index - levels[vm.levelNo].mwidth;
+					index = index - levels[common.level].mwidth;
 					break;
 				case 'e':
 					index = index + 1;
 					break;
 				case 's':
-					index = index + levels[vm.levelNo].mwidth;
+					index = index + levels[common.level].mwidth;
 					break;
 				case 'w':
 					index = index - 1;

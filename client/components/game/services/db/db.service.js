@@ -26,12 +26,12 @@
 			addedInstruction: addedInstruction,
 			buttonPress: buttonPress,
 			checkId: checkId,
-			movedLevel: movedLevel,
+			finishedLevel: finishedLevel,
 			movedBlocklyInstruction: movedBlocklyInstruction,
 			movedInstruction: movedInstruction,
 			removedBlocklyInstruction: removedBlocklyInstruction,
 			removedInstruction: removedInstruction,
-			saveCapture: saveCapture
+			saveProgram: saveProgram
 		};
 
 		return service;
@@ -42,19 +42,19 @@
 		 * @param ins {object} - Instruction.
 		 */
 		function addedBlocklyInstruction(ins) {
-			logger.debug('posting instruction to db', ins);
-
 			var message = 'Added instruction ' + ins.name +
 				' to blocky program';
 
 			var log = {
 				user_id: vm.userId,
-				type: 'instruction',
-				summary: 'instruction add',
+				category: 'instruction',
+				type: 'add',
+				environment: common.type,
+				level: common.level,
 				message: message
 			};
 
-			postLog(log);
+			postLog(log, 'instruction/');
 		}
 
 		/**
@@ -65,19 +65,19 @@
 		 * @param index {number} - Index of position of instruction in program.
 		 */
 		function addedInstruction(ins, type, index) {
-			logger.debug('posting instruction to db', ins);
-
 			var message = 'Added instruction ' + ins.name +
 				' to program using ' + type + ' at index: ' + index;
 
 			var log = {
 				user_id: common.userId,
-				type: 'instruction',
-				summary: 'instruction add ' + type,
+				category: 'instruction',
+				type: 'add',
+				environment: common.type,
+				level: common.level,
 				message: message
 			};
 
-			postLog(log);
+			postLog(log, 'instruction/');
 		}
 
 		/**
@@ -90,12 +90,14 @@
 
 			var log = {
 				user_id: common.userId,
-				type: 'button_press',
-				summary: 'button ' + button,
+				category: 'button',
+				level: common.level,
+				environment: common.type,
+				button: button,
 				message: message
 			};
 
-			postLog(log);
+			postLog(log, 'button/');
 		}
 
 		/**
@@ -115,21 +117,25 @@
 		/**
 		 * Log when next level is loaded.
 		 *
-		 * @param oldLevelNo {number} - Number of level just completed.
-		 * @param newLevelNo {number} - Number of next level.
+		 * @param levelLength {string} - Time that level took.
+		 * @param attemptNumber {number} - Number of attempts taken.
 		 */
-		function movedLevel(oldLevelNo, newLevelNo, levelLength, attemptNumber) {
-			var message = 'Finished level ' + oldLevelNo + ' in ' + attemptNumber +
-				' attempt(s) in ' + levelLength + ', starting level ' + newLevelNo;
+		function finishedLevel(levelLength, attemptNumber) {
+			var message = 'Finished level ' + common.level + ' in ' + attemptNumber +
+				' attempt(s) in ' + levelLength;
 
 			var log = {
 				user_id: common.userId,
-				type: 'new_level',
-				summary: 'level ' + oldLevelNo + ' complete',
+				category: 'level',
+				level: common.level,
+				attempts: attemptNumber,
+				time: levelLength,
+				environment: common.type,
+				// button presses
 				message: message
 			};
 
-			postLog(log);
+			postLog(log, 'level/');
 		}
 
 		/**
@@ -142,13 +148,15 @@
 				' around blocky program';
 
 			var log = {
-				user_id: vm.userId,
-				type: 'instruction',
-				summary: 'instruction move',
+				user_id: common.userId,
+				category: 'instruction',
+				type: 'move',
+				environment: common.type,
+				level: common.level,
 				message: message
 			};
 
-			postLog(log);
+			postLog(log, 'instruction/');
 		}
 
 		/**
@@ -164,12 +172,14 @@
 
 			var log = {
 				user_id: common.userId,
-				type: 'instruction',
-				summary: 'instruction move',
+				category: 'instruction',
+				type: 'move',
+				environment: common.type,
+				level: common.level,
 				message: message
 			};
 
-			postLog(log);
+			postLog(log, 'instruction/');
 		}
 
 		/**
@@ -182,13 +192,15 @@
 				' from blocky program';
 
 			var log = {
-				user_id: vm.userId,
-				type: 'instruction',
-				summary: 'instruction removed',
+				user_id: common.userId,
+				category: 'instruction',
+				type: 'remove',
+				environment: 'blockly',
+				level: common.level,
 				message: message
 			};
 
-			postLog(log);
+			postLog(log, 'instruction/');
 		}
 
 		/**
@@ -204,38 +216,31 @@
 
 			var log = {
 				user_id: common.userId,
-				type: 'instruction',
-				summary: 'instruction removed',
+				category: 'instruction',
+				type: 'remove',
+				environment: common.type,
+				level: common.level,
 				message: message
 			};
 
-			postLog(log);
+			postLog(log, 'instruction/');
 		}
 
 		/**
-		 * Log capture of program, in xml or png format.
+		 * Log capture of program, in xml or array format.
 		 *
-		 * @param data {string} - Either xml or png representation of program.
+		 * @param data {string} - Either xml or array representation of program.
 		 */
-		function saveCapture(data, type) {
-			var message = '';
-
-			if (type == 'blockly') {
-				message = 'Saved ' + type +
-					' to xml: ' + data;
-			} else if (type == 'lightbot') {
-				message = 'Saved ' + type +
-					' to png: ' + data;
-			}
-
+		function saveProgram(data) {
 			var log = {
 				user_id: vm.userId,
-				type: 'screenshot',
-				summary: 'screenshot ' + type,
-				message: message
+				category: 'program',
+				environment: common.type,
+				level: common.level,
+				data: data,
 			};
 
-			postLog(log);
+			postLog(log, 'program/');
 		}
 
 		/* private methods */
@@ -260,8 +265,8 @@
 		 * @param log {object} - Log object.
 		 * @returns data {object} - Data submitted to database.
 		 */
-		function postLog(log) {
-			$http.post(vm.postUrl, log).success(function(data) {
+		function postLog(log, url) {
+			$http.post(vm.postUrl + url, log).success(function(data) {
 				return data;
 			}).error(function(data) {
 				throw data;

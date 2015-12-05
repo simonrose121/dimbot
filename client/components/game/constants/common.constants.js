@@ -9,6 +9,7 @@
 			speed: 700,
 			robotColour: 0x757575,
 			gridColour: 0xCCCCCC,
-			type: 'lightbot'//null
+			type: 'lightbot',//null
+			level: 1
 		});
 })();
