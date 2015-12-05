@@ -21,7 +21,7 @@ describe('Instruction Factory', function() {
 		// assert
 		expect(newInstruction).toBeDefined();
 		expect(newInstruction.name).toEqual('fw');
-		expect(newInstruction.src).toEqual('client/assets/img/up-instruction.png');
+		expect(newInstruction.src).toEqual('client/assets/img/forward-instruction.png');
 	});
 
 	it('Can instantiate right rotate instruction using factory', function() {
