@@ -39,7 +39,10 @@ app.use('/lvls', express.static(__dirname + '/client/assets/lvls'));
 app.use('/client', express.static(__dirname + '/client/'));
 
 // api routes
-app.post('/log/', logController.post);
+app.post('/log/instruction', logController.instruction);
+app.post('/log/level', logController.level);
+app.post('/log/button', logController.button);
+app.post('/log/program', logController.program);
 app.post('/idcheck/', logController.idExists);
 
 app.listen(port);
