@@ -42,12 +42,13 @@
 		 * @param ins {object} - Instruction.
 		 */
 		function addedBlocklyInstruction(ins) {
-			var message = 'Added instruction ' + ins.name +
+			var message = 'Added instruction ' + ins +
 				' to blocky program';
 
 			var log = {
 				user_id: vm.userId,
 				category: 'instruction',
+				instruction: ins,
 				type: 'add',
 				environment: common.type,
 				level: common.level,
@@ -71,6 +72,7 @@
 			var log = {
 				user_id: common.userId,
 				category: 'instruction',
+				instruction: ins.name,
 				type: 'add',
 				environment: common.type,
 				level: common.level,
@@ -144,13 +146,14 @@
 		 * @param ins {object} - Blocky instruction.
 		 */
 		function movedBlocklyInstruction(ins) {
-			var message = 'Moved instruction ' + ins.type +
+			var message = 'Moved instruction ' + ins +
 				' around blocky program';
 
 			var log = {
 				user_id: common.userId,
 				category: 'instruction',
 				type: 'move',
+				instruction: ins,
 				environment: common.type,
 				level: common.level,
 				message: message
@@ -174,6 +177,7 @@
 				user_id: common.userId,
 				category: 'instruction',
 				type: 'move',
+				instruction: ins.name,
 				environment: common.type,
 				level: common.level,
 				message: message
@@ -188,12 +192,13 @@
 		 * @param ins {object} - Blocky instruction moved.
 		 */
 		function removedBlocklyInstruction(ins) {
-			var message = 'Removed instruction ' + ins.type +
+			var message = 'Removed instruction ' + ins +
 				' from blocky program';
 
 			var log = {
 				user_id: common.userId,
 				category: 'instruction',
+				instruction: ins,
 				type: 'remove',
 				environment: 'blockly',
 				level: common.level,
@@ -218,6 +223,7 @@
 				user_id: common.userId,
 				category: 'instruction',
 				type: 'remove',
+				instruction: ins.name,
 				environment: common.type,
 				level: common.level,
 				message: message

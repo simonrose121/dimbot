@@ -5,6 +5,7 @@ module.exports.instruction = function(req, res) {
 		user_id: req.body.user_id,
 		category: req.body.category,
 		type: req.body.type,
+		instruction: req.body.instruction,
 		environment: req.body.environment,
 		level: req.body.level,
 		message: req.body.message
