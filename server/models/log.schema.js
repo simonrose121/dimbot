@@ -5,6 +5,7 @@ var logSchema = mongoose.Schema({
 	category: String,
 	type: String,
 	environment: String,
+	instruction: String,
 	level: Number,
 	button: String,
 	time: String,
