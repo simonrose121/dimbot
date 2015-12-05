@@ -316,6 +316,7 @@
 				} else {
 					movementService.rewind();
 					imageService.play();
+					lightService.turnOffAll();
 					state.current = state.COMPOSING;
 				}
 			});
