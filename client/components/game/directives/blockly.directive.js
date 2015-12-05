@@ -39,6 +39,7 @@
 			vm.code = null;
 			vm.count = 0;
 			vm.current = null;
+			vm.initialised = false;
 
 			/* methods available in scope */
 			vm.blockCount = blockCount;
@@ -75,13 +76,17 @@
 				// set new count
 				vm.blockCount();
 
-				// compare counts to figure out what's been done
-				if (count > vm.count) {
-					dbService.removedBlocklyInstruction(vm.current);
-				} else if (count == vm.count) {
-					dbService.movedBlocklyInstruction(vm.current);
-				} else if (count < vm.count) {
-					dbService.addedBlocklyInstruction(vm.current);
+				if (vm.initialised) {
+					// compare counts to figure out what's been done
+					if (count > vm.count) {
+						dbService.removedBlocklyInstruction(vm.current);
+					} else if (count == vm.count) {
+						dbService.movedBlocklyInstruction(vm.current);
+					} else if (count < vm.count) {
+						dbService.addedBlocklyInstruction(vm.current);
+					}
+				} else {
+					vm.initialised = true;
 				}
 			}
 
