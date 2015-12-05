@@ -22,7 +22,7 @@
 			switch(type) {
 				case 'fw':
 					return new Instruction("fw",
-						"client/assets/img/up-instruction.png");
+						"client/assets/img/forward-instruction.png");
 				case 'rr':
 					return new Instruction("rr",
 						"client/assets/img/right-rotate-instruction.png");

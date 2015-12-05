@@ -61,7 +61,7 @@
 		vm.spliceProgram = spliceProgram;
 		vm.toggleBin = toggleBin;
 
-		initialiseGame();
+		//initialiseGame();
 
 		/**
 		 * Add instruction to program.
