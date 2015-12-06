@@ -10,11 +10,14 @@ describe('Db Service', function() {
 	}));
 
 	var mockResponse = {
-		"user_id" : 5,
-		"type" : "button_press",
-		"summary" : "button rewind",
-		"message" : "Pressed rewind",
-		"timestamp" : "2015-11-17T10:45:18.511Z",
+		"user_id" : 12321,
+		"category" : "instruction",
+		"type" : "add",
+		"instruction" : "fw",
+		"environment" : "lightbot",
+		"level" : 1,
+		"message" : "Added instruction fw to program using click at index: 0",
+		"timestamp" : "2015-12-06T16:45:20.190Z",
 		"__v" : 0
 	};
 
@@ -24,7 +27,7 @@ describe('Db Service', function() {
 
 		// act
 		$httpBackend
-			.whenPOST('/log/')
+			.whenPOST('/log/instruction/')
 			.respond(200, mockResponse);
 
 		service.addedInstruction(instruction);
