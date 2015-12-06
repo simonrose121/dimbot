@@ -28,6 +28,7 @@
 		vm.maxLevel = 16;
 		vm.levelStartTime = null;
 		vm.attemptNumber = 0;
+		vm.pausedTime = null;
 
 		vm.blankId = 0;
 		vm.robotId = 1;
@@ -43,12 +44,14 @@
 			getMWidth: getMWidth,
 			getStartingDirection: getStartingDirection,
 			getWidth: getWidth,
+			endPausedTime: endPausedTime,
 			incrementAttemptNumber: incrementAttemptNumber,
 			nextLevel: nextLevel,
 			readLevel: readLevel,
 			resetLevel: resetLevel,
 			setInstructions: setInstructions,
 			setStartDateTime: setStartDateTime,
+			startPausedTime: startPausedTime,
 			updateLevel: updateLevel
 		};
 
@@ -95,6 +98,11 @@
 
 			// return bool
 			return true;
+		}
+
+		function endPausedTime() {
+			vm.pausedTime = new Date() - vm.pausedTime;
+			console.log(vm.pausedTime);
 		}
 
 		/**
@@ -164,7 +172,11 @@
 		 *
 		 */
 		function nextLevel() {
-			var levelLength = calculateDateTimeDifference(vm.levelStartTime, new Date());
+			// add paused times
+			var newStartTime = addFormattedDateTime(vm.pausedTime, vm.levelStartTime);
+			levelLength = calculateDateTimeDifference(newStartTime, new Date());
+
+			console.log('level length ' + levelLength);
 
 			// log the result of the level
 			dbService.finishedLevel(levelLength, vm.attemptNumber);
@@ -175,6 +187,7 @@
 			service.resetLevel();
 			service.setStartDateTime();
 			vm.attemptNumber = 0;
+			vm.pausedTime = null;
 		}
 
 		/**
@@ -216,6 +229,11 @@
 			vm.levelStartTime = new Date();
 		}
 
+		function startPausedTime() {
+			vm.pausedTime = new Date();
+			console.log('paused');
+		}
+
 		/**
 		 * Update level array dependant on direction moved.
 		 * Movement has already been checked at this point.
@@ -253,9 +271,16 @@
 		/* private methods */
 
 		function calculateDateTimeDifference(startDateTime, endDateTime) {
-			console.log(startDateTime);
-			console.log(endDateTime);
-			return moment.utc(moment(endDateTime,"DD/MM/YYYY HH:mm:ss").diff(moment(startDateTime,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
+			var startDate = moment(startDateTime,"DD/MM/YYYY HH:mm:ss");
+			var endDate = moment(endDateTime,"DD/MM/YYYY HH:mm:ss").add(1, 'hours');
+			return moment.utc(moment(endDate).diff(startDate)).format("HH:mm:ss");
+		}
+
+		function addFormattedDateTime(pausedTime, endDateTime) {
+			var foo = moment(endDateTime);
+			var bar = foo.add(pausedTime, 'milliseconds');
+			var foobar = moment(bar);
+			return foobar;
 		}
 
 		/**
