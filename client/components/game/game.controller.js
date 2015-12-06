@@ -185,6 +185,7 @@
 		 *
 		 */
 		function start() {
+			$('.start').prop('disabled', true);
 			$('.start').val('3');
 
 			setTimeout(function() {
