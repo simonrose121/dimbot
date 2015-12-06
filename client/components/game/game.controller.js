@@ -44,7 +44,7 @@
 		vm.maxInstructions = 4;
 		vm.userId = common.userId;
 		vm.type = common.type;
-		vm.gameStart = true; //false;
+		vm.gameStart = false;
 
 		// form inputs
 		vm.userIdField = null;
@@ -63,7 +63,7 @@
 		vm.start = start;
 		vm.toggleBin = toggleBin;
 
-		initialiseGame();
+		//initialiseGame();
 
 		/**
 		 * Add instruction to program.
