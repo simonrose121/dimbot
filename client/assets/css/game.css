@@ -22,6 +22,11 @@
   width: 128px;
   height: 128px;
 }
+#navigation #pause {
+  width: 128px;
+  height: 128px;
+  float: left;
+}
 #navigation #status {
   float: right;
   width: 128px;

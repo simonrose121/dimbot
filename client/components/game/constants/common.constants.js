@@ -3,13 +3,13 @@
 		.module('dimbot.game')
 		.constant('common', {
 			gridSize: 150,
-			userId: null,
+			userId: 1, //null,
 			imageSize: 40,
 			blockColour: 230,
 			speed: 700,
 			robotColour: 0x757575,
 			gridColour: 0xCCCCCC,
-			type: null,
+			type: 'lightbot', //null,
 			level: 1
 		});
 })();
