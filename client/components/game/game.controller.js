@@ -44,6 +44,7 @@
 		vm.maxInstructions = 4;
 		vm.userId = common.userId;
 		vm.type = common.type;
+		vm.gameStart = false;
 
 		// form inputs
 		vm.userIdField = null;
@@ -59,6 +60,7 @@
 		vm.removeFromProgramOnDrop = removeFromProgramOnDrop;
 		vm.setIndex = setIndex;
 		vm.spliceProgram = spliceProgram;
+		vm.start = start;
 		vm.toggleBin = toggleBin;
 
 		//initialiseGame();
@@ -112,7 +114,6 @@
 						common.userId = vm.userIdField;
 						common.type = vm.typeField;
 
-						initialiseGame();
 						vm.message = '';
 					} else {
 						vm.message = 'Id already exists';
@@ -177,6 +178,27 @@
 			vm.program.splice(index, 1);
 			dbService.movedInstruction(ins, vm.currentIndex, index);
 			imageService.toggleBin(true);
+		}
+
+		/**
+		 * Start the game once videos have been watched but first countdown 3 seconds.
+		 *
+		 */
+		function start() {
+			$('.start').val('3');
+
+			setTimeout(function() {
+				$('.start').val('2');
+				setTimeout(function() {
+					$('.start').val('1');
+					setTimeout(function() {
+						$scope.$apply(function() {
+							vm.gameStart = true;
+						});
+						initialiseGame();
+					}, 1000);
+				}, 1000);
+			}, 1000);
 		}
 
 		/**
@@ -264,7 +286,7 @@
 					$('.level-inner').append(newElement);
 
 				});
-			}, 200);
+			}, 100);
 		}
 
 		/**

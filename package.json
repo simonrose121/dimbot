@@ -1,6 +1,6 @@
 {
   "name": "dimbot",
-  "version": "0.13.4",
+  "version": "1.0.0",
   "description": "A Lightbot clone designed to study extra features",
   "main": "app.js",
   "scripts": {
