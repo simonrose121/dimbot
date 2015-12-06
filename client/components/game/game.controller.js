@@ -63,8 +63,6 @@
 		vm.start = start;
 		vm.toggleBin = toggleBin;
 
-		//initialiseGame();
-
 		/**
 		 * Add instruction to program.
 		 *
@@ -254,6 +252,10 @@
 
 				// stop program
 				state.current = state.STOPPED;
+
+				if (common.type == 'blockly') {
+					vm.program.length = 0;
+				}
 
 				// log button press
 				dbService.buttonPress('stop');
