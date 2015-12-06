@@ -44,7 +44,7 @@
 		vm.maxInstructions = 4;
 		vm.userId = common.userId;
 		vm.type = common.type;
-		vm.gameStart = false;
+		vm.gameStart = true;
 
 		// form inputs
 		vm.userIdField = null;
@@ -63,7 +63,7 @@
 		vm.start = start;
 		vm.toggleBin = toggleBin;
 
-		//initialiseGame();
+		initialiseGame();
 
 		/**
 		 * Add instruction to program.
@@ -254,6 +254,10 @@
 
 				// stop program
 				state.current = state.STOPPED;
+
+				if (common.type == 'blockly') {
+					vm.program.length = 0;
+				}
 
 				// log button press
 				dbService.buttonPress('stop');
