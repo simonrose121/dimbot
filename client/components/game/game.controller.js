@@ -180,9 +180,25 @@
 			imageService.toggleBin(true);
 		}
 
+		/**
+		 * Start the game once videos have been watched but first countdown 3 seconds.
+		 *
+		 */
 		function start() {
-			vm.gameStart = true;
-			initialiseGame();
+			$('.start').val('3');
+
+			setTimeout(function() {
+				$('.start').val('2');
+				setTimeout(function() {
+					$('.start').val('1');
+					setTimeout(function() {
+						$scope.$apply(function() {
+							vm.gameStart = true;
+						});
+						initialiseGame();
+					}, 1000);
+				}, 1000);
+			}, 1000);
 		}
 
 		/**
@@ -270,7 +286,7 @@
 					$('.level-inner').append(newElement);
 
 				});
-			}, 200);
+			}, 100);
 		}
 
 		/**
