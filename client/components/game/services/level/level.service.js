@@ -187,6 +187,7 @@
 			service.resetLevel();
 			service.setStartDateTime();
 			vm.attemptNumber = 0;
+			vm.pausedTime = null;
 		}
 
 		/**
@@ -230,6 +231,7 @@
 
 		function startPausedTime() {
 			vm.pausedTime = new Date();
+			console.log('paused');
 		}
 
 		/**
