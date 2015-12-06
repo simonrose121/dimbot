@@ -44,7 +44,7 @@
 		vm.maxInstructions = 4;
 		vm.userId = common.userId;
 		vm.type = common.type;
-		vm.gameStart = false;
+		vm.gameStart = true; //false;
 
 		// form inputs
 		vm.userIdField = null;
@@ -62,6 +62,8 @@
 		vm.spliceProgram = spliceProgram;
 		vm.start = start;
 		vm.toggleBin = toggleBin;
+
+		initialiseGame();
 
 		/**
 		 * Add instruction to program.
@@ -84,6 +86,17 @@
 		function bind() {
 			$('#status').bind('click', actionButton);
 			$('#reset').bind('click', resetButton);
+			$('#pause').bind('click', function() {
+				if ($('#pause').hasClass('unpaused')) {
+					levelService.startPausedTime();
+					$('#pause').removeClass();
+					$('#pause').addClass('paused');
+				} else {
+					levelService.endPausedTime();
+					$('#pause').removeClass();
+					$('#pause').addClass('unpaused');
+				}
+			});
 		}
 
 		/**
