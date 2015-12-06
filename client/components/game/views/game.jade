@@ -1,6 +1,8 @@
 #config(ng-if="!vm.userId && !vm.type")
     include config.jade
-#game(ng-if="vm.userId && vm.type")
+#videos(ng-if="vm.userId && vm.type && !vm.gameStart")
+    include videos.jade
+#game(ng-if="vm.userId && vm.type && vm.gameStart")
     #navigation.col-md-12
         #level-no
         #status.play
