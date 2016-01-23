@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+/* all possible log fields */
 var logSchema = mongoose.Schema({
 	user_id: Number,
 	category: String,

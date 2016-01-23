@@ -4,7 +4,7 @@
 		.factory('timer', timer);
 
 	/**
-	 * Provide timer utility methods.
+	 * Provide timer utility methods
 	 *
 	 */
 	function timer() {
@@ -16,9 +16,9 @@
 		return service;
 
 		/**
-		 * Sleep program for a length of time.
+		 * Sleep program for a length of time
 		 *
-		 * @param milliseconds {number} - Time length.
+		 * @param milliseconds {number} - Time length
 		 */
 		function sleep(milliseconds) {
 		  	var start = new Date().getTime();

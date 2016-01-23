@@ -23,7 +23,6 @@
 			highlight: highlight,
 			play: play,
 			rewind: rewind,
-			rotateDirection: rotateDirection,
 			setLevelNumber: setLevelNumber,
 			stop: stop,
 			toggleBin: toggleBin,
@@ -33,9 +32,9 @@
 		return service;
 
 		/**
-		 * Animate the background transition to white and back to blue.
+		 * Animate the background transition to white and back to blue
 		 *
-		 * @param callback {function} - Callback to be called when first animation is complete.
+		 * @param callback {function} - Callback to be called when animation is complete
 		 */
 		function backgroundTransition(callback) {
 			$('html').animate({
@@ -49,7 +48,7 @@
 		}
 
 		/**
-		 * Add highlight class to instruction.
+		 * Add highlight class to instruction
 		 *
 		 */
 		function highlight(index) {
@@ -57,7 +56,7 @@
 		}
 
 		/**
-		 * Show play button.
+		 * Show play button
 		 *
 		 */
 		function play() {
@@ -66,7 +65,7 @@
 		}
 
 		/**
-		 * Show rewind button.
+		 * Show rewind button
 		 *
 		 */
 		function rewind() {
@@ -75,27 +74,16 @@
 		}
 
 		/**
-		 * Show rotate direction arrow by degree measurement.
+		 * Set the current level number
 		 *
-		 * @param deg {number} - Degree measurement to rotate from starting position.
-		 */
-		function rotateDirection(deg) {
-			$('.direction').css({
-				transform:'translate(-50%, -50%) rotate(-' + deg + 'deg)'
-			});
-		}
-
-		/**
-		 * Set the current level number.
-		 *
-		 * @param levelNo {number} - Number to be set.
+		 * @param levelNo {number} - Number to be set
 		 */
 		function setLevelNumber(levelNo) {
 			$(vm.levelNumId).html(levelNo);
 		}
 
 		/**
-		 * Show stop button.
+		 * Show stop button
 		 *
 		 */
 		function stop() {
@@ -104,7 +92,7 @@
 		}
 
 		/**
-		 * Toggle whether the bin is displayed.
+		 * Toggle whether the bin is displayed
 		 *
 		 * @param isVisible {boolean}
 		 */
@@ -117,7 +105,7 @@
 		}
 
 		/**
-		 * Remove highlight class from instruction.
+		 * Remove highlight class from instruction
 		 *
 		 */
 		function unhighlight(index) {

@@ -8,7 +8,7 @@ var app = express();
 
 var logController = require('./server/controllers/log.controller.js');
 
-mongoose.connect('mongodb://localhost:27017/dimbot');
+mongoose.connect('mongodb://localhost:27017/dimbot-local');
 
 // config files
 var port = process.env.PORT || 8079;
@@ -24,6 +24,7 @@ app.get('/', function(req,res) {
     res.render(__dirname + '/client/index.jade');
 });
 
+// returns individual view based on name and component
 app.get('/client/components/:component/views/:name', function (req, res) {
     var name = req.params.name;
     var component = req.params.component;

@@ -7,7 +7,7 @@
 	 	'instructionFactory', 'logger', 'common'];
 
 	/**
-	 * Directive including Blockly workspace and logic.
+	 * Directive including Blockly workspace and logic
 	 *
 	 * @param programService
 	 * @param dbService
@@ -26,10 +26,10 @@
 		return directive;
 
 		/**
-		 * Initialise Blockly workspace and logic.
+		 * Initialise Blockly workspace and logic
 		 *
-		 * @param scope {object} - Current angular scope.
-		 * @param elem {object} - Directive DOM element.
+		 * @param scope {object} - Current angular scope
+		 * @param elem {object} - Directive DOM element
 		 */
 		function link(scope, elem) {
 			var vm = this;
@@ -56,7 +56,7 @@
 			vm.blockCount();
 
 			/**
-			 * Set count of blocks in workspace to current count.
+			 * Set count of blocks in workspace to current count
 			 *
 			 */
 			function blockCount() {
@@ -64,10 +64,8 @@
 			}
 
 			/**
-			 * Change event
+			 * Log program additions/moves/deletions dependent on counts
 			 *
-			 * @param
-			 * @returns
 			 */
 			function changed() {
 				// get current count
@@ -91,7 +89,29 @@
 			}
 
 			/**
-			 * Initialise custom Blocky blocks.
+			 * Check if the block is connected to start block
+			 *
+			 * @param block {object} - Block to check
+			 * @returns {boolean} - If block is connected to start block
+			 */
+			function checkTopLevel(block) {
+				while (true) {
+					var lastBlock = block;
+					block = block.getSurroundParent();
+					if (!block) {
+						// Ran off the top.
+						// We need to check the block at the top of the stack
+						while (lastBlock.previousConnection !== null &&
+							lastBlock.previousConnection.targetConnection !== null) {
+							lastBlock = lastBlock.previousConnection.targetConnection.sourceBlock_;
+						}
+						return (lastBlock.isTopLevel || lastBlock.isInFlyout);
+					}
+				}
+			}
+
+			/**
+			 * Initialise custom Blocky blocks
 			 *
 			 */
 			function customBlocks() {
@@ -99,7 +119,8 @@
 				  	init: function() {
 						this.appendDummyInput()
 							.appendField(new Blockly.FieldImage(
-								'../../img/blockly-forwards.png', common.imageSize, common.imageSize));
+								'../../img/blockly-forwards.png',
+								common.imageSize, common.imageSize));
 						this.setPreviousStatement(true);
 	      				this.setNextStatement(true);
 					    this.setColour(common.blockColour);
@@ -165,29 +186,7 @@
 			}
 
 			/**
-			 * Check if the block is connected to start block.
-			 *
-			 * @param block {object} - Block to check.
-			 * @returns {boolean} - If block is connected to start block.
-			 */
-			function checkTopLevel(block) {
-				while (true) {
-					var lastBlock = block;
-					block = block.getSurroundParent();
-					if (!block) {
-						// Ran off the top.
-						// We need to check the block at the top of the stack
-						while (lastBlock.previousConnection !== null &&
-							lastBlock.previousConnection.targetConnection !== null) {
-							lastBlock = lastBlock.previousConnection.targetConnection.sourceBlock_;
-						}
-						return (lastBlock.isTopLevel || lastBlock.isInFlyout);
-					}
-				}
-			}
-
-			/**
-			 * Code generators for each block.
+			 * Code generators for each block
 			 *
 			 */
 			function generators() {
@@ -225,7 +224,7 @@
 			}
 
 			/**
-			 * Initialise Blockly workspace.
+			 * Initialise Blockly workspace
 			 *
 			 */
 			function init() {

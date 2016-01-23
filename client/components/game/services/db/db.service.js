@@ -6,8 +6,7 @@
 	dbService.$Inject = ['$http', 'logger', 'common'];
 
 	/**
-	 * Handle posting of logs of different actions to server side to provide
-	 * analytics.
+	 * Handle posting of logs of different action to provide analytics
 	 *
 	 * @param $http
 	 * @param logger
@@ -18,6 +17,7 @@
 
 		var vm = this;
 
+		// urls
 		vm.postUrl = '/log/';
 		vm.idCheckUrl = '/idcheck/';
 
@@ -37,16 +37,16 @@
 		return service;
 
 		/**
-		 * Log that a blocky instruction is added to the program.
+		 * Log that a blocky instruction is added to the program
 		 *
-		 * @param ins {object} - Instruction.
+		 * @param ins {object} - Instruction
 		 */
 		function addedBlocklyInstruction(ins) {
 			var message = 'Added instruction ' + ins +
 				' to blocky program';
 
 			var log = {
-				user_id: vm.userId,
+				user_id: common.userId,
 				category: 'instruction',
 				instruction: ins,
 				type: 'add',
@@ -59,11 +59,11 @@
 		}
 
 		/**
-		 * Log that an instruction has been added to the program.
+		 * Log that a lightbot instruction has been added to the program
 		 *
-		 * @param ins {object} - Instruction.
-		 * @param type {string} - Type of movement (click or drag).
-		 * @param index {number} - Index of position of instruction in program.
+		 * @param ins {object} - Instruction
+		 * @param type {string} - Type of movement (click or drag)
+		 * @param index {number} - Index of position of instruction in program
 		 */
 		function addedInstruction(ins, type, index) {
 			var message = 'Added instruction ' + ins.name +
@@ -83,9 +83,9 @@
 		}
 
 		/**
-		 * Log that a button has been pressed.
+		 * Log that a button has been pressed
 		 *
-		 * @param button {string} - Type of button pressed.
+		 * @param button {string} - Type of button pressed
 		 */
 		function buttonPress(button) {
 			var message = 'Pressed ' + button;
@@ -103,10 +103,10 @@
 		}
 
 		/**
-		 * Check if userId is already being used in the database.
+		 * Check if userId is already being used in the database
 		 *
-		 * @param userId {number} - User id.
-		 * @param callback {object} - Execute when instruction is returned.
+		 * @param userId {number} - User id
+		 * @param callback {object} - Execute when instruction is returned
 		 */
 		function checkId(userId, callback) {
 			var req = {
@@ -117,10 +117,10 @@
 		}
 
 		/**
-		 * Log when next level is loaded.
+		 * Log when next level is loaded
 		 *
-		 * @param levelLength {string} - Time that level took.
-		 * @param attemptNumber {number} - Number of attempts taken.
+		 * @param levelLength {string} - Time that level took
+		 * @param attemptNumber {number} - Number of attempts taken
 		 */
 		function finishedLevel(levelLength, attemptNumber) {
 			var message = 'Finished level ' + common.level + ' in ' + attemptNumber +
@@ -133,7 +133,6 @@
 				attempts: attemptNumber,
 				time: levelLength,
 				environment: common.type,
-				// button presses
 				message: message
 			};
 
@@ -141,9 +140,9 @@
 		}
 
 		/**
-		 * Log when blockly block is moved around program.
+		 * Log that a blockly block has moved around program
 		 *
-		 * @param ins {object} - Blocky instruction.
+		 * @param ins {object} - Blocky instruction
 		 */
 		function movedBlocklyInstruction(ins) {
 			var message = 'Moved instruction ' + ins +
@@ -163,11 +162,11 @@
 		}
 
 		/**
-		 * Log when instruction is moved around program.
+		 * Log that a lightbot instruction has moved around program
 		 *
-		 * @param ins {object} - Instruction moved.
-		 * @param oldIndex {number} - Previous index.
-		 * @param newIndex {number} - New index.
+		 * @param ins {object} - Instruction moved
+		 * @param oldIndex {number} - Previous index
+		 * @param newIndex {number} - New index
 		 */
 		function movedInstruction(ins, oldIndex, newIndex) {
 			var message = 'Moved instruction ' + ins.name +
@@ -187,9 +186,9 @@
 		}
 
 		/**
-		 * Log when blockly block is removed from program.
+		 * Log that a blockly block has been removed from program
 		 *
-		 * @param ins {object} - Blocky instruction moved.
+		 * @param ins {object} - Blocky instruction moved
 		 */
 		function removedBlocklyInstruction(ins) {
 			var message = 'Removed instruction ' + ins +
@@ -209,11 +208,11 @@
 		}
 
 		/**
-		 * Log when instruction removed from program.
+		 * Log that a lightbot instruction has been removed from program
 		 *
-		 * @param ins {object} - Instruction.
-		 * @param type {string} - Type of movement (click or drag).
-		 * @param index {number} - Index of position of instruction in program.
+		 * @param ins {object} - Instruction
+		 * @param type {string} - Type of movement (click or drag)
+		 * @param index {number} - Index of position of instruction in program
 		 */
 		function removedInstruction(ins, type, index) {
 			var message = 'Removed instruction ' + ins.name +
@@ -233,9 +232,9 @@
 		}
 
 		/**
-		 * Log capture of program, in xml or array format.
+		 * Log capture of program, in xml or array format
 		 *
-		 * @param data {string} - Either xml or array representation of program.
+		 * @param data {string} - Either xml or array representation of program
 		 */
 		function saveProgram(data) {
 			var log = {
@@ -251,10 +250,10 @@
 
 		/* private methods */
 		/**
-		 * Get data from database controllers.
+		 * Get data from database controllers
 		 *
-		 * @param req {object} - Request object.
-		 * @param callback {object} - To be executed when data is returned.
+		 * @param req {object} - Request object
+		 * @param callback {object} - To be executed when data is returned
 		 * @returns
 		 */
 		function getLog(req, callback) {
@@ -266,10 +265,10 @@
 		}
 
 		/**
-		 * Post log to server to be handled by the database controllers.
+		 * Post log to server to be handled by the database controllers
 		 *
-		 * @param log {object} - Log object.
-		 * @returns data {object} - Data submitted to database.
+		 * @param log {object} - Log object
+		 * @returns data {object} - Data submitted to database
 		 */
 		function postLog(log, url) {
 			$http.post(vm.postUrl + url, log).success(function(data) {

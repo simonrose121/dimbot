@@ -38,18 +38,18 @@
 		return service;
 
 		/**
-		 * Add light to lights array.
+		 * Add light to lights array
 		 *
-		 * @param mesh {object} - ThreeJS mesh.
+		 * @param mesh {object} - ThreeJS mesh
 		 */
 		function addLight(mesh) {
 			vm.lights.push(mesh);
 		}
 
 		/**
-		 * Check if all lights are on.
+		 * Check if all lights are on
 		 *
-		 * @returns {boolean} - Indication of whether all lights are on or not.
+		 * @returns {boolean} - Indication of whether all lights are on or not
 		 */
 		function allLightsOn() {
 			// iterate through lights to check if any are off
@@ -62,10 +62,10 @@
 		}
 
 		/**
-		 * Check if individual light is on.
+		 * Check if individual light is on
 		 *
-		 * @param index {number} - Index of light to check.
-		 * @returns {boolean} - Indication if light is on or off.
+		 * @param index {number} - Index of light to check
+		 * @returns {boolean} - Indication if light is on or off
 		 */
 		function isLightOn(index) {
 			if (getColour(index) == vm.onVal) {
@@ -75,40 +75,40 @@
 		}
 
 		/**
-		 * Get colour of light.
+		 * Get colour of light
 		 *
-		 * @param index {number} - Index of light.
-		 * @returns {string} - Current hex of light in format 'ffffff'.
+		 * @param index {number} - Index of light
+		 * @returns {string} - Current hex of light in format 'ffffff'
 		 */
 		function getColour(index) {
 			return vm.lights[index].material.color.getHex().toString(16);
 		}
 
 		/**
-		 * Get expected off value of lights.
+		 * Get expected off value of lights
 		 *
-		 * @returns {string} - Hexidecimal value in format 0xffe600.
+		 * @returns {string} - Hexidecimal value in format 0xffe600
 		 */
 		function getOffHex() {
 			return vm.offHex;
 		}
 
 		/**
-		 * Get individual light mesh.
+		 * Get individual light mesh
 		 *
-		 * @param index {number} - Index of light.
-		 * @returns {object} - ThreeJS mesh.
+		 * @param index {number} - Index of light
+		 * @returns {object} - ThreeJS mesh
 		 */
 		function getLight(index) {
 			return vm.lights[index];
 		}
 
 		/**
-		 * Get index of light in lights array from world position.
+		 * Get index of light in lights array from world position
 		 *
-		 * @param x {number} - X position of light.
-		 * @param y {number} - Y position of light.
-		 * @returns index {number} - Index of light in lights array.
+		 * @param x {number} - X position of light
+		 * @param y {number} - Y position of light
+		 * @returns index {number} - Index of light in lights array
 		 */
 		function getIndexFromPosition(x, y) {
 			for (var i = 0; i < vm.lights.length; i++) {
@@ -124,7 +124,7 @@
 		}
 
 		/**
-		 * Remove all lights from array.
+		 * Remove all lights from array
 		 *
 		 */
 		function removeAllLights() {
@@ -132,16 +132,16 @@
 		}
 
 		/**
-		 * Turn off light at index.
+		 * Turn off light at index
 		 *
-		 * @param index {number} - Index of light.
+		 * @param index {number} - Index of light
 		 */
 		function turnOff(index) {
 			vm.lights[index].material.color.setHex(vm.offHex);
 		}
 
 		/**
-		 * Turn off all lights in array.
+		 * Turn off all lights in array
 		 *
 		 */
 		function turnOffAll() {
@@ -151,9 +151,9 @@
 		}
 
 		/**
-		 * Turn on light at index.
+		 * Turn on light at index
 		 *
-		 * @param index {number} - Index of light.
+		 * @param index {number} - Index of light
 		 */
 		function turnOn(index) {
 			vm.lights[index].material.color.setHex(vm.onHex);

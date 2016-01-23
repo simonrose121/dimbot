@@ -7,7 +7,7 @@
 		'lightService', 'logger', 'common'];
 
 	/**
-	 * Directive holding ThreeJS world and initialisation logic.
+	 * Directive holding ThreeJS world and initialisation logic
 	 *
 	 * @param movementService
 	 * @param levelService
@@ -29,10 +29,10 @@
 		return directive;
 
 		/**
-		 * Initialise ThreeJS world and logic.
+		 * Initialise ThreeJS world and logic
 		 *
-		 * @param scope {object} - Current angular scope.
-		 * @param elem {object} - Directive DOM element.
+		 * @param scope {object} - Current angular scope
+		 * @param elem {object} - Directive DOM element
 		 */
 		function link(scope, elem) {
 			var vm = this;
@@ -56,12 +56,11 @@
 			vm.render();
 
 			/**
-			 * Add grid to world.
+			 * Add grid to world
 			 *
 			 */
 			function addGrid() {
 				var level = levelService.readLevel();
-
 				var width = levelService.getMWidth();
 				var height = levelService.getMHeight();
 
@@ -71,22 +70,24 @@
 
 				var count = 0;
 
-				// for 9 spaces x and y
+				// for level x and y
 				for (var y = height; y > 0; y--) {
 					for (var x = 0; x < width; x++) {
 						switch(level[count]) {
 							case 1:
-								// add a box in the correct spot
+								// add a grid box
 								vm.addMesh(common.gridSize, common.gridColour, x, y, -common.gridSize, true);
+
 								vm.addRobot(x, y);
 								break;
 							case 2:
-								// add test object
+								// add light
 								var lightColour = lightService.getOffHex();
 								var mesh = vm.addMesh(common.gridSize, lightColour, x, y, 0);
 								lightService.addLight(mesh);
 								break;
 							case 3:
+								// do nothing if blank
 								break;
 							default:
 								// add a box in the correct spot
@@ -101,11 +102,11 @@
 			/**
 			 * Add mesh to world (either light or obstacle)
 			 *
-			 * @param size {number} - Size of mesh.
-			 * @param colour {string} - Hex of colour.
-			 * @param gridX {number} - X grid position.
-		 	 * @param gridY {number} - Y grid position.
-			 * @param z {number} - z coordinate in world space.
+			 * @param size {number} - Size of mesh
+			 * @param colour {string} - Hex of colour
+			 * @param gridX {number} - X grid position
+		 	 * @param gridY {number} - Y grid position
+			 * @param z {number} - z coordinate in world space
 			 * @returns mesh
 			 */
 			function addMesh(size, colour, gridX, gridY, z) {
@@ -115,17 +116,17 @@
 				});
 				var mesh = new THREE.Mesh( geometry, material );
 				mesh.position.set((size * gridX), (size * gridY), z);
-				var cube = new THREE.EdgesHelper( mesh, 0x0c0065 );
+				var cube = new THREE.EdgesHelper(mesh, 0x0c0065);
 				vm.scene.add(cube);
 				vm.scene.add(mesh);
 				return mesh;
 			}
 
 			/**
-			 * Add robot to world.
+			 * Add robot to world
 			 *
-			 * @param x {number} - X grid position.
-			 * @param y {number} - Y grid position.
+			 * @param x {number} - X grid position
+			 * @param y {number} - Y grid position
 			 */
 			function addRobot(x, y) {
 				var jsonLoader = new THREE.JSONLoader();
@@ -138,17 +139,19 @@
 					var mesh = new THREE.Mesh(geometry, material);
 					mesh.rotation.x = (Math.PI / 2);
 
+					// set starting direction
 					var dirName = levelService.getStartingDirection();
 					var dir = directionService.getDirectionByName(dirName);
 					mesh.rotation.y = dir.rot;
 
+					// set world position
 					var fullX = common.gridSize * x;
 					var fullY = common.gridSize * y;
-
 					mesh.position.set(fullX, fullY, 0);
 					vm.scene.add(mesh);
 					movementService.setMesh(mesh);
 
+					// load direction arrow
 					var arrowGeometry = new THREE.BoxGeometry(common.gridSize, common.gridSize, common.gridSize);
 					var textureLoader = new THREE.TextureLoader();
 					textureLoader.load("../../img/direction.png", function(texture) {
@@ -158,6 +161,7 @@
 						});
 						var arrow = new THREE.Mesh(arrowGeometry, arrowMaterial);
 
+						// set to same position and rotation as robot
 						arrow.rotation.z = dir.rot;
 						arrow.position.set(fullX, fullY, common.gridSize);
 
@@ -168,23 +172,8 @@
 			}
 
 			/**
-			 * Render loop to keep world updating in real time.
+			 * Initialise ThreeJS world
 			 *
-			 */
-			function render() {
-				function renderloop() {
-					requestAnimationFrame(render);
-					TWEEN.update();
-					vm.renderer.render(scene, camera);
-				}
-				renderloop();
-			}
-
-			/**
-			 * Initialise ThreeJS world.
-			 *
-			 * @param
-			 * @returns
 			 */
 			function init() {
 				container = $('#level');
@@ -224,6 +213,19 @@
 
 				// attach the render-supplied DOM element
 				elem[0].appendChild(renderer.domElement);
+			}
+
+			/**
+			 * Render loop to keep world updating in real time
+			 *
+			 */
+			function render() {
+				function renderloop() {
+					requestAnimationFrame(render);
+					TWEEN.update();
+					vm.renderer.render(scene, camera);
+				}
+				renderloop();
 			}
 		}
 	}

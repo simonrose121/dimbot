@@ -28,9 +28,9 @@
 		return service;
 
 		/**
-		 * Add instruction to the program.
+		 * Add instruction to the program
 		 *
-		 * @param ins {object} - Instruction to be added.
+		 * @param ins {object} - Instruction to be added
 		 */
 		function addInstruction(ins) {
 			if (ins) {
@@ -39,7 +39,7 @@
 		}
 
 		/**
-		 * Empty the program.
+		 * Empty the program
 		 *
 		 */
 		function empty() {
@@ -47,18 +47,18 @@
 		}
 
 		/**
-		 * Get the program.
+		 * Get the program
 		 *
-		 * @returns {array} - Program.
+		 * @returns {array} - Program array
 		 */
 		function getProgram() {
 			return vm.program;
 		}
 
 		/**
-		 * Remove instruction at index.
+		 * Remove instruction at index
 		 *
-		 * @param index {number} - Index of instruction to remove.
+		 * @param index {number} - Index of instruction to remove
 		 */
 		function removeInstruction(index) {
 			if (index > -1) {

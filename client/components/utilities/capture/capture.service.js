@@ -6,7 +6,7 @@
 	capture.$Inject = ['logger'];
 
 	/**
-	 * Capture current state of program.
+	 * Capture current state of program
 	 *
 	 * @param logger
 	 * @returns service
@@ -21,9 +21,9 @@
 		return service;
 
 		/**
-		 * Capture png from DOM element.
+		 * Capture png from DOM element
 		 *
-		 * @param id {string} - Id of DOM element.
+		 * @param id {string} - Id of DOM element
 		 */
 		function capturePng(id) {
 			html2canvas($(id), {
@@ -35,9 +35,9 @@
 		}
 
 		/**
-		 * Capture xml of Blockly workspace.
+		 * Capture xml of Blockly workspace
 		 *
-		 * @returns {string} - XML representation of workspace.
+		 * @returns {string} - XML representation of workspace
 		 */
 		function captureXml() {
 			var xml = Blockly.Xml.workspaceToDom(workspace);

@@ -5,8 +5,21 @@
 
 	instructionFactory.$Inject = ['logger'];
 
+	/**
+	 * Used to create instruction objects
+	 *
+	 * @param logger
+	 * @return factory
+	 */
 	function instructionFactory(logger) {
 
+		/**
+		 * Instruction object constructor
+		 *
+		 * @param {string} name - Name of instruction
+		 * @param {string} src - Source of image file
+		 * @returns {object} Instruction
+		 */
 		var Instruction = function(name, src) {
 			this.name = name;
 			this.src = src;
@@ -18,6 +31,12 @@
 
 		return factory;
 
+		/**
+		 * Instruction builder
+		 *
+		 * @param {string} type - Type of instruction to be returned
+		 * @returns {object} Instruction
+		 */
 		function getInstruction(type) {
 			switch(type) {
 				case 'fw':

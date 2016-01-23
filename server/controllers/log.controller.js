@@ -1,5 +1,6 @@
 var log = require('../models/log.schema.js');
 
+/* methods for each log type using specific fields */
 module.exports.instruction = function(req, res) {
 	var entry = {
 		user_id: req.body.user_id,

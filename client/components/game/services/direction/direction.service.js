@@ -7,7 +7,7 @@
 
 	/**
 	 * Holds information about individual directions and the required
-	 * rotations for these.
+	 * rotations for these
 	 *
 	 * @param logger
 	 * @param common
@@ -17,7 +17,6 @@
 		var vm = this;
 
 		/* private variables */
-
 		vm.directions = [
 			{
 				name: 'n',
@@ -58,31 +57,30 @@
 		/* public methods */
 
 		/**
-		 * Get a direction from an index
+		 * Get direction by index
 		 *
-		 * @param {number} index - Index of direction in directions array.
-		 * @returns direction - Direction object.
+		 * @param {number} index - Index of direction in directions array
+		 * @returns {object} - Direction object
 		 */
 		function getDirectionByIndex(index) {
 			return vm.directions[index];
 		}
 
 		/**
-		 * Get a direction by name using a lookup
+		 * Get a direction by name using a lookup method
 		 *
-		 * @param {string} name - Name of direction.
-		 * @returns direction - Direction object.
+		 * @param {string} name - Name of direction
+		 * @returns {object} - Direction object
 		 */
 		function getDirectionByName(name) {
 			return vm.lookup[name];
 		}
 
 		/**
-		 * Get the index of a direction in the directions array for faster
-		 * access.
+		 * Get the index of a direction in the directions array
 		 *
-		 * @param {object} dir - Direction object.
-		 * @returns {number} - Direction object.
+		 * @param {object} dir - Direction object
+		 * @returns {number} - Direction object
 		 */
 		function getIndexFromDirection(dir) {
 			return vm.directions.indexOf(dir);
@@ -91,9 +89,9 @@
 		/* private methods */
 
 		/**
-		 * Instantiate a lookup method to retrieve direction by name.
+		 * Instantiate a lookup method to retrieve direction by name
 		 *
-		 * @returns {object} lookup.
+		 * @returns {object} lookup
 		 */
 		function directionLookup() {
 			var lookup = {};

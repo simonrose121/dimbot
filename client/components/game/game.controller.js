@@ -63,12 +63,10 @@
 		vm.start = start;
 		vm.toggleBin = toggleBin;
 
-		//initialiseGame();
-
 		/**
-		 * Add instruction to program.
+		 * Add instruction to program
 		 *
-		 * @param ins {object} - Instruction to add.
+		 * @param ins {object} - Instruction to add
 		 */
 		function addToProgram(ins) {
 			var i = null;
@@ -80,7 +78,7 @@
 		}
 
 		/**
-		 * Bind button press methods using jQuery.
+		 * Bind button press methods using jQuery
 		 *
 		 */
 		function bind() {
@@ -100,12 +98,12 @@
 		}
 
 		/**
-		 * Drag callback to log action of adding.
+		 * Drag callback to log action of adding
 		 *
-		 * @param event {object} - Current event.
-		 * @param index {number} - Index of instruction.
-		 * @param ins {object} - Instruction.
-		 * @returns ins {object} - Instruction to be added to program.
+		 * @param event {object} - Current event
+		 * @param index {number} - Index of instruction
+		 * @param ins {object} - Instruction
+		 * @returns ins {object} - Instruction to be added to program
 		 */
 		function logAdd(event, index, ins) {
 			dbService.addedInstruction(ins, 'drag', index);
@@ -113,7 +111,7 @@
 		}
 
 		/**
-		 * Register userId and environment type before game begins.
+		 * Register userId and environment type before game begins
 		 *
 		 */
 		function register() {
@@ -136,10 +134,10 @@
 		}
 
 		/**
-		 * Remove instruction from program.
+		 * Remove instruction from program
 		 *
-		 * @param index {number} - Index of instruction to be removed.
-		 * @param ins {object} - Instruction to remove.
+		 * @param index {number} - Index of instruction to be removed
+		 * @param ins {object} - Instruction to remove
 		 */
 		function removeFromProgram(index, ins) {
 			if (index === null) {
@@ -153,11 +151,11 @@
 		}
 
 		/**
-		 * Remove instruction from program when dropped on bin.
+		 * Remove instruction from program when dropped on bin
 		 *
-		 * @param event {object} - Current event.
-		 * @param index {number} - Index of instruction to be removed.
-		 * @param item {object} - Item to be removed.
+		 * @param event {object} - Current event
+		 * @param index {number} - Index of instruction to be removed
+		 * @param item {object} - Item to be removed
 		 */
 		function removeFromProgramOnDrop(event, index, item) {
 			index = vm.currentIndex;
@@ -170,9 +168,9 @@
 		}
 
 		/**
-		 * Set current index so correct instruction is removed on bin drop.
+		 * Set current index so correct instruction is removed on bin drop
 		 *
-		 * @param index {number} - Instruction index.
+		 * @param index {number} - Instruction index
 		 */
 		function setIndex(index) {
 			vm.currentIndex = index;
@@ -180,10 +178,10 @@
 		}
 
 		/**
-		 * Insert instruction at correct position in program.
+		 * Insert instruction at correct position in program
 		 *
-		 * @param index {number} - Index of instruction moving.
-		 * @param ins {object} - Instruction being moved.
+		 * @param index {number} - Index of instruction moving
+		 * @param ins {object} - Instruction being moved
 		 */
 		function spliceProgram(index, ins) {
 			vm.program.splice(index, 1);
@@ -192,7 +190,7 @@
 		}
 
 		/**
-		 * Start the game once videos have been watched but first countdown 3 seconds.
+		 * Start the game once videos have been watched but first countdown 3 seconds
 		 *
 		 */
 		function start() {
@@ -214,9 +212,9 @@
 		}
 
 		/**
-		 * Toggles bin based on if it is already visible.
+		 * Toggles bin based on if it is already visible
 		 *
-		 * @param isVisible {boolean} - If bin is already visible.
+		 * @param isVisible {boolean} - If bin is already visible
 		 */
 		function toggleBin(isVisible) {
 			imageService.toggleBin(isVisible);
@@ -225,7 +223,7 @@
 		/* private methods */
 
 		/**
-		 * Action button logic for each individual type.
+		 * Action button logic for each individual type
 		 *
 		 */
 		function actionButton() {
@@ -279,7 +277,7 @@
 		}
 
 		/**
-		 * Initialise the game once settings have been set.
+		 * Initialise the game once settings have been set
 		 *
 		 */
 		function initialiseGame() {
@@ -306,10 +304,10 @@
 		}
 
 		/**
-		 * Check if string is an integer.
+		 * Check if string is an integer
 		 *
-		 * @param str {string} - String to be checked.
-		 * @returns {boolean} - Indicating if string is integer or not.
+		 * @param str {string} - String to be checked
+		 * @returns {boolean} - Indicating if string is integer or not
 		 */
 		function isNormalInteger(str) {
 		    var n = ~~Number(str);
@@ -317,9 +315,9 @@
 		}
 
 		/**
-		 * Loop through program array and perform instructions.
+		 * Loop through program array and perform instructions
 		 *
-		 * @param program {array} - Program to be run.
+		 * @param program {array} - Program to be run
 		 */
 		function loop(program) {
 			imageService.highlight(vm.cursor);
@@ -361,7 +359,7 @@
 		}
 
 		/**
-		 * Next level logic.
+		 * Next level logic
 		 *
 		 */
 		function nextLevel() {
@@ -397,7 +395,7 @@
 		}
 
 		/**
-		 * Reset button logic.
+		 * Reset button logic
 		 *
 		 */
 		function resetButton() {
@@ -427,7 +425,7 @@
 		}
 
 		/**
-		 * Perform rewind behaviour.
+		 * Perform rewind behaviour
 		 *
 		 */
 		function rewind() {
@@ -448,7 +446,7 @@
 		}
 
 		/**
-		 * Run the program.
+		 * Run the program
 		 *
 		 */
 		function run() {

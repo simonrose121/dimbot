@@ -22,8 +22,9 @@
 
 		var vm = this;
 
+		/* private variables */
 		vm.arrow = null;
-		vm.mesh = null;
+		vm.robot = null;
 		vm.startingPos = {};
 		vm.direction = null;
 		vm.index = null;
@@ -50,28 +51,28 @@
 		return service;
 
 		/**
-		 * Move mesh forward and animate the movement.
+		 * Move mesh forward and animate the movement
 		 *
-		 * @param callback {object} - Callback to signal when tween is complete.
+		 * @param callback {object} - Callback to signal when tween is complete
 		 */
 		function forward(callback) {
 			if (levelService.checkMove(vm.direction)) {
 				var position = {
-					x: vm.mesh.position.x,
-					y: vm.mesh.position.y,
-					z: vm.mesh.position.z
+					x: vm.robot.position.x,
+					y: vm.robot.position.y,
+					z: vm.robot.position.z
 				};
 				var target = {
-					x: vm.mesh.position.x + vm.direction.x,
-					y: vm.mesh.position.y + vm.direction.y,
-					z: vm.mesh.position.z
+					x: vm.robot.position.x + vm.direction.x,
+					y: vm.robot.position.y + vm.direction.y,
+					z: vm.robot.position.z
 				};
 
 				var tween = new TWEEN.Tween(position).to(target, common.speed);
 
 				tween.onUpdate(function() {
-					vm.mesh.position.x = position.x;
-					vm.mesh.position.y = position.y;
+					vm.robot.position.x = position.x;
+					vm.robot.position.y = position.y;
 
 					vm.arrow.position.x = position.x;
 					vm.arrow.position.y = position.y;
@@ -88,27 +89,27 @@
 		}
 
 		/**
-		 * Get current direction.
+		 * Get current direction
 		 *
-		 * @returns {object} - Current direction of mesh.
+		 * @returns {object} - Current direction of mesh
 		 */
 		function getDirection() {
 			return vm.direction;
 		}
 
 		/**
-		 * Get mesh.
+		 * Get robot mesh
 		 *
-		 * @returns {object} - ThreeJS mesh.
+		 * @returns {object} - ThreeJS mesh
 		 */
 		function getMesh() {
-			return vm.mesh;
+			return vm.robot;
 		}
 
 		/**
-		 * Update index by incrementing or decrementing value.
+		 * Update index by incrementing or decrementing value
 		 *
-		 * @param val {number} - Number to adjust index by.
+		 * @param val {number} - Number to adjust index by
 		 * @returns index
 		 */
 		function getUpdatedIndex(val) {
@@ -124,18 +125,17 @@
 		}
 
 		/**
-		 * Light up the current block if in correct position.
+		 * Light up the current block if in correct position
 		 *
- 		 * @param callback {object} - Callback to signal when tween is complete.
+ 		 * @param callback {object} - Callback to signal when tween is complete
 		 */
 		function light(callback) {
+			var originalColour = vm.robot.material.color.getHSL();
 
-			var originalColour = vm.mesh.material.color.getHSL();
+			vm.robot.material.color.setHex(0xffe600);
 
-			vm.mesh.material.color.setHex(0xffe600);
-
-			var x = vm.mesh.position.x;
-			var y = vm.mesh.position.y;
+			var x = vm.robot.position.x;
+			var y = vm.robot.position.y;
 
 			var index = lightService.getIndexFromPosition(x, y);
 
@@ -153,18 +153,18 @@
 				}
 			}
 
+			// set robot back to default colour
 			setTimeout(function() {
-				vm.mesh.material.color.setHSL(originalColour.h, originalColour.s, originalColour.l);
+				vm.robot.material.color.setHSL(originalColour.h, originalColour.s, originalColour.l);
 				callback();
 			}, 500);
-
 		}
 
 		/**
-		 * Handle instruction and pass it off to correct method.
+		 * Handle instruction and pass it off to correct method
 		 *
-		 * @param ins {object} - Instruction to be executed.
-		 * @param callback {object} - Callback to signal when tween is complete.
+		 * @param ins {object} - Instruction to be executed
+		 * @param callback {object} - Callback to signal when tween is complete
 		 */
 		function perform(ins, callback) {
 			switch(ins.name) {
@@ -184,9 +184,9 @@
 		}
 
 		/**
-		 * Show that mesh cannot perform move.
+		 * Show that mesh cannot perform move
 		 *
-		 * @param callback {object} - Callback to signal when tween is complete.
+		 * @param callback {object} - Callback to signal when tween is complete
 		 */
 		function noMove(callback) {
 			var distance = 10;
@@ -194,16 +194,16 @@
 
 			var radLeft = distance * ( Math.PI / 180 );
 
-			var tweenLeft = new TWEEN.Tween(vm.mesh.rotation).to({
-				y: vm.mesh.rotation.y + radLeft
+			var tweenLeft = new TWEEN.Tween(vm.robot.rotation).to({
+				y: vm.robot.rotation.y + radLeft
 			}, speed);
 
 			var tweenArrowLeft = new TWEEN.Tween(vm.arrow.rotation).to({
 				z: vm.arrow.rotation.z + radLeft
 			}, speed);
 
-			var tweenLeftAgain = new TWEEN.Tween(vm.mesh.rotation).to({
-				y: vm.mesh.rotation.y + radLeft
+			var tweenLeftAgain = new TWEEN.Tween(vm.robot.rotation).to({
+				y: vm.robot.rotation.y + radLeft
 			}, speed);
 
 			var tweenArrowLeftAgain = new TWEEN.Tween(vm.arrow.rotation).to({
@@ -212,8 +212,8 @@
 
 			var radRight = -distance * ( Math.PI / 180 );
 
-			var tweenRight = new TWEEN.Tween(vm.mesh.rotation).to({
-				y: vm.mesh.rotation.y + radRight
+			var tweenRight = new TWEEN.Tween(vm.robot.rotation).to({
+				y: vm.robot.rotation.y + radRight
 			}, speed);
 
 			var tweenArrowRight = new TWEEN.Tween(vm.arrow.rotation).to({
@@ -222,8 +222,8 @@
 
 			var radCenter = 0 * ( Math.PI / 180 );
 
-			var tweenCenter = new TWEEN.Tween(vm.mesh.rotation).to({
-				y: vm.mesh.rotation.y + radCenter
+			var tweenCenter = new TWEEN.Tween(vm.robot.rotation).to({
+				y: vm.robot.rotation.y + radCenter
 			}, speed);
 
 			var tweenArrowCenter = new TWEEN.Tween(vm.arrow.rotation).to({
@@ -248,7 +248,7 @@
 		}
 
 		/**
-		 * Reset all movements and rotations to starting position.
+		 * Reset all movements and rotations to starting position
 		 *
 		 */
 		function rewind() {
@@ -267,15 +267,15 @@
 				}, 0).start();
 			}
 
-			if (vm.mesh) {
-				vm.mesh.position.x = vm.startingPos.x;
-				vm.mesh.position.y = vm.startingPos.y;
-				vm.mesh.position.z = 0;
+			if (vm.robot) {
+				vm.robot.position.x = vm.startingPos.x;
+				vm.robot.position.y = vm.startingPos.y;
+				vm.robot.position.z = 0;
 
 				// rotation
-				vm.mesh.rotation.x = (Math.PI / 2);
-				vm.mesh.rotation.y = vm.direction.rot;
-				vm.mesh.rotation.z = 0;
+				vm.robot.rotation.x = (Math.PI / 2);
+				vm.robot.rotation.y = vm.direction.rot;
+				vm.robot.rotation.z = 0;
 			}
 
 			// reset level array
@@ -283,16 +283,16 @@
 		}
 
 		/**
-		 * Rotate mesh by degree of rotation.
+		 * Rotate mesh by degree of rotation
 		 *
-		 * @param deg {number} - Desired rotation in degrees.
-		 * @param callback {object} - Callback to signal when tween is complete.
+		 * @param deg {number} - Desired rotation in degrees
+		 * @param callback {object} - Callback to signal when tween is complete
 		 */
 		function rotate(deg, callback) {
 			var rad = deg * ( Math.PI / 180 );
 
-			var tween = new TWEEN.Tween(vm.mesh.rotation).to({
-				y: vm.mesh.rotation.y + rad
+			var tween = new TWEEN.Tween(vm.robot.rotation).to({
+				y: vm.robot.rotation.y + rad
 			}, common.speed);
 
 			var arrowTween = new TWEEN.Tween(vm.arrow.rotation).to({
@@ -308,9 +308,9 @@
 		}
 
 		/**
-		 * Rotate left and set new direction.
+		 * Rotate left and set new direction
 		 *
-		 * @param callback {object} - Callback to signal when tween is complete.
+		 * @param callback {object} - Callback to signal when tween is complete
 		 */
 		function rotateLeft(callback) {
 			service.setDirection('rl');
@@ -318,23 +318,28 @@
 		}
 
 		/**
-		 * Rotate right and set new direction.
+		 * Rotate right and set new direction
 		 *
-		 * @param callback {object} - Callback to signal when tween is complete.
+		 * @param callback {object} - Callback to signal when tween is complete
 		 */
 		function rotateRight(callback) {
 			service.setDirection('rr');
 			service.rotate(-90, callback);
 		}
 
+		/**
+		 * Set the arrow mesh
+		 *
+		 * @param arrow {object} - ThreeJS mesh representing an arrow
+		 */
 		function setArrow(arrow) {
 			vm.arrow = arrow;
 		}
 
 		/**
-		 * Set current direction of mesh using index manipulation.
+		 * Set current direction of mesh using index manipulation
 		 *
-		 * @param dir {string} - Direction indicator.
+		 * @param dir {string} - Direction indicator
 		 */
 		function setDirection(dir) {
 			var newIndex = null;
@@ -352,12 +357,12 @@
 		}
 
 		/**
-		 * Set mesh so it can be accessed in other methods.
+		 * Set mesh so it can be accessed in other methods
 		 *
-		 * @param mesh {object} - ThreeJS mesh.
+		 * @param mesh {object} - ThreeJS mesh
 		 */
 		function setMesh(mesh) {
-			vm.mesh = mesh;
+			vm.robot = mesh;
 
 			vm.startingPos = {
 				x: mesh.position.x,
@@ -367,7 +372,7 @@
 		}
 
 		/**
-		 * Set starting direction from level.
+		 * Set starting direction from level
 		 *
 		 */
 		function setStartingDirection() {
@@ -379,9 +384,9 @@
 		}
 
 		/**
-		 * Set index of direction.
+		 * Set index of direction
 		 *
-		 * @param index {number} - Index of direction.
+		 * @param index {number} - Index of direction
 		 */
 		function setIndex(index) {
 			vm.index = index;
